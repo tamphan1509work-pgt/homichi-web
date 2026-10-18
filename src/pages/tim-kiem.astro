@@ -23,6 +23,7 @@ const suggestions = ['Quạt BLDC', 'Bếp từ', 'MOQ', 'ODM', 'Chứng nhận 
   </section>
 </Base>
 <script>
+  import { href } from '../scripts/url';
   const form = document.querySelector<HTMLFormElement>('[data-search]')!;
   const input = form.querySelector<HTMLInputElement>('input')!;
   const list = document.querySelector<HTMLUListElement>('[data-results]')!;
@@ -40,10 +41,10 @@ const suggestions = ['Quạt BLDC', 'Bếp từ', 'MOQ', 'ODM', 'Chứng nhận 
       .filter((r) => r.score > 0).sort((a, b) => b.score - a.score).map((r) => r.it);
     count.textContent = `${res.length} kết quả cho “${input.value.trim()}”`;
     list.innerHTML = res.length
-      ? res.map((r) => `<li><a href="${r.u}" class="result"><span class="t-mono t-muted">${esc(r.k)}</span><span class="t-subheading">${esc(r.t)}</span><span class="t-caption t-muted">${esc(r.d)}</span></a></li>`).join('')
-      : '<li class="t-muted">Không tìm thấy kết quả. Thử từ khoá khác hoặc <a href="/lien-he/" style="border-bottom:1px solid">liên hệ chúng tôi</a>.</li>';
+      ? res.map((r) => `<li><a href="${href(r.u)}" class="result"><span class="t-mono t-muted">${esc(r.k)}</span><span class="t-subheading">${esc(r.t)}</span><span class="t-caption t-muted">${esc(r.d)}</span></a></li>`).join('')
+      : `<li class="t-muted">Không tìm thấy kết quả. Thử từ khoá khác hoặc <a href="${href('/lien-he/')}" style="border-bottom:1px solid">liên hệ chúng tôi</a>.</li>`;
   };
-  fetch('/search-index.json').then((r) => r.json()).then((d) => {
+  fetch(href('/search-index.json')).then((r) => r.json()).then((d) => {
     data = d;
     const q = new URLSearchParams(location.search).get('q');
     if (q) input.value = q;

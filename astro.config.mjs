@@ -4,5 +4,5 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://homichi.vn',
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  build: { format: 'directory', assets: 'assets' },
 });

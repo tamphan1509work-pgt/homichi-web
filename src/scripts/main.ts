@@ -1,3 +1,4 @@
+import { href } from './url';
 // Tương tác dùng chung: header, drawer, reveal, đếm số, cookie consent, form thu lead.
 
 /* ---------------------------------------------------------- Header */
@@ -219,7 +220,7 @@ document.querySelectorAll<HTMLFormElement>('[data-form]').forEach((form) => {
         a.href = download; a.download = ''; document.body.appendChild(a); a.click(); a.remove();
       }
       // chờ một nhịp để trình duyệt bắt đầu tải file trước khi chuyển trang
-      window.setTimeout(() => { window.location.href = `/cam-on/?type=${encodeURIComponent(type)}`; }, download ? 800 : 0);
+      window.setTimeout(() => { window.location.href = href(`/cam-on/?type=${encodeURIComponent(type)}`); }, download ? 800 : 0);
     } catch {
       const err = form.querySelector<HTMLElement>('[data-form-error]');
       if (err) err.hidden = false;
