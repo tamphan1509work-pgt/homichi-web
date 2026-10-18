@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import Icon from '../components/Icon.astro';
+import { buildSearchIndex } from '../data/search';
 const suggestions = ['Quạt BLDC', 'Bếp từ', 'MOQ', 'ODM', 'Chứng nhận CE', 'Điều hoà Inverter'];
 ---
 <Base title="Tìm kiếm" description="Tìm kiếm ngành hàng, mẫu sản phẩm và bài viết trên website Homichi." noindex>
@@ -19,11 +20,17 @@ const suggestions = ['Quạt BLDC', 'Bếp từ', 'MOQ', 'ODM', 'Chứng nhận 
       </div>
       <p class="t-mono t-muted search__count" data-count aria-live="polite"></p>
       <ul class="results" data-results></ul>
+      <script type="application/json" id="search-data" set:html={JSON.stringify(buildSearchIndex())} />
     </div>
   </section>
 </Base>
 <script>
-  import { href } from '../scripts/url';
+  // bản sao nhỏ của scripts/url.ts để script này tự chứa (được nhúng thẳng vào HTML)
+  const href = (path: string) => {
+    const root = document.documentElement.dataset.root;
+    if (root == null || !path.startsWith('/')) return path;
+    return root + path.slice(1).replace(/(^|\/)(\?|#|$)/, '$1index.html$2');
+  };
   const form = document.querySelector<HTMLFormElement>('[data-search]')!;
   const input = form.querySelector<HTMLInputElement>('input')!;
   const list = document.querySelector<HTMLUListElement>('[data-results]')!;
@@ -44,12 +51,10 @@ const suggestions = ['Quạt BLDC', 'Bếp từ', 'MOQ', 'ODM', 'Chứng nhận 
       ? res.map((r) => `<li><a href="${href(r.u)}" class="result"><span class="t-mono t-muted">${esc(r.k)}</span><span class="t-subheading">${esc(r.t)}</span><span class="t-caption t-muted">${esc(r.d)}</span></a></li>`).join('')
       : `<li class="t-muted">Không tìm thấy kết quả. Thử từ khoá khác hoặc <a href="${href('/lien-he/')}" style="border-bottom:1px solid">liên hệ chúng tôi</a>.</li>`;
   };
-  fetch(href('/search-index.json')).then((r) => r.json()).then((d) => {
-    data = d;
-    const q = new URLSearchParams(location.search).get('q');
-    if (q) input.value = q;
-    render();
-  });
+  data = JSON.parse(document.getElementById('search-data')?.textContent || '[]');
+  const q0 = new URLSearchParams(location.search).get('q');
+  if (q0) input.value = q0;
+  render();
   input.addEventListener('input', () => { render(); const u = new URL(location.href); u.searchParams.set('q', input.value); history.replaceState(null, '', u); });
   form.addEventListener('submit', (e) => e.preventDefault());
 </script>
