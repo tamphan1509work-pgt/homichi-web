@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+import Art from '../../components/Art.astro';
+// GĐ2 — chỉ công khai khi lãnh đạo đồng ý sử dụng hình ảnh & thông tin.
+const leaders = [
+  { name: 'Nguyễn Minh Khôi', role: 'Nhà sáng lập & Tổng Giám đốc', bio: '25 năm trong ngành điện gia dụng, từng giữ vị trí Giám đốc nhà máy tại một tập đoàn Nhật Bản.' },
+  { name: 'Trần Thu Hà', role: 'Giám đốc Vận hành', bio: 'Chuyên gia Lean Manufacturing, dẫn dắt dự án mở rộng nhà máy giai đoạn 2.' },
+  { name: 'Lê Quang Vinh', role: 'Giám đốc R&D', bio: 'Thạc sĩ Kỹ thuật điện — ĐH Bách khoa TP. HCM, 18 bằng sáng chế về động cơ BLDC.' },
+  { name: 'Phạm Ngọc Anh', role: 'Giám đốc Chất lượng', bio: 'Lead Auditor ISO 9001, 15 năm kinh nghiệm QA cho chuỗi cung ứng châu Âu.' },
+  { name: 'Đỗ Hoàng Nam', role: 'Giám đốc Kinh doanh Quốc tế', bio: 'Phụ trách thị trường Nhật Bản, Hàn Quốc và Trung Đông.' },
+  { name: 'Vũ Lan Phương', role: 'Giám đốc Tài chính', bio: 'CPA Australia, chuyên gia tài chính doanh nghiệp sản xuất.' },
+];
+const tones = ['var(--color-warm-stone)', 'var(--color-frosted-glass)', 'var(--color-sage-moss)', 'var(--color-eucalyptus)', 'var(--color-olive-gold)', 'var(--color-warm-stone)'];
+---
+<Base title="Đội ngũ lãnh đạo" description="Ban lãnh đạo Homichi — kinh nghiệm quốc tế trong sản xuất thiết bị điện gia dụng.">
+  <PageHero eyebrow="Đội ngũ lãnh đạo" title="Những người chịu trách nhiệm cho từng sản phẩm mang dấu ấn Homichi." lead="Ban lãnh đạo hội tụ kinh nghiệm từ các tập đoàn sản xuất Nhật Bản, châu Âu và Việt Nam." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Đội ngũ lãnh đạo' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <ul class="grid grid-3">
+        {leaders.map((l, i) => (
+          <li class="leader reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <div class="leader__photo" style={`background:${tones[i]}; color:${i >= 2 && i <= 4 ? 'var(--color-snow-white)' : 'var(--color-forest-depths)'}`}>
+              <Art name="people" />
+              <span class="leader__initials">{l.name.split(' ').slice(-2).map((w) => w[0]).join('')}</span>
+            </div>
+            <h2 class="t-subheading">{l.name}</h2>
+            <p class="t-mono t-muted">{l.role}</p>
+            <p class="t-caption t-muted">{l.bio}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .leader { display: grid; gap: 10px; }
+  .leader__photo { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius-large-cards); display: grid; place-items: end center; overflow: hidden; margin-bottom: 12px; }
+  .leader__photo :global(svg) { width: 140%; max-width: none; opacity: .5; }
+  .leader__initials { position: absolute; left: 24px; top: 20px; font-size: 56px; font-weight: 300; letter-spacing: -0.04em; }
+</style>

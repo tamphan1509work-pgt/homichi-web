@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Frame from '../../components/Frame.astro';
+import CTA from '../../components/CTA.astro';
+import { timeline } from '../../data/content';
+const arts = ['factory', 'fan', 'cert', 'factory', 'lab', 'aircon', 'leaf', 'globe'] as const;
+const tones = ['stone', 'sage', 'frost', 'dark', 'eucalyptus', 'olive', 'sage', 'dark'] as const;
+---
+<Base title="Hành trình phát triển" description="Các cột mốc phát triển của Homichi từ 2009 đến nay.">
+  <PageHero eyebrow="Hành trình phát triển" title="Mỗi cột mốc là một lời hứa được giữ." lead="17 năm phát triển bền bỉ — từ một xưởng gia công động cơ quạt nhỏ đến nhà máy ODM đa ngành hàng phục vụ khách hàng tại 14 quốc gia." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Hành trình phát triển' }]} />
+
+  <section class="section section--tight">
+    <div class="container">
+      <ol class="tl">
+        {timeline.map((t, i) => (
+          <li class="tl__item reveal">
+            <div class="tl__year">{t.year}</div>
+            <div class="tl__content">
+              <h2 class="t-heading-sm t-balance">{t.title}</h2>
+              <p class="t-body t-muted">{t.text}</p>
+            </div>
+            <div class="tl__media"><Frame art={arts[i % arts.length]} tone={tones[i % tones.length]} ratio="default" /></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  <CTA title="Viết cột mốc tiếp theo cùng Homichi." />
+</Base>
+
+<style>
+  .tl { position: relative; display: grid; }
+  .tl::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line-dark); }
+  .tl__item { position: relative; display: grid; gap: 24px; padding: 0 0 72px 32px; }
+  .tl__item::before { content: ''; position: absolute; left: -6px; top: 18px; width: 13px; height: 13px; border-radius: 50%; background: var(--color-snow-white); border: 1.5px solid var(--color-forest-depths); }
+  .tl__item:hover::before { background: var(--color-lime-pulse); }
+  .tl__year { font-size: clamp(56px, 8vw, 104px); font-weight: 300; letter-spacing: -0.05em; line-height: .9; }
+  .tl__content { display: grid; gap: 16px; align-content: start; max-width: 520px; }
+  @media (min-width: 960px) {
+    .tl__item { grid-template-columns: 220px 1fr 380px; gap: 48px; padding-left: 56px; align-items: start; }
+  }
+</style>

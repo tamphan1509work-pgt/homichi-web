@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import Frame from '../../../components/Frame.astro';
+import Stats from '../../../components/Stats.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+---
+<Base title="R&D & thiết kế" description="Trung tâm R&D Homichi: 85 kỹ sư, thiết kế công nghiệp, cơ khí, điện tử, khuôn mẫu và phòng thử nghiệm.">
+  <PageHero eyebrow="R&D & thiết kế" title="Nơi ý tưởng của bạn trở thành bản vẽ, mẫu thử và sản phẩm." lead="Trung tâm R&D đảm nhận trọn vẹn: nghiên cứu thị trường, thiết kế công nghiệp, kỹ thuật cơ khí & điện tử, mô phỏng và làm khuôn." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'R&D & thiết kế' }]} art="blueprint" tone="frost">
+    <a href="/bao-gia/?service=ODM" class="btn btn--primary">Bắt đầu dự án ODM <Icon name="arrow" size={16} /></a>
+  </PageHero>
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 85, label: 'kỹ sư thiết kế & phát triển' },
+        { value: 18, label: 'bằng sáng chế & giải pháp hữu ích' },
+        { value: 40, suffix: '+', label: 'sản phẩm mới mỗi năm' },
+        { value: 4, suffix: 'th', label: 'thời gian phát triển nhanh nhất' },
+      ]} />
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Năng lực R&D" title="Năm nhóm chuyên môn, một đội dự án." />
+      <div class="grid grid-3">
+        {[
+          ['pen', 'Thiết kế công nghiệp', 'Phác thảo, CMF (màu – vật liệu – hoàn thiện), render 3D, mô hình mẫu in 3D.'],
+          ['layers', 'Kỹ thuật cơ khí', 'Thiết kế Creo/SolidWorks, phân tích dung sai, DFM/DFA tối ưu cho sản xuất.'],
+          ['chip', 'Điện tử & firmware', 'Bo nguồn, bo Inverter, IGBT, firmware MCU, IoT Wi-Fi/BLE, ứng dụng di động.'],
+          ['spark', 'Mô phỏng', 'CFD dòng khí, phân tích nhiệt, mô phỏng dòng chảy nhựa Moldflow.'],
+          ['box', 'Khuôn mẫu', 'Thiết kế & chế tạo khuôn nội bộ, thử khuôn T0 – T2 trong 4 – 6 tuần.'],
+          ['flask', 'Phòng thử nghiệm', 'Tuổi thọ, an toàn điện, EMC tiền kiểm, thử rơi, thử môi trường nhiệt ẩm.'],
+        ].map(([icon, t, d], i) => (
+          <article class="card card--canvas reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <Icon name={icon} size={24} />
+            <h3 class="t-subheading">{t}</h3>
+            <p class="t-muted t-caption">{d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="split split--reverse">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Bảo mật dự án</p>
+          <h2 class="t-heading-lg t-balance">Ý tưởng của bạn được bảo vệ như tài sản của chính chúng tôi.</h2>
+          <ul class="check-list">
+            <li>Ký NDA trước khi trao đổi kỹ thuật</li>
+            <li>Phòng dự án riêng, kiểm soát truy cập theo dự án</li>
+            <li>Chuyển giao toàn bộ hồ sơ thiết kế & khuôn theo hợp đồng ODM</li>
+          </ul>
+        </div>
+        <Frame art="lab" tone="dark" ratio="default" />
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>

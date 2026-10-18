@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Frame from '../components/Frame.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+<Base title="Đặt lịch tham quan nhà máy" description="Đặt lịch tham quan nhà máy Homichi tại Củ Chi hoặc tour trực tuyến cùng kỹ sư dự án.">
+  <PageHero eyebrow="Đặt lịch tham quan" title="Đến thăm nhà máy — hoặc để nhà máy đến với bạn." lead="Tour trực tiếp kéo dài khoảng 2 giờ, bao gồm dây chuyền, phòng lab và buổi làm việc với kỹ sư. Tour trực tuyến 45 phút qua Zoom/Teams." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'Đặt lịch tham quan' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <div class="visit">
+        <form class="form visit__form" data-form="visit" data-endpoint={site.formEndpoint} novalidate>
+          <div class="form__error" data-form-error hidden role="alert">Không thể gửi lúc này. Vui lòng thử lại.</div>
+          <fieldset class="choice-group" data-required-group>
+            <legend class="t-caption" style="font-weight:500">Hình thức <span class="req">*</span></legend>
+            <label class="choice"><input type="radio" name="type" value="truc-tiep" checked data-prefill="type" /><span>Tham quan trực tiếp</span></label>
+            <label class="choice"><input type="radio" name="type" value="truc-tuyen" data-prefill="type" /><span>Tour trực tuyến</span></label>
+            <label class="choice"><input type="radio" name="type" value="trien-lam" data-prefill="type" /><span>Gặp tại triển lãm</span></label>
+          </fieldset>
+          <div class="form-row">
+            <div class="field"><label for="v-date">Ngày mong muốn <span class="req">*</span></label><input id="v-date" name="date" type="date" class="input" required /><span class="field__error">Vui lòng chọn ngày.</span></div>
+            <div class="field"><label for="v-slot">Khung giờ</label><select id="v-slot" name="slot" class="select"><option>9:00 – 11:00</option><option>14:00 – 16:00</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="v-name">Họ và tên <span class="req">*</span></label><input id="v-name" name="name" class="input" required autocomplete="name" /><span class="field__error">Vui lòng nhập họ tên.</span></div>
+            <div class="field"><label for="v-company">Công ty <span class="req">*</span></label><input id="v-company" name="company" class="input" required autocomplete="organization" /><span class="field__error">Vui lòng nhập tên công ty.</span></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="v-email">Email <span class="req">*</span></label><input id="v-email" name="email" type="email" class="input" required autocomplete="email" /><span class="field__error">Email chưa hợp lệ.</span></div>
+            <div class="field"><label for="v-people">Số người</label><select id="v-people" name="people" class="select"><option>1 – 2</option><option>3 – 5</option><option>Trên 5</option></select></div>
+          </div>
+          <div class="field"><label for="v-note">Mục tiêu chuyến thăm</label><textarea id="v-note" name="note" class="textarea" placeholder="VD: audit nhà cung cấp, xem dây chuyền bếp từ, thảo luận dự án ODM…"></textarea></div>
+          <div class="field"><label class="consent"><input type="checkbox" name="consent" required /> <span>Tôi đồng ý với <a href="/chinh-sach-bao-mat/">Chính sách bảo mật</a>. <span class="req">*</span></span></label><span class="field__error">Vui lòng đồng ý với chính sách bảo mật.</span></div>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+          <button type="submit" class="btn btn--primary" style="justify-self:start">Đặt lịch <Icon name="calendar" size={16} /></button>
+        </form>
+        <aside class="visit__aside">
+          <Frame art="factory" tone="sage" ratio="default" />
+          <ul class="check-list">
+            <li>Đưa đón miễn phí từ trung tâm TP. HCM (≈ 45 phút)</li>
+            <li>Trang bị bảo hộ & hướng dẫn an toàn</li>
+            <li>Gặp trực tiếp kỹ sư R&D và QA</li>
+            <li>Xác nhận lịch qua email trong 24 giờ</li>
+          </ul>
+          <p class="t-caption t-muted">{site.address}</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  const d = document.querySelector<HTMLInputElement>('#v-date');
+  if (d) { const t = new Date(Date.now() + 2 * 864e5); d.min = t.toISOString().slice(0, 10); }
+</script>
+<style>
+  .visit { display: grid; gap: 48px; align-items: start; }
+  @media (min-width: 1024px) { .visit { grid-template-columns: 1.2fr .8fr; gap: 72px; } .visit__aside { position: sticky; top: calc(var(--header-h) + 24px); } }
+  .visit__form { padding: clamp(24px, 4vw, 48px); border-radius: var(--radius-large-cards); background: var(--color-warm-stone); }
+  .visit__form .input, .visit__form .select, .visit__form .textarea { background-color: var(--color-snow-white); }
+  .visit__form .choice span { background: var(--color-snow-white); }
+  .visit__form .choice input:checked + span { background: var(--color-forest-depths); }
+  .visit__aside { display: grid; gap: 24px; }
+  .form__error { padding: 14px 18px; border-radius: var(--radius-inputs); background: #f3f1df; color: #5a5626; font-size: var(--text-caption); }
+</style>

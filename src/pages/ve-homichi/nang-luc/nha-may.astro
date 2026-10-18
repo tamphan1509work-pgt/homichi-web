@@ -1,0 +1,63 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import Frame from '../../../components/Frame.astro';
+import Stats from '../../../components/Stats.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+const zones = [
+  ['A', 'Xưởng khuôn mẫu & ép nhựa', '42 máy ép Haitian / Engel 80 – 850 tấn, robot gắp sản phẩm, sấy nhựa trung tâm.', 'blueprint'],
+  ['B', 'Dây chuyền SMT & bo mạch', '2 dây chuyền SMT Fuji NXT, AOI 3D, kiểm tra ICT/FCT, phòng burn-in.', 'circuit'],
+  ['C', 'Lắp ráp thành phẩm', '24 dây chuyền bán tự động, chuyển đổi mẫu trong 4 giờ, hệ thống MES theo dõi thời gian thực.', 'factory'],
+  ['D', 'Gia công kim loại tấm', 'Cắt laser fiber 6 kW, chấn CNC, hàn laser, sơn tĩnh điện tự động.', 'hood'],
+  ['E', 'Lò tráng men', 'Phun men tĩnh điện & lò nung 850 °C cho ruột bình nước nóng.', 'heater'],
+  ['F', 'Kho & logistics', 'Kho 8.000 m² với hệ thống WMS, khu đóng container 6 dock.', 'supply'],
+] as const;
+---
+<Base title="Nhà máy & dây chuyền" description="Nhà máy Homichi 62.000 m² tại KCN Tân Phú Trung: 24 dây chuyền lắp ráp, SMT, ép nhựa, kim loại tấm.">
+  <PageHero eyebrow="Nhà máy & dây chuyền" title="62.000 m² được thiết kế cho chất lượng ổn định ở mọi quy mô đơn hàng." lead="Nhà máy tại KCN Tân Phú Trung (Củ Chi, TP. HCM) vận hành theo mô hình Lean, với hệ thống MES kết nối mọi dây chuyền." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'Nhà máy & dây chuyền' }]} art="factory" tone="dark">
+    <a href="/dat-lich-tham-quan/" class="btn btn--primary">Đặt lịch tham quan <Icon name="calendar" size={16} /></a>
+    <a href="/ve-homichi/nang-luc/tham-quan-nha-may/" class="btn btn--light">Xem video 360°</a>
+  </PageHero>
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 62000, suffix: 'm²', label: 'tổng diện tích nhà xưởng' },
+        { value: 24, label: 'dây chuyền lắp ráp' },
+        { value: 42, label: 'máy ép nhựa 80 – 850 tấn' },
+        { value: 4, suffix: 'h', label: 'thời gian chuyển đổi mẫu' },
+      ]} />
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Sơ đồ nhà máy" title="Sáu khu chức năng, một dòng chảy vật tư một chiều." text="Bố trí theo dòng chảy giúp giảm 40% quãng đường vận chuyển nội bộ và loại bỏ giao cắt giữa hàng đạt và hàng chờ xử lý." split />
+      <div class="grid grid-3">
+        {zones.map(([z, t, d, a], i) => (
+          <article class="card card--canvas reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <Frame art={a} tone="stone" ratio="default" tag={`Khu ${z}`} />
+            <h3 class="t-subheading">{t}</h3>
+            <p class="t-muted t-caption">{d}</p>
+          </article>
+        ))}
+      </div>
+      <p class="t-caption t-muted mt-32">* Ảnh/video thực tế của nhà máy là bắt buộc trước khi go-live — các khung minh hoạ sẽ được thay bằng hình ảnh thật.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Thiết bị chủ lực</p>
+          <h2 class="t-heading-lg t-balance">Đầu tư vào máy móc từ những nhà sản xuất hàng đầu.</h2>
+          <p class="t-body t-muted">Danh mục thiết bị chính được bảo trì theo TPM, hiệu suất thiết bị tổng thể (OEE) trung bình đạt 82%.</p>
+        </div>
+        <dl class="spec-list">
+          {[['Ép nhựa', 'Haitian Mars · Engel Victory'], ['SMT', 'Fuji NXT III · Koh Young AOI 3D'], ['Kim loại tấm', 'Trumpf TruLaser 6 kW · Amada HG'], ['Thử nghiệm', 'Buồng enthalpy · buồng tiêu âm · Hi-pot'], ['Đo lường', 'CMM Zeiss Contura · máy cân bằng động'], ['Phần mềm', 'MES · WMS · SAP Business One']].map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+  <CTA primary={{ label: 'Đặt lịch tham quan nhà máy', href: '/dat-lich-tham-quan/' }} secondary={{ label: 'Yêu cầu báo giá', href: '/bao-gia/' }} title="Mắt thấy, tai nghe — hãy đến thăm nhà máy." text="Đối tác có thể tham quan dây chuyền, phòng lab và gặp đội ngũ kỹ sư. Chúng tôi hỗ trợ đưa đón từ trung tâm TP. HCM." />
+</Base>

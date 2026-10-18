@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Frame from '../../components/Frame.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { services, processSteps } from '../../data/content';
+const arts = ['blueprint', 'factory', 'fan'] as const;
+const tones = ['frost', 'dark', 'sage'] as const;
+const rows: [string, keyof (typeof services)[number]][] = [
+  ['Phù hợp với', 'bestFor'], ['Thời gian ra thị trường', 'time'], ['Sở hữu thiết kế', 'ownership'], ['MOQ', 'moq'], ['Mức độ tham gia của bạn', 'involvement'],
+];
+---
+<Base title="Dịch vụ ODM/OEM" description="So sánh các mô hình hợp tác ODM, OEM và Private label cùng Homichi — chọn mô hình phù hợp và gửi yêu cầu báo giá.">
+  <PageHero eyebrow="Dịch vụ ODM/OEM" title="Một đối tác sản xuất. Ba mô hình hợp tác." lead="Chọn mức độ đồng hành phù hợp — từ thiết kế trọn gói đến sản xuất theo bản vẽ hay gắn thương hiệu lên mẫu sẵn có." crumbs={[{ label: 'Dịch vụ ODM/OEM' }]}>
+    <a href="/bao-gia/" class="btn btn--primary">Yêu cầu báo giá <Icon name="arrow" size={16} /></a>
+    <a href="#so-sanh" class="btn btn--light">So sánh mô hình</a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="grid grid-3">
+        {services.map((s, i) => (
+          <article class="card card--link svc reveal" style={`--d:${i * 0.06}s`}>
+            <Frame art={arts[i]} tone={tones[i]} ratio="default" tag={s.code} />
+            <div class="svc__body">
+              <h2 class="t-subheading"><a href={`/dich-vu/${s.slug}/`} class="stretched">{s.name}</a></h2>
+              <p class="t-muted t-caption">{s.short}</p>
+              <span class="link-arrow">Tìm hiểu {s.code}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone" id="so-sanh">
+    <div class="container">
+      <SectionHead eyebrow="So sánh" title="Mô hình nào phù hợp với bạn?" split text="Không chắc chắn? Hãy mô tả dự án — kỹ sư của chúng tôi sẽ tư vấn mô hình tối ưu về chi phí và thời gian." />
+      <div class="compare reveal" role="region" aria-label="Bảng so sánh mô hình hợp tác" tabindex="0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">Tiêu chí</span></th>
+              {services.map((s) => <th scope="col"><span class="pill">{s.code}</span><span class="compare__name">{s.name.split(' — ')[1] ?? s.name}</span></th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(([label, key]) => (
+              <tr>
+                <th scope="row">{label}</th>
+                {services.map((s) => <td class={key === 'moq' || key === 'time' ? 't-mono' : ''}>{s[key]}</td>)}
+              </tr>
+            ))}
+            <tr>
+              <th scope="row"><span class="visually-hidden">Hành động</span></th>
+              {services.map((s) => <td><a href={`/bao-gia/?service=${encodeURIComponent(s.code === 'PL' ? 'Private label' : s.code)}`} class="link-arrow">Báo giá {s.code}</a></td>)}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Quy trình hợp tác" title="Từ cuộc gọi đầu tiên đến container đầu tiên." split>
+        <a href="/dich-vu/quy-trinh-hop-tac/" class="link-arrow">Xem chi tiết từng bước</a>
+      </SectionHead>
+      <ol class="steps">
+        {processSteps.map((s, i) => (
+          <li class="reveal" style={`--d:${i * 0.04}s`}><span class="card__num">{s.code}</span><span class="t-subheading">{s.title}</span><span class="t-mono t-muted">{s.time}</span></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <div class="grid grid-2">
+        <a href="/dich-vu/dieu-kien-hop-tac/" class="card card--canvas card--link reveal"><span class="eyebrow">MOQ & điều kiện</span><h2 class="t-heading-sm">MOQ, thời gian sản xuất, thanh toán & bảo hành</h2><span class="card__foot link-arrow">Xem điều kiện hợp tác</span></a>
+        <a href="/dich-vu/cau-hoi-thuong-gap/" class="card card--canvas card--link reveal" style="--d:.06s"><span class="eyebrow">FAQ</span><h2 class="t-heading-sm">Câu hỏi thường gặp của đối tác B2B</h2><span class="card__foot link-arrow">Xem câu hỏi thường gặp</span></a>
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .svc { padding: 12px 12px 24px; }
+  .svc__body { display: grid; gap: 10px; justify-items: start; padding: 8px 12px 0; }
+  .compare { overflow-x: auto; border-radius: var(--radius-cards); background: var(--color-snow-white); }
+  .compare table { width: 100%; min-width: 760px; border-collapse: collapse; }
+  .compare th, .compare td { padding: 20px 24px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line-dark); font-size: var(--text-caption); }
+  .compare thead th { vertical-align: bottom; padding-top: 28px; }
+  .compare thead th > * { display: block; }
+  .compare__name { margin-top: 12px; font-size: 20px; font-weight: 350; letter-spacing: -0.02em; }
+  .compare thead .pill { display: inline-flex; }
+  .compare tbody th { font-weight: 500; color: var(--color-pewter); width: 22%; }
+  .compare tr:last-child > * { border-bottom: 0; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .steps li { display: grid; gap: 8px; padding: 24px; border-radius: var(--radius-cards); border: 1.5px solid var(--line-dark); }
+</style>

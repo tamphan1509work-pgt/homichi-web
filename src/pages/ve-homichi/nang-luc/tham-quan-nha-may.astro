@@ -1,0 +1,51 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Art from '../../../components/Art.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+const stops = ['Sảnh trưng bày sản phẩm', 'Trung tâm R&D', 'Xưởng khuôn & ép nhựa', 'Dây chuyền SMT', 'Dây chuyền lắp ráp', 'Phòng thử nghiệm', 'Kho & khu đóng container'];
+---
+<Base title="Tham quan nhà máy (video/360°)" description="Tham quan nhà máy Homichi trực tuyến qua video 360° hoặc đặt lịch tham quan trực tiếp.">
+  <PageHero eyebrow="Tham quan nhà máy" title="Bước vào nhà máy Homichi — từ bất cứ đâu." lead="Tour 360° đưa bạn đi qua 7 khu vực chính. Muốn trao đổi trực tiếp? Đặt lịch tour trực tuyến cùng kỹ sư hoặc đến thăm tại Củ Chi." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'Tham quan nhà máy' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <div class="tour reveal" data-tour>
+        <div class="tour__screen">
+          <div class="tour__art"><Art name="factory" /></div>
+          <button class="tour__play" type="button" aria-label="Phát video tham quan"><Icon name="play" size={28} /></button>
+          <p class="tour__now t-mono">01 / 07 · <span data-tour-name>{stops[0]}</span></p>
+        </div>
+        <ol class="tour__stops">
+          {stops.map((s, i) => <li><button type="button" data-stop={i} aria-pressed={i === 0 ? 'true' : 'false'}><span class="t-mono">0{i + 1}</span> {s}</button></li>)}
+        </ol>
+      </div>
+      <p class="t-caption t-muted mt-16">Khung phát video placeholder — nhúng video YouTube/Vimeo hoặc tour 360° (Matterport, Kuula) khi có tư liệu quay thực tế.</p>
+    </div>
+  </section>
+  <CTA title="Muốn tận mắt thấy dây chuyền?" text="Đặt lịch tham quan trực tiếp hoặc tour trực tuyến 45 phút cùng kỹ sư dự án." primary={{ label: 'Đặt lịch tham quan', href: '/dat-lich-tham-quan/' }} secondary={{ label: 'Tải hồ sơ năng lực', href: '/ho-so-nang-luc/' }} />
+</Base>
+<script>
+  const tour = document.querySelector('[data-tour]');
+  tour?.querySelectorAll<HTMLButtonElement>('[data-stop]').forEach((b) => b.addEventListener('click', () => {
+    tour.querySelectorAll('[data-stop]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    const i = Number(b.dataset.stop);
+    const name = tour.querySelector('[data-tour-name]');
+    const now = tour.querySelector('.tour__now');
+    if (now && name) now.firstChild!.textContent = `0${i + 1} / 07 · `;
+    if (name) name.textContent = b.textContent?.replace(/^\s*0\d\s*/, '').trim() ?? '';
+  }));
+</script>
+<style>
+  .tour { display: grid; gap: 16px; }
+  @media (min-width: 1024px) { .tour { grid-template-columns: 1fr 320px; } }
+  .tour__screen { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-large-cards); background: var(--color-forest-depths); color: var(--color-snow-white); overflow: hidden; display: grid; place-items: center; }
+  .tour__art { width: 70%; opacity: .4; }
+  .tour__play { position: absolute; width: 96px; height: 96px; border-radius: 50%; background: var(--color-snow-white); color: var(--color-forest-depths); display: grid; place-items: center; transition: transform .4s var(--ease), background-color .3s; }
+  .tour__play:hover { transform: scale(1.08); background: var(--color-lime-pulse); }
+  .tour__now { position: absolute; left: 24px; bottom: 20px; }
+  .tour__stops { display: grid; gap: 6px; align-content: start; }
+  .tour__stops button { width: 100%; text-align: left; display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: var(--radius-cards); background: var(--color-warm-stone); transition: background-color .25s; }
+  .tour__stops button:hover { background: #e6e6df; }
+  .tour__stops button[aria-pressed='true'] { background: var(--color-forest-depths); color: var(--color-snow-white); }
+</style>

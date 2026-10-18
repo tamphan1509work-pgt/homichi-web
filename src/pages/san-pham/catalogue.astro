@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Art from '../../components/Art.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { categories } from '../../data/products';
+import { site } from '../../data/site';
+---
+<Base title="Tải catalogue" description="Tải catalogue sản phẩm ODM/OEM Homichi 2026 theo từng ngành hàng (PDF).">
+  <PageHero eyebrow="Tải catalogue" title="Catalogue 2026 — đầy đủ thông số, tuỳ chọn tuỳ biến và MOQ." lead="Tải bộ catalogue tổng hợp hoặc theo từng ngành hàng. Định dạng PDF, tối ưu để in A4." crumbs={[{ label: 'Sản phẩm', href: '/san-pham/' }, { label: 'Tải catalogue' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <a href={site.files.catalogue} download class="cover reveal">
+        <div class="cover__book" aria-hidden="true">
+          <span class="t-mono">HOMICHI · 2026</span>
+          <div class="cover__art"><Art name="circuit" /></div>
+          <span class="cover__title">Product<br />Catalogue</span>
+        </div>
+        <div class="cover__body">
+          <span class="badge">Bản đầy đủ</span>
+          <h2 class="t-heading-lg">Catalogue tổng hợp 5 ngành hàng</h2>
+          <p class="t-mono t-muted">PDF · 64 trang · 18 MB · Tiếng Việt / English</p>
+          <span class="btn btn--primary">Tải xuống <Icon name="download" size={16} /></span>
+        </div>
+      </a>
+      <ul class="files">
+        {categories.map((c, i) => (
+          <li class="reveal" style={`--d:${i * 0.04}s`}>
+            <a href={site.files.catalogue} download class="file">
+              <span class="pill">{c.code}</span>
+              <span class="t-subheading">{c.name}</span>
+              <span class="t-mono t-muted hide-mobile">PDF · {c.models.length * 4 + 8} trang</span>
+              <span class="file__icon"><Icon name="download" size={18} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="t-caption t-muted mt-24">GĐ2: có thể yêu cầu điền email trước khi tải để thu lead (dùng lại form của trang Hồ sơ năng lực).</p>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .cover { display: grid; gap: 40px; align-items: center; padding: clamp(24px, 4vw, 48px); border-radius: var(--radius-large-cards); background: var(--color-warm-stone); margin-bottom: 48px; }
+  @media (min-width: 900px) { .cover { grid-template-columns: 320px 1fr; gap: 72px; } }
+  .cover__book { aspect-ratio: 210 / 297; border-radius: 8px 20px 20px 8px; background: var(--color-forest-depths); color: var(--color-snow-white); padding: 28px; display: grid; grid-template-rows: auto 1fr auto; transition: transform .6s var(--ease); max-width: 320px; }
+  .cover:hover .cover__book { transform: rotate(-2deg) translateY(-6px); }
+  .cover__art { opacity: .35; display: grid; place-items: center; }
+  .cover__title { font-size: 40px; font-weight: 300; letter-spacing: -0.04em; line-height: 1; }
+  .cover__body { display: grid; gap: 20px; justify-items: start; }
+  .files { border-top: 1px solid var(--line-dark); }
+  .file { display: grid; grid-template-columns: 64px 1fr auto 44px; gap: 20px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line-dark); }
+  @media (max-width: 959px) { .file { grid-template-columns: 64px 1fr 44px; } }
+  .file__icon { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--line-dark); transition: background-color .25s, border-color .25s; }
+  .file:hover .file__icon { background: var(--color-lime-pulse); border-color: var(--color-lime-pulse); }
+</style>

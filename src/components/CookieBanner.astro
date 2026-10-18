@@ -1,0 +1,36 @@
+---
+// Banner consent (GĐ1). Lưu lựa chọn trong localStorage; analytics/marketing chỉ nạp khi được đồng ý.
+---
+<div class="cookie" data-cookie hidden role="dialog" aria-live="polite" aria-labelledby="cookie-title">
+  <div class="cookie__main">
+    <p id="cookie-title" class="t-subheading">Chúng tôi dùng cookie</p>
+    <p class="t-caption t-muted">Cookie thiết yếu giúp website hoạt động; cookie phân tích & tiếp thị giúp chúng tôi cải thiện trải nghiệm. Xem <a href="/cookie/">chính sách cookie</a>.</p>
+    <form class="cookie__prefs" data-cookie-prefs hidden>
+      <label class="consent"><input type="checkbox" checked disabled /> <span><strong>Thiết yếu</strong> — luôn bật</span></label>
+      <label class="consent"><input type="checkbox" name="analytics" /> <span><strong>Phân tích</strong> — đo lường lượt truy cập (GA4)</span></label>
+      <label class="consent"><input type="checkbox" name="marketing" /> <span><strong>Tiếp thị</strong> — remarketing quảng cáo</span></label>
+    </form>
+  </div>
+  <div class="cookie__actions">
+    <button class="btn btn--light btn--sm" type="button" data-cookie-custom>Tuỳ chỉnh</button>
+    <button class="btn btn--light btn--sm" type="button" data-cookie-reject>Chỉ thiết yếu</button>
+    <button class="btn btn--primary btn--sm" type="button" data-cookie-accept>Chấp nhận tất cả</button>
+  </div>
+</div>
+
+<style>
+  .cookie {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 90; max-width: 560px;
+    display: grid; gap: 20px; padding: 24px; border-radius: var(--radius-cards);
+    background: rgba(238, 238, 233, 0.92); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--line-dark);
+  }
+  .cookie[hidden] { display: none; }
+  .cookie__main { display: grid; gap: 8px; }
+  .cookie__main a { border-bottom: 1px solid currentColor; color: var(--color-forest-depths); }
+  .cookie__prefs { display: grid; gap: 10px; margin-top: 8px; }
+  .cookie__prefs[hidden] { display: none; }
+  .cookie__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cookie__actions .btn--primary { margin-left: auto; }
+  @media (max-width: 600px) { .cookie { left: 8px; right: 8px; bottom: 8px; padding: 18px; gap: 14px; } .cookie .t-subheading { font-size: 18px; } }
+</style>

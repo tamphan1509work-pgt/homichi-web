@@ -1,0 +1,14 @@
+---
+interface Props { inverse?: boolean }
+const { inverse = false } = Astro.props;
+---
+<span class:list={['logo', { 'logo--inverse': inverse }]}>
+  <span class="logo__word">homichi</span><span class="logo__dot" aria-hidden="true"></span>
+</span>
+
+<style>
+  .logo { display: inline-flex; align-items: flex-end; gap: 3px; line-height: 1; }
+  .logo__word { font-size: 27px; font-weight: 400; letter-spacing: -0.055em; }
+  .logo__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-forest-depths); margin-bottom: 4px; }
+  .logo--inverse .logo__dot { background: var(--color-lime-pulse); }
+</style>

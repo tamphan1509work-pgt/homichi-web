@@ -1,0 +1,14 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import NewsList from '../../../components/NewsList.astro';
+import { posts, newsCategories } from '../../../data/content';
+export function getStaticPaths() {
+  return newsCategories.map((c) => ({ params: { cat: c.slug } }));
+}
+const cat = newsCategories.find((c) => c.slug === Astro.params.cat)!;
+---
+<Base title={cat.name} description={cat.desc}>
+  <PageHero eyebrow="Tin tức" title={cat.name} lead={cat.desc} crumbs={[{ label: 'Tin tức', href: '/tin-tuc/' }, { label: cat.name }]} />
+  <section class="section section--tight"><div class="container"><NewsList posts={posts.filter((p) => p.category === cat.slug)} active={cat.slug} /></div></section>
+</Base>

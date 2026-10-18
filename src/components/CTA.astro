@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import Art from './Art.astro';
+interface Props { title?: string; text?: string; primary?: { label: string; href: string }; secondary?: { label: string; href: string }; lang?: 'vi' | 'en' }
+const {
+  title = 'Bắt đầu dự án sản phẩm tiếp theo của bạn cùng Homichi.',
+  text = 'Gửi yêu cầu — kỹ sư dự án sẽ phản hồi với phương án kỹ thuật và báo giá sơ bộ trong vòng 48 giờ làm việc.',
+  primary = { label: 'Yêu cầu báo giá', href: '/bao-gia/' },
+  secondary = { label: 'Tải hồ sơ năng lực', href: '/ho-so-nang-luc/' },
+  lang = 'vi',
+} = Astro.props;
+---
+<section class="section section--dark cta">
+  <div class="cta__art" aria-hidden="true"><Art name="circuit" /></div>
+  <div class="container cta__inner">
+    <p class="eyebrow reveal">{lang === 'en' ? 'Partner with Homichi' : 'Hợp tác cùng Homichi'}</p>
+    <h2 class="t-display t-balance reveal" style="--d:.05s">{title}</h2>
+    <p class="t-body t-muted mw-560 reveal" style="--d:.1s">{text}</p>
+    <div class="btn-row reveal" style="--d:.15s">
+      <a href={primary.href} class="btn btn--inverse">{primary.label} <Icon name="arrow" size={16} /></a>
+      <a href={secondary.href} class="btn btn--ghost">{secondary.label}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { position: relative; overflow: hidden; }
+  .cta__art { position: absolute; right: -6%; bottom: -10%; width: min(760px, 80%); color: var(--color-snow-white); opacity: .14; pointer-events: none; }
+  .cta__inner { position: relative; display: grid; gap: 24px; max-width: 900px; margin-left: 0; }
+  @media (min-width: 1280px) { .cta__inner { margin-left: max(var(--page-gutter), calc((100vw - var(--page-max-width)) / 2)); padding-left: 0; } }
+  .btn-row { margin-top: 16px; }
+</style>

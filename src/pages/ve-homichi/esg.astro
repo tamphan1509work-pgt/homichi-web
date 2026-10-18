@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Stats from '../../components/Stats.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+---
+<Base title="Trách nhiệm xã hội & ESG" description="Cam kết môi trường, xã hội và quản trị (ESG) của Homichi — đáp ứng yêu cầu đánh giá nhà cung cấp quốc tế.">
+  <PageHero eyebrow="Phát triển bền vững · ESG" title="Sản xuất có trách nhiệm là tiêu chuẩn, không phải lựa chọn." lead="Chúng tôi minh bạch số liệu ESG và sẵn sàng cho các đợt đánh giá nhà cung cấp (BSCI, SMETA, EcoVadis) của đối tác quốc tế." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Trách nhiệm xã hội & ESG' }]} art="leaf" tone="eucalyptus" />
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 2.4, suffix: 'MWp', label: 'điện mặt trời áp mái' },
+        { value: 35, suffix: '%', label: 'nhu cầu điện từ năng lượng tái tạo' },
+        { value: 2000, suffix: 't', label: 'CO₂ cắt giảm mỗi năm' },
+        { value: 92, suffix: '%', label: 'phế liệu sản xuất được tái chế' },
+      ]} />
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Ba trụ cột" title="Môi trường. Xã hội. Quản trị." />
+      <div class="grid grid-3">
+        {[
+          ['leaf', 'Môi trường', ['ISO 14001:2015', 'Nhựa tái chế PCR đến 30% cho vỏ sản phẩm', 'Bao bì giấy FSC, không xốp EPS', 'Xử lý nước thải đạt QCVN 40 cột A']],
+          ['users', 'Xã hội', ['Đánh giá BSCI hạng B', 'Lương trên mức tối thiểu vùng 28%', 'Nhà trẻ & xe đưa đón cho công nhân', 'Học bổng “Kỹ sư tương lai” 500 triệu/năm']],
+          ['shield', 'Quản trị', ['Bộ quy tắc ứng xử nhà cung cấp', 'Chính sách chống tham nhũng', 'Kiểm toán độc lập Big 4', 'Báo cáo ESG thường niên']],
+        ].map(([icon, title, items], i) => (
+          <article class="card card--canvas reveal" style={`--d:${i * 0.06}s`}>
+            <Icon name={icon as string} size={24} />
+            <h3 class="t-subheading">{title}</h3>
+            <ul class="check-list">{(items as string[]).map((it) => <li class="t-caption">{it}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTA title="Cần hồ sơ ESG cho đánh giá nhà cung cấp?" text="Chúng tôi cung cấp báo cáo ESG, kết quả audit BSCI và chứng nhận ISO theo yêu cầu (có NDA)." primary={{ label: 'Liên hệ bộ phận ESG', href: '/lien-he/' }} />
+</Base>

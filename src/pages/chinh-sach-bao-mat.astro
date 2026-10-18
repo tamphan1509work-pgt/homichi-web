@@ -1,0 +1,27 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { site } from '../data/site';
+const toc = [
+  { id: 'pham-vi', label: '1. Phạm vi áp dụng' }, { id: 'du-lieu', label: '2. Dữ liệu chúng tôi thu thập' }, { id: 'muc-dich', label: '3. Mục đích xử lý' },
+  { id: 'luu-tru', label: '4. Lưu trữ & bảo mật' }, { id: 'chia-se', label: '5. Chia sẻ dữ liệu' }, { id: 'cookie', label: '6. Cookie' }, { id: 'quyen', label: '7. Quyền của bạn' }, { id: 'lien-he', label: '8. Liên hệ' },
+];
+---
+<LegalPage title="Chính sách bảo mật thông tin" description="Cách Homichi thu thập, xử lý và bảo vệ dữ liệu cá nhân gửi qua website (form RFQ, liên hệ, tải tài liệu)." updated="01.10.2026" toc={toc}>
+  <p>Chính sách này mô tả cách {site.legalName} (“Homichi”) xử lý dữ liệu cá nhân thu thập qua website, tuân thủ Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân.</p>
+  <h2 id="pham-vi">1. Phạm vi áp dụng</h2>
+  <p>Áp dụng cho mọi dữ liệu bạn cung cấp qua các biểu mẫu: Yêu cầu báo giá, Liên hệ, Tải hồ sơ năng lực/catalogue, Đặt lịch tham quan và Đăng ký bản tin.</p>
+  <h2 id="du-lieu">2. Dữ liệu chúng tôi thu thập</h2>
+  <ul><li>Thông tin liên hệ: họ tên, chức vụ, công ty, email, số điện thoại, quốc gia.</li><li>Thông tin dự án: ngành hàng, số lượng, thị trường, tệp đính kèm.</li><li>Dữ liệu kỹ thuật: địa chỉ IP, loại trình duyệt, trang đã xem (chỉ khi bạn đồng ý cookie phân tích).</li></ul>
+  <h2 id="muc-dich">3. Mục đích xử lý</h2>
+  <ul><li>Phản hồi yêu cầu báo giá, liên hệ và lịch tham quan.</li><li>Gửi tài liệu bạn yêu cầu và cập nhật liên quan.</li><li>Cải thiện website và hiệu quả truyền thông (khi có đồng ý).</li></ul>
+  <h2 id="luu-tru">4. Lưu trữ & bảo mật</h2>
+  <p>Dữ liệu được lưu trên hệ thống CRM có kiểm soát truy cập, mã hoá khi truyền tải (TLS) và được lưu tối đa 36 tháng kể từ lần tương tác cuối, trừ khi pháp luật yêu cầu khác.</p>
+  <h2 id="chia-se">5. Chia sẻ dữ liệu</h2>
+  <p>Homichi không bán dữ liệu cá nhân. Dữ liệu chỉ được chia sẻ với nhà cung cấp dịch vụ (email, CRM, lưu trữ) theo hợp đồng bảo mật, hoặc khi cơ quan nhà nước có thẩm quyền yêu cầu.</p>
+  <h2 id="cookie">6. Cookie</h2>
+  <p>Chi tiết về các loại cookie và cách quản lý được trình bày tại <a href="/cookie/">Chính sách cookie</a>.</p>
+  <h2 id="quyen">7. Quyền của bạn</h2>
+  <p>Bạn có quyền truy cập, chỉnh sửa, xoá, hạn chế xử lý, rút lại sự đồng ý và phản đối việc xử lý dữ liệu cá nhân của mình.</p>
+  <h2 id="lien-he">8. Liên hệ</h2>
+  <p>Mọi yêu cầu liên quan đến dữ liệu cá nhân, vui lòng gửi tới <a href={`mailto:privacy@homichi.vn`}>privacy@homichi.vn</a> hoặc {site.address}.</p>
+</LegalPage>

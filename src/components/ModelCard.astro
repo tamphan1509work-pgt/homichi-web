@@ -1,0 +1,26 @@
+---
+import Frame from './Frame.astro';
+import type { Category, Model } from '../data/products';
+interface Props { model: Model; category: Category; index?: number }
+const { model: m, category: c, index = 0 } = Astro.props;
+const href = `/san-pham/${c.slug}/${m.slug}/`;
+---
+<article class="mcard card card--canvas card--link reveal" style={`--d:${(index % 3) * 0.06}s`}>
+  <Frame art={c.art} tone={c.tone} ratio="square" tag={m.badge} />
+  <div class="mcard__body">
+    <span class="pill">{m.code}</span>
+    <h3 class="t-subheading"><a href={href} class="stretched">{m.name}</a></h3>
+    <p class="t-caption t-muted">{m.summary}</p>
+    <dl class="mcard__meta">
+      <div><dt class="t-label t-muted">MOQ</dt><dd class="t-mono">{m.moq}</dd></div>
+      <div><dt class="t-label t-muted">Lead time</dt><dd class="t-mono">{m.leadTime}</dd></div>
+    </dl>
+  </div>
+</article>
+
+<style>
+  .mcard { padding: 12px 12px 24px; }
+  .mcard__body { display: grid; gap: 12px; justify-items: start; padding: 8px 12px 0; }
+  .mcard__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; padding-top: 16px; border-top: 1px solid var(--line-dark); margin-top: 4px; }
+  .mcard__meta dd { margin: 4px 0 0; }
+</style>

@@ -1,0 +1,97 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import ModelCard from '../../../components/ModelCard.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+import { categories, type Category } from '../../../data/products';
+
+export function getStaticPaths() {
+  return categories.map((c) => ({ params: { category: c.slug }, props: { c } }));
+}
+const { c } = Astro.props as { c: Category };
+const others = categories.filter((x) => x.slug !== c.slug);
+const customOptions = Array.from(new Set(c.models.flatMap((m) => m.customization.map((o) => o.label))));
+---
+<Base title={`${c.name} — Sản xuất ODM/OEM`} description={`${c.short} Năng lực sản xuất ${c.capacity}. Nhận tuỳ biến theo thương hiệu.`}>
+  <PageHero eyebrow={`Ngành hàng · ${c.code}`} title={`${c.name} mang thương hiệu của bạn.`} lead={c.intro} crumbs={[{ label: 'Sản phẩm', href: '/san-pham/' }, { label: c.name }]} art={c.art} tone={c.tone}>
+    <a href={`/bao-gia/?category=${c.slug}`} class="btn btn--primary">Yêu cầu báo giá <Icon name="arrow" size={16} /></a>
+    <a href="/san-pham/catalogue/" class="btn btn--light">Tải catalogue</a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <dl class="facts">
+        <div class="reveal"><dt class="t-label t-muted">Công suất</dt><dd>{c.capacity}</dd></div>
+        <div class="reveal" style="--d:.05s"><dt class="t-label t-muted">Dây chuyền</dt><dd>{c.lines}</dd></div>
+        <div class="reveal" style="--d:.1s"><dt class="t-label t-muted">Tiêu chuẩn</dt><dd class="facts__pills">{c.certifications.map((x) => <span class="pill">{x}</span>)}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Năng lực ngành hàng" title={`Vì sao các thương hiệu chọn Homichi cho ${c.name.toLowerCase()}?`} />
+      <div class="grid grid-3">
+        {c.capabilities.map((cap, i) => (
+          <article class="card card--canvas reveal" style={`--d:${i * 0.06}s`}>
+            <span class="card__num">0{i + 1}</span>
+            <h3 class="t-subheading">{cap.title}</h3>
+            <p class="t-muted">{cap.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="mau-tieu-bieu">
+    <div class="container">
+      <SectionHead eyebrow="Mẫu tiêu biểu" title="Mẫu nền tảng sẵn sàng tuỳ biến." split text="Danh sách chọn lọc. Liên hệ để nhận catalogue đầy đủ hoặc phát triển mẫu mới theo yêu cầu (ODM)." />
+      <div class="grid grid-3">
+        {c.models.map((m, i) => <ModelCard model={m} category={c} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Tuỳ biến được</p>
+          <h2 class="t-heading-lg t-balance">Mọi chi tiết đều có thể mang dấu ấn thương hiệu của bạn.</h2>
+          <p class="t-body t-muted">Từ màu sắc theo mã Pantone đến firmware và ứng dụng điều khiển — đội R&D sẽ tư vấn phương án tối ưu chi phí.</p>
+          <a href={`/bao-gia/?category=${c.slug}`} class="btn btn--inverse" style="justify-self:start">Thảo luận phương án tuỳ biến</a>
+        </div>
+        <ul class="custom">
+          {[...customOptions, 'Bao bì & HDSD', 'Firmware & ứng dụng'].map((o, i) => (
+            <li class="reveal" style={`--d:${i * 0.04}s`}><span class="t-mono">0{i + 1}</span><span class="t-subheading">{o}</span><Icon name="check" size={18} /></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Ngành hàng khác" title="Khám phá thêm." />
+      <ul class="others">
+        {others.map((o) => <li><a href={`/san-pham/${o.slug}/`}><span class="pill">{o.code}</span><span class="t-subheading">{o.name}</span><span class="t-mono t-muted hide-mobile">{o.capacity}</span><Icon name="arrow" size={18} /></a></li>)}
+      </ul>
+    </div>
+  </section>
+  <CTA primary={{ label: `Báo giá ${c.name.toLowerCase()}`, href: `/bao-gia/?category=${c.slug}` }} secondary={{ label: 'Tải catalogue', href: '/san-pham/catalogue/' }} />
+</Base>
+<style>
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); border-top: 1px solid var(--line-dark); }
+  .facts > div { padding: 24px 24px 0 0; display: grid; gap: 10px; align-content: start; }
+  .facts dd { margin: 0; font-size: 20px; font-weight: 350; letter-spacing: -0.02em; }
+  .facts__pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .custom { border-top: 1px solid var(--line-light); }
+  .custom li { display: grid; grid-template-columns: 40px 1fr 20px; gap: 16px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line-light); }
+  .custom li :global(svg) { color: var(--color-lime-pulse); }
+  .others { border-top: 1px solid var(--line-dark); }
+  .others a { display: grid; grid-template-columns: 64px 1fr auto 18px; gap: 20px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line-dark); transition: padding .3s var(--ease); }
+  .others a:hover { padding-left: 10px; }
+  @media (max-width: 959px) { .others a { grid-template-columns: 64px 1fr 18px; } }
+</style>

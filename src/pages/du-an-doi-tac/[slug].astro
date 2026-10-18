@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import Frame from '../../components/Frame.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { caseStudies } from '../../data/content';
+
+export function getStaticPaths() {
+  return caseStudies.map((c) => ({ params: { slug: c.slug } }));
+}
+const c = caseStudies.find((x) => x.slug === Astro.params.slug)!;
+const others = caseStudies.filter((x) => x.slug !== c.slug);
+---
+<Base title={c.title} description={c.problem} ogType="article">
+  <article>
+    <header class="cs-hero section--dark">
+      <div class="container">
+        <Breadcrumb items={[{ label: 'Dự án & Đối tác', href: '/du-an-doi-tac/' }, { label: 'Case study' }]} />
+        <div class="cs-hero__grid">
+          <div class="stack" style="--stack:24px">
+            <div class="flex gap-8 wrap"><span class="pill">{c.model}</span><span class="pill">{c.category}</span></div>
+            <h1 class="t-display t-balance">{c.title}</h1>
+            <p class="t-mono t-muted">Khách hàng: {c.client}</p>
+          </div>
+          <Frame art={c.art} tone="dark" ratio="default" />
+        </div>
+        <dl class="cs-results">
+          {c.results.map(([v, l]) => <div><dt>{v}</dt><dd class="t-caption t-muted">{l}</dd></div>)}
+        </dl>
+      </div>
+    </header>
+    <div class="section">
+      <div class="container container--narrow">
+        {[['01', 'Bài toán', c.problem], ['02', 'Giải pháp', c.solution], ['03', 'Kết quả', c.outcome]].map(([n, t, d]) => (
+          <section class="cs-block reveal">
+            <p class="card__num">{n}</p>
+            <h2 class="t-heading-sm">{t}</h2>
+            <p class="t-body">{d}</p>
+          </section>
+        ))}
+        <p class="t-caption t-muted mt-32">Tên khách hàng được ẩn theo thoả thuận bảo mật (NDA).</p>
+      </div>
+    </div>
+  </article>
+  <section class="section section--stone">
+    <div class="container">
+      <p class="eyebrow">Case study khác</p>
+      <div class="grid grid-2 mt-24">
+        {others.map((o) => <a href={`/du-an-doi-tac/${o.slug}/`} class="card card--canvas card--link"><span class="t-mono t-muted">{o.model} · {o.category}</span><h2 class="t-subheading">{o.title}</h2><span class="card__foot link-arrow">Đọc tiếp</span></a>)}
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .cs-hero { padding-block: 32px clamp(56px, 7vw, 96px); }
+  .cs-hero__grid { display: grid; gap: 40px; margin-top: 48px; align-items: center; }
+  @media (min-width: 960px) { .cs-hero__grid { grid-template-columns: 1.1fr .9fr; gap: 72px; } }
+  .cs-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line-light); }
+  .cs-results dt { font-size: clamp(36px, 4.4vw, 56px); font-weight: 300; letter-spacing: -0.04em; color: var(--color-lime-pulse); }
+  .cs-results dd { margin: 6px 0 0; }
+  .cs-block { display: grid; gap: 14px; padding-block: 32px; border-bottom: 1px solid var(--line-dark); }
+</style>

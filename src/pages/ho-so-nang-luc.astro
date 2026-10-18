@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Art from '../components/Art.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const toc = ['Tổng quan doanh nghiệp', 'Nhà máy & dây chuyền', 'R&D & thiết kế', 'Hệ thống chất lượng', 'Chứng nhận', 'Ngành hàng & mẫu tiêu biểu', 'Khách hàng & thị trường', 'Quy trình hợp tác'];
+---
+<Base title="Tải hồ sơ năng lực (Company profile)" description="Tải hồ sơ năng lực Homichi 2026 (PDF): nhà máy, R&D, chất lượng, chứng nhận và khách hàng tiêu biểu.">
+  <section class="profile">
+    <div class="container">
+      <Breadcrumb items={[{ label: 'Hồ sơ năng lực' }]} />
+      <div class="profile__grid">
+        <div class="profile__left">
+          <div class="book reveal" aria-hidden="true">
+            <span class="t-mono">COMPANY PROFILE · 2026</span>
+            <div class="book__art"><Art name="factory" /></div>
+            <span class="book__title">homichi<span>.</span></span>
+            <span class="t-mono">ODM · OEM · PRIVATE LABEL</span>
+          </div>
+          <div class="toc">
+            <p class="t-mono t-muted">Nội dung · 48 trang</p>
+            <ol>{toc.map((t, i) => <li><span class="t-mono t-muted">0{i + 1}</span> {t}</li>)}</ol>
+          </div>
+        </div>
+        <div class="profile__right">
+          <p class="eyebrow">Hồ sơ năng lực</p>
+          <h1 class="t-display t-balance">Mọi điều bộ phận mua hàng cần biết về Homichi — trong một tài liệu.</h1>
+          <p class="t-body t-muted">Để lại thông tin để tải bản PDF (VI/EN, 14 MB). Chúng tôi sẽ gửi kèm bản cập nhật khi có chứng nhận hoặc năng lực mới.</p>
+          <form class="form profile__form" data-form="profile" data-download={site.files.profile} data-endpoint={site.formEndpoint} novalidate>
+            <div class="form__error" data-form-error hidden role="alert">Không thể xử lý lúc này. Vui lòng thử lại.</div>
+            <div class="form-row">
+              <div class="field"><label for="p-name">Họ và tên <span class="req">*</span></label><input id="p-name" name="name" class="input" required autocomplete="name" /><span class="field__error">Vui lòng nhập họ tên.</span></div>
+              <div class="field"><label for="p-company">Công ty <span class="req">*</span></label><input id="p-company" name="company" class="input" required autocomplete="organization" /><span class="field__error">Vui lòng nhập tên công ty.</span></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label for="p-email">Email công việc <span class="req">*</span></label><input id="p-email" name="email" type="email" class="input" required autocomplete="email" /><span class="field__error">Email chưa hợp lệ.</span></div>
+              <div class="field"><label for="p-lang">Ngôn ngữ</label><select id="p-lang" name="lang" class="select"><option>Tiếng Việt</option><option>English</option></select></div>
+            </div>
+            <div class="field"><label class="consent"><input type="checkbox" name="consent" required /> <span>Tôi đồng ý với <a href="/chinh-sach-bao-mat/">Chính sách bảo mật</a>. <span class="req">*</span></span></label><span class="field__error">Vui lòng đồng ý với chính sách bảo mật.</span></div>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+            <button type="submit" class="btn btn--primary" style="justify-self:start">Tải hồ sơ năng lực <Icon name="download" size={16} /></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .profile { padding-block: 32px var(--section-pad); }
+  .profile__grid { display: grid; gap: 56px; margin-top: 40px; align-items: start; }
+  @media (min-width: 1024px) { .profile__grid { grid-template-columns: .85fr 1.15fr; gap: 88px; } }
+  .profile__left { display: grid; gap: 40px; }
+  .book { aspect-ratio: 210 / 297; max-width: 400px; border-radius: 8px 24px 24px 8px; background: var(--color-forest-depths); color: var(--color-snow-white); padding: 32px; display: grid; grid-template-rows: auto 1fr auto auto; gap: 16px; transform: rotate(-2deg); }
+  .book__art { opacity: .4; display: grid; place-items: center; }
+  .book__title { font-size: 56px; font-weight: 400; letter-spacing: -0.06em; line-height: 1; }
+  .book__title span { color: var(--color-lime-pulse); }
+  .toc ol { display: grid; margin-top: 12px; border-top: 1px solid var(--line-dark); }
+  .toc li { padding: 12px 0; border-bottom: 1px solid var(--line-dark); display: flex; gap: 16px; font-size: var(--text-caption); }
+  .profile__right { display: grid; gap: 24px; }
+  .profile__form { margin-top: 16px; padding: clamp(24px, 4vw, 40px); border-radius: var(--radius-large-cards); background: var(--color-warm-stone); }
+  .profile__form .input, .profile__form .select { background-color: var(--color-snow-white); }
+  .form__error { padding: 14px 18px; border-radius: var(--radius-inputs); background: #f3f1df; color: #5a5626; font-size: var(--text-caption); }
+</style>

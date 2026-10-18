@@ -1,0 +1,97 @@
+---
+// EN homepage (GĐ1). Trang con tiếng Anh sẽ được bổ sung khi nội dung được dịch.
+import Base from '../../layouts/Base.astro';
+import Frame from '../../components/Frame.astro';
+import Icon from '../../components/Icon.astro';
+import Stats from '../../components/Stats.astro';
+import Partners from '../../components/Partners.astro';
+import CTA from '../../components/CTA.astro';
+import { categories } from '../../data/products';
+import { certifications } from '../../data/content';
+
+const stats = [
+  { value: 17, label: 'years of home appliance manufacturing' },
+  { value: 62000, suffix: 'm²', label: 'factory floor in Ho Chi Minh City' },
+  { value: 24, label: 'assembly & SMT lines' },
+  { value: 3.2, suffix: 'M', label: 'units of annual design capacity' },
+];
+const models = [
+  ['ODM', 'Design & manufacturing', 'We take your idea from concept, industrial design and tooling through certification and mass production.', '4 – 7 months', 'from 1,000 pcs'],
+  ['OEM', 'Build to your design', 'Precise manufacturing to your drawings, specifications and quality standards. You own 100% of the design.', '2 – 4 months', 'from 500 pcs'],
+  ['PL', 'Private label', 'Put your brand on 40+ certified, ready-made models. The fastest route to market.', '4 – 8 weeks', 'from 300 pcs'],
+];
+---
+<Base title="Homichi — ODM/OEM Home Appliance Manufacturer in Vietnam" description="Homichi designs and manufactures fans, air conditioners, induction cooktops, range hoods and water heaters for 60+ brands in 14 countries." lang="en">
+  <section class="hero">
+    <div class="container container--wide hero__grid">
+      <div class="stack" style="--stack:28px">
+        <p class="eyebrow reveal">ODM · OEM · Private label — Made in Vietnam</p>
+        <h1 class="t-hero t-balance reveal" style="--d:.06s">Home appliances for brands that put quality first.</h1>
+        <p class="t-body t-muted mw-560 reveal" style="--d:.12s">From the first sketch to the export container, Homichi engineers and builds home appliances for more than 60 brands across 14 countries.</p>
+        <div class="btn-row reveal" style="--d:.18s">
+          <a href="/bao-gia/" class="btn btn--primary">Request a quote <Icon name="arrow" size={16} /></a>
+          <a href="/ho-so-nang-luc/" class="btn btn--light">Company profile <Icon name="download" size={16} /></a>
+        </div>
+      </div>
+      <div class="reveal" style="--d:.2s"><Frame art="fan" tone="stone" ratio="square" pad="16%" caption="HM-FS16" captionRight="BLDC 28 W · 22 dB" /></div>
+    </div>
+    <div class="container container--wide mt-64"><Stats items={stats} /></div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack" style="--stack:20px"><p class="eyebrow">Services</p><h2 class="t-heading-lg t-balance">Three ways to bring your branded product to market.</h2></div>
+      </div>
+      <div class="grid grid-3">
+        {models.map(([code, name, text, time, moq], i) => (
+          <article class="card card--canvas reveal" style={`--d:${i * 0.06}s`}>
+            <div class="flex justify-between items-center"><span class="pill">{code}</span><span class="t-mono t-muted">{time}</span></div>
+            <h3 class="t-subheading">{name}</h3>
+            <p class="t-muted">{text}</p>
+            <p class="card__foot t-mono">MOQ {moq}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">Product categories</p><h2 class="t-heading-lg t-balance">Five core categories, ready for your brand.</h2></div>
+      <div class="cats">
+        {categories.map((c, i) => (
+          <a href={`/san-pham/${c.slug}/`} class="reveal" style={`--d:${i * 0.05}s`}>
+            <Frame art={c.art} tone={c.tone} ratio="tall" caption={c.code} />
+            <p class="t-subheading mt-16">{c.nameEn}</p>
+            <p class="t-mono t-muted mt-8">{c.capacity.replace('sp/năm', 'units/yr').replace('bộ/năm', 'sets/yr')}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Quality & certifications</p>
+          <h2 class="t-heading-lg t-balance">Independently audited. Internationally recognised.</h2>
+          <p class="t-body t-muted">In-house safety, reliability and EMC pre-compliance labs. 100% hi-pot testing. Outgoing defect rate below 0.3%.</p>
+        </div>
+        <ul class="certs">{certifications.map((c) => <li class="pill">{c.code}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight section--stone"><div class="container"><Partners title="Trusted by 60+ brands in 14 countries" /></div></section>
+  <CTA lang="en" title="Start your next product with Homichi." text="Send us your brief — a project engineer will reply with a technical proposal and indicative pricing within 48 business hours." primary={{ label: 'Request a quote', href: '/bao-gia/' }} secondary={{ label: 'Download company profile', href: '/ho-so-nang-luc/' }} />
+</Base>
+<style>
+  .hero { padding-block: clamp(40px, 6vw, 72px) clamp(56px, 7vw, 96px); }
+  .hero__grid { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 1024px) { .hero__grid { grid-template-columns: 1.1fr .9fr; gap: 56px; } }
+  .cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .section--dark .t-muted { color: rgba(252,252,247,.68); }
+  .certs { display: flex; flex-wrap: wrap; gap: 8px; }
+</style>

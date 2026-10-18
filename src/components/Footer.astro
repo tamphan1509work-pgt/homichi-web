@@ -1,0 +1,87 @@
+---
+import { footerNav, legalNav, site } from '../data/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+interface Props { lang?: 'vi' | 'en' }
+const { lang = 'vi' } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="footer section--dark on-dark">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <Logo inverse />
+        <p class="t-heading-sm footer__claim t-balance">{lang === 'en' ? 'Engineering home appliances for brands that care about quality.' : 'Kiến tạo thiết bị gia dụng cho những thương hiệu đặt chất lượng lên hàng đầu.'}</p>
+        <form class="footer__news" data-newsletter novalidate>
+          <label for="nl-email" class="t-caption">{lang === 'en' ? 'Industry insights, monthly.' : 'Bản tin ngành ODM/OEM hàng tháng'}</label>
+          <div class="footer__news-row">
+            <input id="nl-email" class="input" type="email" name="email" placeholder="email@congty.vn" required autocomplete="email" />
+            <button class="btn btn--inverse" type="submit">{lang === 'en' ? 'Subscribe' : 'Đăng ký'}</button>
+          </div>
+          <p class="t-label footer__news-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="footer__cols">
+        {footerNav.map((col) => (
+          <div>
+            <p class="t-mono footer__title">{col.title}</p>
+            <ul>
+              {col.items.map((it) => <li><a href={it.href}>{it.label}</a></li>)}
+            </ul>
+          </div>
+        ))}
+        <div>
+          <p class="t-mono footer__title">{lang === 'en' ? 'Contact' : 'Liên hệ'}</p>
+          <ul class="footer__contact">
+            <li><a href={site.hotlineHref}><Icon name="phone" size={15} /> {site.hotline}</a></li>
+            <li><a href={`mailto:${site.email}`}><Icon name="mail" size={15} /> {site.email}</a></li>
+            <li><span><Icon name="pin" size={15} /> {site.address}</span></li>
+            <li><a href="/dat-lich-tham-quan/"><Icon name="calendar" size={15} /> {lang === 'en' ? 'Book a factory visit' : 'Đặt lịch tham quan nhà máy'}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__cert">
+      {['ISO 9001', 'ISO 14001', 'ISO 45001', 'CE', 'CB', 'RoHS', 'BSCI'].map((c) => <span class="pill">{c}</span>)}
+    </div>
+
+    <div class="footer__bottom">
+      <p class="t-caption">© {year} {site.legalName}. MST 0312 345 678.</p>
+      <ul class="footer__legal">
+        {legalNav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><button type="button" data-cookie-open>{lang === 'en' ? 'Cookie settings' : 'Cài đặt cookie'}</button></li>
+      </ul>
+      <ul class="footer__social">
+        {site.social.map((s) => <li><a href={s.href} aria-label={s.label} target="_blank" rel="noopener"><Icon name={s.label.toLowerCase()} size={18} /></a></li>)}
+      </ul>
+    </div>
+  </div>
+  <p class="footer__giant" aria-hidden="true">homichi</p>
+</footer>
+
+<style>
+  .footer { padding-top: clamp(64px, 8vw, 112px); overflow: hidden; position: relative; }
+  .footer a, .footer button { transition: opacity .2s; }
+  .footer a:hover, .footer button:hover { opacity: .65; }
+  .footer__top { display: grid; gap: 56px; }
+  @media (min-width: 1024px) { .footer__top { grid-template-columns: 0.9fr 1.4fr; gap: 80px; } }
+  .footer__brand { display: grid; gap: 28px; align-content: start; }
+  .footer__claim { max-width: 440px; }
+  .footer__news { display: grid; gap: 10px; max-width: 440px; }
+  .footer__news-row { display: flex; gap: 8px; }
+  .footer__news-row .input { flex: 1; min-width: 0; }
+  .footer__news-msg { color: var(--color-lime-pulse); min-height: 18px; }
+  .footer__cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 24px; }
+  @media (min-width: 720px) { .footer__cols { grid-template-columns: repeat(4, 1fr); } }
+  .footer__title { color: var(--color-lime-pulse); margin-bottom: 18px; }
+  .footer__cols ul { display: grid; gap: 10px; font-size: var(--text-caption); }
+  .footer__contact li > * { display: inline-flex; gap: 8px; align-items: flex-start; }
+  .footer__contact :global(svg) { flex: none; margin-top: 2px; }
+  .footer__cert { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line-light); color: rgba(252,252,247,.75); }
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 32px; padding-block: 32px; color: rgba(252,252,247,.6); }
+  .footer__legal { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: var(--text-caption); }
+  .footer__social { display: flex; gap: 8px; }
+  .footer__social a { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--line-light); color: var(--color-snow-white); }
+  .footer__giant { font-size: clamp(120px, 26vw, 400px); font-weight: 300; letter-spacing: -0.07em; line-height: .72; color: rgba(252,252,247,.06); text-align: center; margin-bottom: -0.06em; user-select: none; }
+</style>

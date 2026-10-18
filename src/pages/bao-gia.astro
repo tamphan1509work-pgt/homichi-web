@@ -1,0 +1,177 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Icon from '../components/Icon.astro';
+import { categories } from '../data/products';
+import { site } from '../data/site';
+const steps = ['Dự án', 'Quy mô', 'Liên hệ'];
+---
+<Base title="Yêu cầu báo giá (RFQ)" description="Gửi yêu cầu báo giá ODM/OEM tới Homichi — kỹ sư dự án phản hồi phương án kỹ thuật và báo giá sơ bộ trong 48 giờ làm việc.">
+  <section class="rfq">
+    <div class="container">
+      <Breadcrumb items={[{ label: 'Yêu cầu báo giá' }]} />
+      <div class="rfq__grid">
+        <aside class="rfq__aside">
+          <p class="eyebrow">Yêu cầu báo giá · RFQ</p>
+          <h1 class="t-display t-balance">Kể cho chúng tôi về sản phẩm bạn muốn tạo ra.</h1>
+          <p class="t-body t-muted">Mất khoảng 3 phút. Thông tin càng chi tiết, báo giá càng chính xác.</p>
+          <ul class="rfq__promise">
+            <li><Icon name="clock" size={18} /><span><strong>Phản hồi trong 48 giờ</strong> làm việc với phương án & báo giá sơ bộ</span></li>
+            <li><Icon name="shield" size={18} /><span><strong>Bảo mật tuyệt đối</strong> — sẵn sàng ký NDA trước khi trao đổi kỹ thuật</span></li>
+            <li><Icon name="users" size={18} /><span><strong>Một kỹ sư dự án</strong> phụ trách xuyên suốt</span></li>
+          </ul>
+          <div class="rfq__contact">
+            <p class="t-mono t-muted">Cần trao đổi ngay?</p>
+            <a href={site.hotlineHref} class="t-subheading">{site.hotline}</a>
+            <a href={`mailto:${site.email}`} class="t-caption">{site.email}</a>
+          </div>
+        </aside>
+
+        <form class="form rfq__form" data-form="rfq" data-endpoint={site.formEndpoint} novalidate enctype="multipart/form-data">
+          <ol class="progress" data-progress aria-label="Tiến trình">
+            {steps.map((s, i) => <li class:list={{ 'is-active': i === 0 }}><span class="progress__num">{i + 1}</span><span class="progress__label">{s}</span></li>)}
+          </ol>
+
+          <div class="form__error" data-form-error hidden role="alert">Không thể gửi yêu cầu lúc này. Vui lòng thử lại hoặc email {site.email}.</div>
+
+          <!-- BƯỚC 1 -->
+          <fieldset class="step" data-step>
+            <legend class="t-heading-sm">Dự án của bạn</legend>
+            <fieldset class="choice-group field-group" data-required-group>
+              <legend class="t-caption">Mô hình hợp tác <span class="req">*</span></legend>
+              {['ODM', 'OEM', 'Private label', 'Chưa chắc chắn'].map((v, i) => (
+                <label class="choice"><input type="radio" name="service" value={v} required={i === 0} data-prefill="service" /><span>{v}</span></label>
+              ))}
+              <span class="field__error">Vui lòng chọn mô hình hợp tác.</span>
+            </fieldset>
+            <fieldset class="choice-group field-group" data-required-group>
+              <legend class="t-caption">Ngành hàng quan tâm <span class="req">*</span></legend>
+              {categories.map((c) => (
+                <label class="choice"><input type="checkbox" name="category" value={c.slug} data-prefill="category" /><span>{c.name}</span></label>
+              ))}
+              <label class="choice"><input type="checkbox" name="category" value="khac" /><span>Khác</span></label>
+              <span class="field__error">Chọn ít nhất một ngành hàng.</span>
+            </fieldset>
+            <div class="field">
+              <label for="rfq-model">Mẫu sản phẩm quan tâm</label>
+              <input id="rfq-model" name="model" class="input" placeholder="VD: HM-FS16 hoặc mô tả ngắn" data-prefill="model" />
+              <span class="field__hint">Xem mẫu tại <a href="/san-pham/" style="border-bottom:1px solid">danh mục sản phẩm</a>.</span>
+            </div>
+            <div class="field">
+              <label for="rfq-desc">Mô tả yêu cầu <span class="req">*</span></label>
+              <textarea id="rfq-desc" name="description" class="textarea" required minlength="20" placeholder="Tính năng mong muốn, phong cách thiết kế, tiêu chuẩn cần đạt, đối thủ tham chiếu…" data-prefill="note"></textarea>
+              <span class="field__error">Vui lòng mô tả yêu cầu (tối thiểu 20 ký tự).</span>
+            </div>
+            <div class="step__nav"><span></span><button type="button" class="btn btn--primary" data-next>Tiếp tục <Icon name="arrow" size={16} /></button></div>
+          </fieldset>
+
+          <!-- BƯỚC 2 -->
+          <fieldset class="step" data-step hidden>
+            <legend class="t-heading-sm">Quy mô & thị trường</legend>
+            <div class="form-row">
+              <div class="field">
+                <label for="rfq-qty">Số lượng dự kiến / năm <span class="req">*</span></label>
+                <select id="rfq-qty" name="quantity" class="select" required>
+                  <option value="">Chọn khoảng</option>
+                  <option>300 – 1.000 sp</option><option>1.000 – 5.000 sp</option><option>5.000 – 20.000 sp</option><option>20.000 – 100.000 sp</option><option>Trên 100.000 sp</option>
+                </select>
+                <span class="field__error">Vui lòng chọn số lượng.</span>
+              </div>
+              <div class="field">
+                <label for="rfq-market">Thị trường mục tiêu <span class="req">*</span></label>
+                <select id="rfq-market" name="market" class="select" required>
+                  <option value="">Chọn thị trường</option>
+                  <option>Việt Nam</option><option>Đông Nam Á</option><option>Nhật Bản / Hàn Quốc</option><option>Trung Đông</option><option>Châu Âu</option><option>Úc / New Zealand</option><option>Bắc Mỹ</option><option>Khác</option>
+                </select>
+                <span class="field__error">Vui lòng chọn thị trường.</span>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label for="rfq-time">Thời điểm cần hàng</label>
+                <select id="rfq-time" name="timeline" class="select">
+                  <option>Trong 3 tháng</option><option selected>3 – 6 tháng</option><option>6 – 12 tháng</option><option>Chưa xác định</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="rfq-price">Giá mục tiêu (tuỳ chọn)</label>
+                <input id="rfq-price" name="target_price" class="input" placeholder="VD: 18 USD/sp FOB" />
+              </div>
+            </div>
+            <div class="field">
+              <span class="t-caption" style="font-weight:500">Tệp đính kèm (bản vẽ, hình ảnh, brief)</span>
+              <label class="dropzone" data-dropzone>
+                <input type="file" name="files" multiple accept=".pdf,.jpg,.jpeg,.png,.step,.stp,.dwg,.zip,.docx,.xlsx" />
+                <Icon name="file" size={24} />
+                <span class="t-caption"><strong>Kéo thả tệp</strong> hoặc bấm để chọn</span>
+                <span class="field__hint">PDF, JPG, PNG, STEP, DWG, ZIP · tối đa 20 MB/tệp</span>
+              </label>
+              <ul class="filelist t-caption" data-filelist></ul>
+              <span class="field__error">Có tệp vượt quá 20 MB.</span>
+            </div>
+            <div class="step__nav"><button type="button" class="btn btn--light" data-prev>Quay lại</button><button type="button" class="btn btn--primary" data-next>Tiếp tục <Icon name="arrow" size={16} /></button></div>
+          </fieldset>
+
+          <!-- BƯỚC 3 -->
+          <fieldset class="step" data-step hidden>
+            <legend class="t-heading-sm">Thông tin liên hệ</legend>
+            <div class="form-row">
+              <div class="field"><label for="rfq-name">Họ và tên <span class="req">*</span></label><input id="rfq-name" name="name" class="input" required autocomplete="name" /><span class="field__error">Vui lòng nhập họ tên.</span></div>
+              <div class="field"><label for="rfq-company">Công ty / Thương hiệu <span class="req">*</span></label><input id="rfq-company" name="company" class="input" required autocomplete="organization" /><span class="field__error">Vui lòng nhập tên công ty.</span></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label for="rfq-email">Email công việc <span class="req">*</span></label><input id="rfq-email" name="email" type="email" class="input" required autocomplete="email" /><span class="field__error">Email chưa hợp lệ.</span></div>
+              <div class="field"><label for="rfq-phone">Điện thoại / WhatsApp / Zalo <span class="req">*</span></label><input id="rfq-phone" name="phone" type="tel" class="input" required pattern="[0-9 +()\-.]{8,}" autocomplete="tel" /><span class="field__error">Số điện thoại chưa hợp lệ.</span></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label for="rfq-role">Chức vụ</label><input id="rfq-role" name="role" class="input" autocomplete="organization-title" /></div>
+              <div class="field"><label for="rfq-country">Quốc gia</label><input id="rfq-country" name="country" class="input" value="Việt Nam" autocomplete="country-name" /></div>
+            </div>
+            <div class="field">
+              <label class="consent"><input type="checkbox" name="nda" value="yes" /> <span>Tôi muốn ký NDA trước khi trao đổi chi tiết kỹ thuật.</span></label>
+            </div>
+            <div class="field">
+              <label class="consent"><input type="checkbox" name="consent" required /> <span>Tôi đồng ý để Homichi xử lý thông tin nhằm phản hồi yêu cầu này theo <a href="/chinh-sach-bao-mat/">Chính sách bảo mật</a>. <span class="req">*</span></span></label>
+              <span class="field__error">Vui lòng đồng ý với chính sách bảo mật.</span>
+            </div>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+            <div class="step__nav"><button type="button" class="btn btn--light" data-prev>Quay lại</button><button type="submit" class="btn btn--primary">Gửi yêu cầu báo giá <Icon name="arrow" size={16} /></button></div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rfq { padding-block: 32px var(--section-pad); }
+  .rfq__grid { display: grid; gap: 48px; margin-top: 40px; align-items: start; }
+  @media (min-width: 1024px) { .rfq__grid { grid-template-columns: .8fr 1.2fr; gap: 80px; } .rfq__aside { position: sticky; top: calc(var(--header-h) + 24px); } }
+  .rfq__aside { display: grid; gap: 24px; }
+  .rfq__promise { display: grid; gap: 16px; padding-block: 24px; border-block: 1px solid var(--line-dark); }
+  .rfq__promise li { display: grid; grid-template-columns: 20px 1fr; gap: 14px; font-size: var(--text-caption); color: var(--color-pewter); }
+  .rfq__promise strong { color: var(--color-forest-depths); font-weight: 500; }
+  .rfq__contact { display: grid; gap: 4px; }
+  .rfq__form { padding: clamp(24px, 4vw, 48px); border-radius: var(--radius-large-cards); background: var(--color-warm-stone); }
+  .rfq__form .input, .rfq__form .select, .rfq__form .textarea { background-color: var(--color-snow-white); }
+  .rfq__form .choice span { background: var(--color-snow-white); }
+  .rfq__form .choice input:checked + span { background: var(--color-forest-depths); }
+  .progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+  .progress li { display: flex; align-items: center; gap: 10px; padding-top: 14px; border-top: 2px solid rgba(28,58,19,.15); color: var(--color-pewter); font-size: var(--text-caption); transition: all .3s var(--ease); }
+  .progress li.is-active, .progress li.is-done { border-top-color: var(--color-forest-depths); color: var(--color-forest-depths); }
+  .progress__num { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid currentColor; font-family: var(--font-mono); font-size: 12px; flex: none; }
+  .progress li.is-done .progress__num { background: var(--color-lime-pulse); border-color: var(--color-lime-pulse); }
+  @media (max-width: 480px) { .progress__label { display: none; } .progress li.is-active .progress__label { display: inline; } }
+  .step { border: 0; padding: 0; margin: 0; display: grid; gap: 24px; min-width: 0; }
+  .step[hidden] { display: none; }
+  .step > legend { padding: 0; margin-bottom: 24px; }
+  .field-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .field-group > legend { font-weight: 500; }
+  .field-group .field__error { flex-basis: 100%; }
+  .field-group.is-invalid .field__error { display: block; }
+  .field-group.is-invalid .choice span { border-color: var(--color-olive-gold); }
+  .step__nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; padding-top: 24px; border-top: 1px solid var(--line-dark); }
+  .filelist { display: grid; gap: 4px; }
+  .filelist :global(span) { color: var(--color-pewter); }
+  .form__error { padding: 14px 18px; border-radius: var(--radius-inputs); background: #f3f1df; color: #5a5626; font-size: var(--text-caption); }
+</style>

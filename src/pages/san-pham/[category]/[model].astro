@@ -1,0 +1,172 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import Frame from '../../../components/Frame.astro';
+import ModelCard from '../../../components/ModelCard.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+import { categories, type Category, type Model } from '../../../data/products';
+
+export function getStaticPaths() {
+  return categories.flatMap((c) => c.models.map((m) => ({ params: { category: c.slug, model: m.slug }, props: { c, m } })));
+}
+const { c, m } = Astro.props as { c: Category; m: Model };
+const related = c.models.filter((x) => x.slug !== m.slug);
+const views = [
+  { tone: c.tone, label: 'Tổng thể' },
+  { tone: 'frost', label: 'Phối màu' },
+  { tone: 'dark', label: 'Chi tiết' },
+] as const;
+const rfq = `/bao-gia/?model=${encodeURIComponent(m.code)}&category=${c.slug}`;
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: m.name,
+  sku: m.code,
+  category: c.name,
+  description: m.summary,
+  brand: { '@type': 'Brand', name: 'Homichi (ODM/OEM)' },
+  additionalProperty: m.specs.map(([k, v]) => ({ '@type': 'PropertyValue', name: k, value: v })),
+};
+---
+<Base title={`${m.code} · ${m.name}`} description={`${m.summary} MOQ ${m.moq}, lead time ${m.leadTime}. Tuỳ biến màu, logo, tính năng theo thương hiệu.`} jsonLd={productLd}>
+  <section class="pd">
+    <div class="container">
+      <Breadcrumb items={[{ label: 'Sản phẩm', href: '/san-pham/' }, { label: c.name, href: `/san-pham/${c.slug}/` }, { label: m.code }]} />
+      <div class="pd__grid">
+        <div class="pd__gallery reveal" data-gallery>
+          <div class="pd__stage">
+            {views.map((v, i) => (
+              <div class:list={['pd__view', { 'is-active': i === 0 }]} data-view>
+                <Frame art={c.art} tone={v.tone} ratio="square" tag={i === 0 ? m.badge : undefined} caption={m.code} captionRight={v.label} pad={i === 2 ? '4%' : '14%'} />
+              </div>
+            ))}
+          </div>
+          <div class="pd__thumbs" role="tablist" aria-label="Góc nhìn sản phẩm">
+            {views.map((v, i) => (
+              <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-thumb={i} aria-label={v.label}>
+                <Frame art={c.art} tone={v.tone} ratio="square" pad="18%" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="pd__info">
+          <div class="flex gap-8 wrap items-center reveal">
+            <span class="pill">{m.code}</span>
+            {m.badge && <span class="badge">{m.badge}</span>}
+            <a href={`/san-pham/${c.slug}/`} class="t-mono t-muted">{c.name}</a>
+          </div>
+          <h1 class="t-display t-balance reveal" style="--d:.05s">{m.name}</h1>
+          <p class="t-body t-muted reveal" style="--d:.1s">{m.summary}</p>
+          <ul class="check-list reveal" style="--d:.12s">{m.highlights.map((h) => <li>{h}</li>)}</ul>
+
+          <dl class="pd__terms reveal" style="--d:.14s">
+            <div><dt class="t-label t-muted">MOQ</dt><dd class="t-mono">{m.moq}</dd></div>
+            <div><dt class="t-label t-muted">Lead time</dt><dd class="t-mono">{m.leadTime}</dd></div>
+            <div><dt class="t-label t-muted">Mô hình</dt><dd class="t-mono">OEM · ODM · PL</dd></div>
+          </dl>
+
+          <div class="customizer reveal" style="--d:.16s" data-customizer data-rfq={rfq}>
+            <p class="t-subheading">Tuỳ biến cho thương hiệu của bạn</p>
+            {m.customization.map((g) => (
+              <fieldset class="choice-group" data-group={g.label}>
+                <legend class="t-caption">{g.label}</legend>
+                {g.options.map((o) => (
+                  <label class="choice"><input type="checkbox" value={o} /><span>{o}</span></label>
+                ))}
+              </fieldset>
+            ))}
+            <p class="t-caption t-muted customizer__summary" data-summary aria-live="polite">Chọn các tuỳ chọn mong muốn — chúng sẽ được đính kèm vào yêu cầu báo giá.</p>
+            <div class="btn-row">
+              <a href={rfq} class="btn btn--primary" data-rfq-link>Yêu cầu báo giá mẫu này <Icon name="arrow" size={16} /></a>
+              <a href="/san-pham/catalogue/" class="btn btn--light">Catalogue <Icon name="download" size={16} /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <div class="split split--even">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Thông số kỹ thuật</p>
+          <h2 class="t-heading-lg">Thông số tham khảo.</h2>
+          <p class="t-body t-muted">Thông số có thể điều chỉnh theo thị trường mục tiêu (điện áp, phích cắm, tiêu chuẩn năng lượng) và yêu cầu của thương hiệu.</p>
+          <div class="flex gap-8 wrap">{c.certifications.map((x) => <span class="pill">{x}</span>)}</div>
+        </div>
+        <dl class="spec-list reveal">
+          {m.specs.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <SectionHead eyebrow={c.name} title="Mẫu khác cùng ngành hàng." split>
+          <a href={`/san-pham/${c.slug}/`} class="link-arrow">Xem ngành hàng</a>
+        </SectionHead>
+        <div class="grid grid-3">{related.map((r, i) => <ModelCard model={r} category={c} index={i} />)}</div>
+      </div>
+    </section>
+  )}
+  <CTA title={`Sẵn sàng đưa ${m.code} ra thị trường với thương hiệu của bạn?`} primary={{ label: 'Yêu cầu báo giá mẫu này', href: rfq }} />
+</Base>
+
+<script>
+  // Gallery
+  const g = document.querySelector<HTMLElement>('[data-gallery]');
+  if (g) {
+    const views = g.querySelectorAll<HTMLElement>('[data-view]');
+    const thumbs = g.querySelectorAll<HTMLButtonElement>('[data-thumb]');
+    thumbs.forEach((t) => t.addEventListener('click', () => {
+      const i = Number(t.dataset.thumb);
+      views.forEach((v, k) => v.classList.toggle('is-active', k === i));
+      thumbs.forEach((x, k) => x.setAttribute('aria-selected', String(k === i)));
+    }));
+  }
+  // Customizer → nối tuỳ chọn vào link RFQ
+  const cz = document.querySelector<HTMLElement>('[data-customizer]');
+  if (cz) {
+    const base = cz.dataset.rfq || '/bao-gia/';
+    const links = document.querySelectorAll<HTMLAnchorElement>(`a[href="${base}"], [data-rfq-link]`);
+    const summary = cz.querySelector<HTMLElement>('[data-summary]');
+    const update = () => {
+      const parts: string[] = [];
+      cz.querySelectorAll<HTMLFieldSetElement>('[data-group]').forEach((fs) => {
+        const vals = Array.from(fs.querySelectorAll<HTMLInputElement>('input:checked')).map((i) => i.value);
+        if (vals.length) parts.push(`${fs.dataset.group}: ${vals.join(', ')}`);
+      });
+      const note = parts.join(' | ');
+      links.forEach((a) => { a.href = note ? `${base}&note=${encodeURIComponent('Tuỳ biến — ' + note)}` : base; });
+      if (summary) summary.textContent = note ? `Đã chọn — ${note}` : 'Chọn các tuỳ chọn mong muốn — chúng sẽ được đính kèm vào yêu cầu báo giá.';
+    };
+    cz.addEventListener('change', update);
+  }
+</script>
+
+<style>
+  .pd { padding-block: 32px clamp(64px, 8vw, 112px); }
+  .pd__grid { display: grid; gap: 48px; margin-top: 40px; align-items: start; }
+  @media (min-width: 1024px) { .pd__grid { grid-template-columns: 1.05fr .95fr; gap: 72px; } .pd__gallery { position: sticky; top: calc(var(--header-h) + 24px); } }
+  .pd__stage { position: relative; }
+  .pd__view { display: none; }
+  .pd__view.is-active { display: block; animation: fade .6s var(--ease); }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .pd__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; max-width: 360px; }
+  .pd__thumbs button { border-radius: 20px; overflow: hidden; outline-offset: 2px; opacity: .6; transition: opacity .25s; border: 1.5px solid transparent; }
+  .pd__thumbs button :global(.frame) { border-radius: 18px; }
+  .pd__thumbs button[aria-selected='true'] { opacity: 1; border-color: var(--color-forest-depths); }
+  .pd__info { display: grid; gap: 24px; }
+  .pd__terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-block: 20px; border-block: 1px solid var(--line-dark); }
+  .pd__terms dd { margin: 6px 0 0; }
+  .customizer { display: grid; gap: 20px; padding: 28px; border-radius: var(--radius-cards); background: var(--color-warm-stone); }
+  .customizer .choice span { background: var(--color-snow-white); }
+  .customizer .choice input:checked + span { background: var(--color-forest-depths); }
+  .customizer__summary { min-height: 1.4em; }
+</style>

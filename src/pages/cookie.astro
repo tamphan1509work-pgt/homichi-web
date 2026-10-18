@@ -1,0 +1,17 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+const toc = [{ id: 'la-gi', label: '1. Cookie là gì' }, { id: 'loai', label: '2. Các loại cookie' }, { id: 'quan-ly', label: '3. Quản lý lựa chọn' }];
+---
+<LegalPage title="Cookie & quản lý consent" description="Chính sách cookie và cách quản lý đồng ý (consent) trên website Homichi." updated="01.10.2026" toc={toc}>
+  <h2 id="la-gi">1. Cookie là gì</h2>
+  <p>Cookie là tệp nhỏ được lưu trên trình duyệt giúp website ghi nhớ lựa chọn của bạn và đo lường hiệu quả.</p>
+  <h2 id="loai">2. Các loại cookie</h2>
+  <table><thead><tr><th>Loại</th><th>Mục đích</th><th>Mặc định</th></tr></thead><tbody>
+    <tr><td>Thiết yếu</td><td>Ghi nhớ lựa chọn consent, bảo mật form</td><td>Luôn bật</td></tr>
+    <tr><td>Phân tích</td><td>Google Analytics 4 — đo lượt truy cập ẩn danh</td><td>Tắt cho tới khi đồng ý</td></tr>
+    <tr><td>Tiếp thị</td><td>Google Ads, Meta, LinkedIn Insight — remarketing</td><td>Tắt cho tới khi đồng ý</td></tr>
+  </tbody></table>
+  <h2 id="quan-ly">3. Quản lý lựa chọn</h2>
+  <p>Bạn có thể thay đổi lựa chọn bất cứ lúc nào.</p>
+  <p><button type="button" class="btn btn--primary btn--sm" data-cookie-open>Mở cài đặt cookie</button></p>
+</LegalPage>

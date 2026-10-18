@@ -1,0 +1,22 @@
+---
+import Frame from './Frame.astro';
+import { categoryName, formatDate, type Post } from '../data/content';
+interface Props { post: Post; index?: number; large?: boolean }
+const { post: p, index = 0, large = false } = Astro.props;
+---
+<article class:list={['ncard reveal', { 'ncard--large': large }]} style={`--d:${(index % 3) * 0.06}s`}>
+  <a href={`/tin-tuc/${p.slug}/`} class="ncard__link">
+    <Frame art={p.art} tone={p.tone} ratio={large ? 'wide' : 'default'} />
+    <div class="ncard__body">
+      <p class="t-mono t-muted">{categoryName(p.category)} · {formatDate(p.date)} · {p.read}</p>
+      <h3 class:list={[large ? 't-heading-sm' : 't-subheading', 't-balance']}>{p.title}</h3>
+      {large && <p class="t-muted">{p.excerpt}</p>}
+    </div>
+  </a>
+</article>
+
+<style>
+  .ncard__link { display: grid; gap: 20px; }
+  .ncard__body { display: grid; gap: 10px; }
+  .ncard__link:hover h3 { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+</style>

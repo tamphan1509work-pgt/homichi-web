@@ -1,0 +1,22 @@
+---
+import Frame from './Frame.astro';
+import type { Category } from '../data/products';
+interface Props { category: Category; index?: number; dark?: boolean }
+const { category: c, index = 0 } = Astro.props;
+---
+<article class="ccard reveal" style={`--d:${(index % 4) * 0.06}s`}>
+  <a href={`/san-pham/${c.slug}/`} class="ccard__link">
+    <Frame art={c.art} tone={c.tone} ratio="tall" tag={`${c.models.length} mẫu tiêu biểu`} caption={c.code} captionRight={c.capacity} />
+    <div class="ccard__body">
+      <h3 class="t-subheading">{c.name}</h3>
+      <p class="t-caption t-muted">{c.short}</p>
+      <span class="link-arrow">Xem ngành hàng</span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .ccard__link { display: grid; gap: 20px; }
+  .ccard__body { display: grid; gap: 10px; justify-items: start; }
+  .ccard__body .link-arrow { margin-top: 6px; }
+</style>

@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Frame from '../../components/Frame.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { categories } from '../../data/products';
+---
+<Base title="Danh mục sản phẩm" description="5 ngành hàng điện gia dụng Homichi có năng lực sản xuất ODM/OEM: quạt điện, điều hoà, bếp từ, máy hút mùi, bình nước nóng.">
+  <PageHero eyebrow="Danh mục sản phẩm" title="Năm ngành hàng. Hơn 40 mẫu nền tảng. Vô số phiên bản mang thương hiệu của bạn." lead="Homichi không bán lẻ. Mỗi mẫu dưới đây là nền tảng để tuỳ biến — màu sắc, tính năng, logo và bao bì theo thương hiệu đối tác." crumbs={[{ label: 'Sản phẩm' }]}>
+    <a href="/san-pham/catalogue/" class="btn btn--primary">Tải catalogue 2026 <Icon name="download" size={16} /></a>
+    <a href="/bao-gia/" class="btn btn--light">Yêu cầu báo giá</a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <ul class="cats">
+        {categories.map((c, i) => (
+          <li class="cat reveal">
+            <a href={`/san-pham/${c.slug}/`} class:list={['cat__link', { 'cat__link--rev': i % 2 }]}>
+              <Frame art={c.art} tone={c.tone} ratio="default" caption={c.code} captionRight={`${c.models.length} mẫu tiêu biểu`} />
+              <div class="cat__body">
+                <p class="t-mono t-muted">0{i + 1} / 0{categories.length} · {c.nameEn}</p>
+                <h2 class="t-display">{c.name}</h2>
+                <p class="t-body t-muted">{c.intro}</p>
+                <dl class="cat__meta">
+                  <div><dt class="t-label t-muted">Công suất</dt><dd class="t-mono">{c.capacity}</dd></div>
+                  <div><dt class="t-label t-muted">Chứng nhận</dt><dd class="t-mono">{c.certifications.slice(0, 3).join(' · ')}</dd></div>
+                </dl>
+                <span class="btn btn--light btn--sm">Xem ngành hàng <Icon name="arrow" size={16} /></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <a href="/san-pham/nganh-hang-mo-rong/" class="expand reveal">
+        <span class="badge">Sắp ra mắt</span>
+        <h2 class="t-heading-sm">Ngành hàng mở rộng: máy lọc không khí, nồi chiên không dầu, robot hút bụi.</h2>
+        <span class="link-arrow">Đăng ký nhận thông tin</span>
+      </a>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .cats { display: grid; gap: clamp(56px, 8vw, 112px); }
+  .cat__link { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 960px) {
+    .cat__link { grid-template-columns: 1.05fr .95fr; gap: 80px; }
+    .cat__link--rev > :first-child { order: 2; }
+  }
+  .cat__body { display: grid; gap: 20px; justify-items: start; }
+  .cat__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; padding-block: 20px; border-block: 1px solid var(--line-dark); }
+  .cat__meta dd { margin: 6px 0 0; }
+  .cat__link:hover .btn--light { --btn-bg: var(--color-forest-depths); --btn-fg: var(--color-snow-white); }
+  .expand { display: grid; gap: 20px; justify-items: start; padding: clamp(28px, 4vw, 56px); border-radius: var(--radius-large-cards); border: 1.5px dashed rgba(28,58,19,.3); }
+  .expand:hover { border-color: var(--color-forest-depths); }
+</style>

@@ -1,0 +1,41 @@
+---
+// "Quy trình" (GĐ3) — quy trình vận hành sản xuất nội bộ, khác với "Quy trình hợp tác" (góc nhìn khách hàng) để tránh trùng nội dung/SEO.
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Frame from '../../components/Frame.astro';
+import CTA from '../../components/CTA.astro';
+const flow = [
+  ['IQC', 'Kiểm soát đầu vào', 'Kiểm tra linh kiện, vật tư theo AQL; đánh giá nhà cung cấp định kỳ.', 'qc'],
+  ['MOLD', 'Khuôn & ép nhựa', '42 máy ép 80 – 850 tấn, sấy nhựa khép kín, kiểm kích thước bằng CMM.', 'blueprint'],
+  ['SMT', 'Lắp ráp bo mạch', 'Dây chuyền SMT tốc độ cao, AOI kiểm tra quang học tự động, burn-in 4 giờ.', 'circuit'],
+  ['ASSY', 'Lắp ráp thành phẩm', 'Dây chuyền bán tự động, trạm torque điện tử, poka-yoke chống sai lỗi.', 'factory'],
+  ['TEST', 'Kiểm tra 100%', 'Hi-pot, rò điện, nối đất, chạy thử chức năng cho từng sản phẩm.', 'lab'],
+  ['OQC', 'Kiểm tra xuất xưởng', 'Lấy mẫu theo AQL, thử rơi bao bì ISTA, kiểm hàng bên thứ ba khi yêu cầu.', 'cert'],
+] as const;
+---
+<Base title="Quy trình vận hành sản xuất" description="Quy trình vận hành sản xuất khép kín tại nhà máy Homichi — từ IQC đến OQC.">
+  <PageHero eyebrow="Quy trình vận hành" title="Một dòng chảy khép kín, truy xuất được tới từng linh kiện." lead="Mỗi sản phẩm Homichi mang một mã QR truy xuất: lô linh kiện, dây chuyền, ca làm việc và kết quả kiểm tra. Quy trình đối tác tham gia được mô tả tại trang Quy trình hợp tác." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Quy trình' }]}>
+    <a href="/dich-vu/quy-trinh-hop-tac/" class="btn btn--light">Xem quy trình hợp tác</a>
+  </PageHero>
+  <section class="section section--tight">
+    <div class="container">
+      <SectionHead eyebrow="Từ linh kiện đến thành phẩm" title="Sáu trạm kiểm soát trong một dòng chảy." />
+      <ol class="flow">
+        {flow.map(([code, title, text, art], i) => (
+          <li class="flow__item reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <Frame art={art} tone={i % 2 ? 'frost' : 'stone'} ratio="default" />
+            <div class="flex items-center gap-8"><span class="card__num">0{i + 1}</span><span class="pill">{code}</span></div>
+            <h3 class="t-subheading">{title}</h3>
+            <p class="t-muted t-caption">{text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 40px 16px; counter-reset: f; }
+  .flow__item { display: grid; gap: 14px; align-content: start; }
+</style>

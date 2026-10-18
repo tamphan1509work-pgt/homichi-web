@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Frame from '../../components/Frame.astro';
+import Stats from '../../components/Stats.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { partners, caseStudies, markets } from '../../data/content';
+---
+<Base title="Đối tác & khách hàng" description="Khách hàng, thị trường và dự án tiêu biểu của Homichi — nhà sản xuất ODM/OEM thiết bị điện gia dụng.">
+  <PageHero eyebrow="Dự án & đối tác" title="Đằng sau mỗi thương hiệu thành công là một đối tác sản xuất đáng tin cậy." lead="Homichi tự hào đồng hành cùng các thương hiệu gia dụng, nhà bán lẻ và chủ đầu tư bất động sản tại 14 quốc gia." crumbs={[{ label: 'Dự án & Đối tác' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 60, suffix: '+', label: 'thương hiệu đối tác' },
+        { value: 14, label: 'quốc gia & vùng lãnh thổ' },
+        { value: 380, suffix: '+', label: 'dự án ODM/OEM hoàn thành' },
+        { value: 87, suffix: '%', label: 'khách hàng tái đặt hàng' },
+      ]} />
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Khách hàng tiêu biểu" title="Được tin chọn bởi các thương hiệu trong và ngoài nước." text="Một số khách hàng được ẩn danh theo thoả thuận bảo mật (NDA)." split />
+      <ul class="logos">
+        {partners.map((p, i) => <li class="reveal" style={`--d:${(i % 5) * 0.04}s`}><span class:list={[{ 'logos__mono': i % 3 === 2, 'logos__caps': i % 4 === 3 }]}>{p}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="case-study">
+    <div class="container">
+      <SectionHead eyebrow="Case study" title="Bài toán. Giải pháp. Kết quả." />
+      <div class="cases">
+        {caseStudies.map((c, i) => (
+          <a href={`/du-an-doi-tac/${c.slug}/`} class="case reveal">
+            <Frame art={c.art} tone={c.tone} ratio="default" tag={c.model} />
+            <div class="case__body">
+              <p class="t-mono t-muted">{c.client} · {c.category}</p>
+              <h3 class="t-heading-sm t-balance">{c.title}</h3>
+              <dl class="case__results">
+                {c.results.map(([v, l]) => <div><dt>{v}</dt><dd class="t-caption t-muted">{l}</dd></div>)}
+              </dl>
+              <span class="link-arrow">Đọc case study</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead eyebrow="Thị trường" title="Sản phẩm Homichi có mặt tại 14 quốc gia." split>
+        <a href="/du-an-doi-tac/thi-truong-xuat-khau/" class="btn btn--ghost btn--sm">Thị trường xuất khẩu <Icon name="arrow" size={16} /></a>
+      </SectionHead>
+      <ul class="mk">
+        {markets.map((m, i) => (
+          <li class="reveal" style={`--d:${i * 0.05}s`}>
+            <div class="mk__head"><span class="t-subheading">{m.region}</span><span class="t-mono">{m.share}%</span></div>
+            <span class="mk__bar"><span style={`width:${m.share}%`}></span></span>
+            <span class="t-caption t-muted">{m.note}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CTA title="Trở thành câu chuyện thành công tiếp theo." />
+</Base>
+<style>
+  .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  .logos li { aspect-ratio: 16 / 9; border-radius: var(--radius-cards); background: var(--color-snow-white); display: grid; place-items: center; font-size: 22px; font-weight: 300; letter-spacing: -0.03em; opacity: .85; transition: opacity .3s; }
+  .logos li:hover { opacity: 1; }
+  .logos__mono { font-family: var(--font-mono); font-size: 16px; letter-spacing: .08em; }
+  .logos__caps { font-weight: 500; font-size: 16px; letter-spacing: .14em; }
+  .cases { display: grid; gap: 16px; }
+  .case { display: grid; gap: 32px; padding: 16px; border-radius: var(--radius-large-cards); background: var(--color-warm-stone); align-items: center; transition: background-color .3s; }
+  .case:hover { background: #e6e6df; }
+  @media (min-width: 960px) { .case { grid-template-columns: .9fr 1.1fr; gap: 56px; padding-right: 48px; } }
+  .case__body { display: grid; gap: 18px; justify-items: start; padding: 8px; }
+  .case__results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; padding-block: 18px; border-block: 1px solid var(--line-dark); }
+  .case__results dt { font-size: clamp(22px, 2.4vw, 30px); font-weight: 300; letter-spacing: -0.03em; }
+  .case__results dd { margin: 4px 0 0; }
+  .mk { display: grid; gap: 28px; }
+  .mk li { display: grid; gap: 10px; }
+  .mk__head { display: flex; justify-content: space-between; align-items: baseline; }
+  .mk__bar { height: 6px; border-radius: var(--radius-full); background: rgba(252,252,247,.12); overflow: hidden; }
+  .mk__bar span { display: block; height: 100%; border-radius: inherit; background: var(--color-lime-pulse); transform-origin: left; transform: scaleX(0); transition: transform 1.4s var(--ease) .2s; }
+  .mk li.is-in .mk__bar span { transform: none; }
+  @media (prefers-reduced-motion: reduce) { .mk__bar span { transform: none; } }
+</style>

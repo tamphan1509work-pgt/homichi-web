@@ -1,0 +1,42 @@
+---
+import Breadcrumb from './Breadcrumb.astro';
+import Frame from './Frame.astro';
+import type { ArtName } from './Art.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  crumbs: { label: string; href?: string }[];
+  art?: ArtName;
+  tone?: 'stone' | 'sage' | 'eucalyptus' | 'olive' | 'dark' | 'frost';
+  dark?: boolean;
+  phase?: 1 | 2 | 3;
+}
+const { eyebrow, title, lead, crumbs, art, tone = 'stone', dark = false } = Astro.props;
+---
+<section class:list={['phero', { 'section--dark': dark }]}>
+  <div class="container">
+    <Breadcrumb items={crumbs} />
+    <div class:list={['phero__grid', { 'phero__grid--art': art || Astro.slots.has('aside') }]}>
+      <div class="phero__text">
+        {eyebrow && <p class="eyebrow reveal">{eyebrow}</p>}
+        <h1 class="t-display t-balance reveal" style="--d:.05s">{title}</h1>
+        {lead && <p class="t-body t-muted t-pretty phero__lead reveal" style="--d:.12s">{lead}</p>}
+        {Astro.slots.has('default') && <div class="phero__actions reveal" style="--d:.18s"><slot /></div>}
+      </div>
+      {Astro.slots.has('aside') ? <div class="reveal" style="--d:.2s"><slot name="aside" /></div> : art && (
+        <div class="reveal" style="--d:.2s"><Frame art={art} tone={dark ? 'dark' : tone} /></div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .phero { padding-block: 32px clamp(56px, 7vw, 96px); }
+  .phero__grid { display: grid; gap: 40px; margin-top: clamp(40px, 6vw, 80px); align-items: end; }
+  @media (min-width: 960px) { .phero__grid--art { grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; } }
+  .phero__text { display: grid; gap: 24px; max-width: 760px; }
+  .phero__lead { max-width: 600px; }
+  .phero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+</style>

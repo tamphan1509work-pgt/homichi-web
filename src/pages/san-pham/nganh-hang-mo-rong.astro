@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Frame from '../../components/Frame.astro';
+import { site } from '../../data/site';
+// GĐ3 — chỉ hiển thị khi có năng lực thật. Hiện dùng làm trang giữ chỗ + thu lead quan tâm.
+const upcoming = [['Máy lọc không khí', 'purifier', 'Q2/2027'], ['Nồi chiên không dầu', 'heater', 'Q3/2027'], ['Robot hút bụi', 'globe', '2028']] as const;
+---
+<Base title="Ngành hàng mở rộng" description="Các ngành hàng Homichi đang nghiên cứu phát triển." noindex>
+  <PageHero eyebrow="Ngành hàng mở rộng" title="Những gì đang được phát triển trong phòng lab Homichi." lead="Đăng ký để là đối tác đầu tiên nhận thông tin kỹ thuật và mẫu thử khi ngành hàng mới sẵn sàng." crumbs={[{ label: 'Sản phẩm', href: '/san-pham/' }, { label: 'Ngành hàng mở rộng' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <div class="grid grid-3">
+        {upcoming.map(([n, a, t], i) => (
+          <article class="card reveal" style={`--d:${i * 0.06}s`}>
+            <Frame art={a} tone="frost" ratio="default" tag={`Dự kiến ${t}`} />
+            <h2 class="t-subheading">{n}</h2>
+          </article>
+        ))}
+      </div>
+      <form class="notify form" data-form="interest" data-endpoint={site.formEndpoint} novalidate>
+        <p class="t-subheading">Nhận thông tin khi ra mắt</p>
+        <div class="form-row">
+          <div class="field"><label for="ni-email">Email công việc <span class="req">*</span></label><input id="ni-email" name="email" type="email" class="input" required autocomplete="email" /><span class="field__error">Vui lòng nhập email hợp lệ.</span></div>
+          <div class="field"><label for="ni-cat">Ngành hàng quan tâm</label><select id="ni-cat" name="category" class="select">{upcoming.map(([n]) => <option>{n}</option>)}</select></div>
+        </div>
+        <button class="btn btn--primary" type="submit" style="justify-self:start">Đăng ký</button>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .notify { margin-top: 48px; padding: 32px; border-radius: var(--radius-cards); background: var(--color-warm-stone); }
+</style>

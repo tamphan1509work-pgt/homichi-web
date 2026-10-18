@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+<Base title="Liên hệ" description={`Liên hệ Homichi — hotline ${site.hotline}, email ${site.email}, nhà máy tại KCN Tân Phú Trung, Củ Chi, TP. HCM.`}>
+  <PageHero eyebrow="Liên hệ" title="Chúng tôi luôn sẵn sàng lắng nghe." lead="Đội ngũ kinh doanh phản hồi trong vòng 4 giờ làm việc. Với yêu cầu báo giá chi tiết, vui lòng dùng form RFQ." crumbs={[{ label: 'Liên hệ' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <div class="contact">
+        <div class="contact__info">
+          <ul class="channels">
+            <li><Icon name="phone" /><div><p class="t-label t-muted">Hotline</p><a href={site.hotlineHref} class="t-subheading">{site.hotline}</a><p class="t-caption t-muted">{site.workingHours}</p></div></li>
+            <li><Icon name="mail" /><div><p class="t-label t-muted">Email kinh doanh</p><a href={`mailto:${site.email}`} class="t-subheading">{site.email}</a></div></li>
+            <li><Icon name="factory" /><div><p class="t-label t-muted">Nhà máy</p><p>{site.address}</p></div></li>
+            <li><Icon name="pin" /><div><p class="t-label t-muted">Văn phòng</p><p>{site.office}</p></div></li>
+          </ul>
+          <div class="quick">
+            <a href="/bao-gia/" class="card card--link"><Icon name="file" size={22} /><span class="t-subheading">Yêu cầu báo giá</span><span class="t-caption t-muted">Form chi tiết cho dự án ODM/OEM</span></a>
+            <a href="/dat-lich-tham-quan/" class="card card--link"><Icon name="calendar" size={22} /><span class="t-subheading">Đặt lịch tham quan</span><span class="t-caption t-muted">Trực tiếp hoặc trực tuyến</span></a>
+          </div>
+        </div>
+        <form class="form contact__form" data-form="contact" data-endpoint={site.formEndpoint} novalidate>
+          <p class="t-heading-sm">Gửi tin nhắn</p>
+          <div class="form__error" data-form-error hidden role="alert">Không thể gửi lúc này. Vui lòng thử lại hoặc gọi hotline.</div>
+          <div class="form-row">
+            <div class="field"><label for="c-name">Họ và tên <span class="req">*</span></label><input id="c-name" name="name" class="input" required autocomplete="name" /><span class="field__error">Vui lòng nhập họ tên.</span></div>
+            <div class="field"><label for="c-company">Công ty</label><input id="c-company" name="company" class="input" autocomplete="organization" /></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="c-email">Email <span class="req">*</span></label><input id="c-email" name="email" type="email" class="input" required autocomplete="email" /><span class="field__error">Email chưa hợp lệ.</span></div>
+            <div class="field"><label for="c-phone">Điện thoại</label><input id="c-phone" name="phone" type="tel" class="input" autocomplete="tel" /></div>
+          </div>
+          <div class="field">
+            <label for="c-topic">Chủ đề</label>
+            <select id="c-topic" name="topic" class="select"><option>Hợp tác ODM/OEM</option><option>Nhà cung cấp linh kiện</option><option>Truyền thông & báo chí</option><option>Tuyển dụng</option><option>Khác</option></select>
+          </div>
+          <div class="field"><label for="c-msg">Nội dung <span class="req">*</span></label><textarea id="c-msg" name="message" class="textarea" required minlength="10"></textarea><span class="field__error">Vui lòng nhập nội dung.</span></div>
+          <div class="field"><label class="consent"><input type="checkbox" name="consent" required /> <span>Tôi đồng ý với <a href="/chinh-sach-bao-mat/">Chính sách bảo mật</a>. <span class="req">*</span></span></label><span class="field__error">Vui lòng đồng ý với chính sách bảo mật.</span></div>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+          <button type="submit" class="btn btn--primary" style="justify-self:start">Gửi liên hệ <Icon name="arrow" size={16} /></button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <section class="section section--tight">
+    <div class="container">
+      <div class="map">
+        <iframe title="Bản đồ nhà máy Homichi" src={site.mapEmbed} loading="lazy"></iframe>
+        <a class="map__link btn btn--light btn--sm" href="https://www.openstreetmap.org/#map=14/10.97/106.55" target="_blank" rel="noopener">Mở bản đồ <Icon name="arrowUpRight" size={14} /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .contact { display: grid; gap: 48px; }
+  @media (min-width: 1024px) { .contact { grid-template-columns: .9fr 1.1fr; gap: 80px; } }
+  .contact__info { display: grid; gap: 40px; align-content: start; }
+  .channels { display: grid; border-top: 1px solid var(--line-dark); }
+  .channels li { display: grid; grid-template-columns: 24px 1fr; gap: 20px; padding: 24px 0; border-bottom: 1px solid var(--line-dark); }
+  .channels li > div { display: grid; gap: 6px; }
+  .quick { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .quick { grid-template-columns: 1fr; } }
+  .quick .card { gap: 8px; }
+  .contact__form { padding: clamp(24px, 4vw, 48px); border-radius: var(--radius-large-cards); background: var(--color-warm-stone); }
+  .contact__form .input, .contact__form .select, .contact__form .textarea { background-color: var(--color-snow-white); }
+  .form__error { padding: 14px 18px; border-radius: var(--radius-inputs); background: #f3f1df; color: #5a5626; font-size: var(--text-caption); }
+  .map { position: relative; border-radius: var(--radius-large-cards); overflow: hidden; aspect-ratio: 21 / 9; min-height: 320px; background: var(--color-warm-stone); }
+  .map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(1) sepia(.15) contrast(.95); }
+  .map__link { position: absolute; right: 16px; bottom: 16px; }
+</style>

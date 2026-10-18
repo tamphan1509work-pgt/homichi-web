@@ -1,0 +1,349 @@
+---
+import Base from '../layouts/Base.astro';
+import Art from '../components/Art.astro';
+import Frame from '../components/Frame.astro';
+import Icon from '../components/Icon.astro';
+import Stats from '../components/Stats.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+import Partners from '../components/Partners.astro';
+import CTA from '../components/CTA.astro';
+import { categories } from '../data/products';
+import { services, processSteps, certifications, posts, caseStudies } from '../data/content';
+
+const heroSlides = categories.map((c) => ({ art: c.art, code: c.models[0].code, name: c.models[0].name, spec: c.models[0].specs[0] }));
+const latest = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+---
+<Base title="Homichi — Nhà sản xuất ODM/OEM thiết bị điện gia dụng" altHref="/en/">
+  <!-- HERO ĐỊNH VỊ -->
+  <section class="hero">
+    <div class="container container--wide hero__grid">
+      <div class="hero__text">
+        <p class="eyebrow reveal">ODM · OEM · Private label — Made in Vietnam</p>
+        <h1 class="t-hero t-balance reveal" style="--d:.06s">Thiết bị gia dụng cho những thương hiệu đặt chất lượng lên trước.</h1>
+        <p class="t-body t-muted hero__lead reveal" style="--d:.14s">
+          Homichi thiết kế, phát triển và sản xuất quạt điện, điều hoà, bếp từ, máy hút mùi và bình nước nóng cho hơn 60 thương hiệu — từ bản phác thảo đầu tiên đến container xuất khẩu.
+        </p>
+        <div class="btn-row reveal" style="--d:.2s">
+          <a href="/bao-gia/" class="btn btn--primary">Yêu cầu báo giá <Icon name="arrow" size={16} /></a>
+          <a href="/ho-so-nang-luc/" class="btn btn--light">Tải hồ sơ năng lực <Icon name="download" size={16} /></a>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal" style="--d:.18s" data-hero-slider>
+        <div class="hero__stage">
+          {heroSlides.map((s, i) => (
+            <div class:list={['hero__slide', { 'is-active': i === 0 }]} data-slide aria-hidden={i === 0 ? undefined : 'true'}>
+              <Art name={s.art} />
+            </div>
+          ))}
+          <span class="hero__ring" aria-hidden="true"></span>
+        </div>
+        <div class="hero__specimen">
+          {heroSlides.map((s, i) => (
+            <div class:list={['hero__label', { 'is-active': i === 0 }]} data-label>
+              <span class="pill">{s.code}</span>
+              <span class="t-caption">{s.name}</span>
+              <span class="t-mono t-muted">{s.spec[0]}: {s.spec[1]}</span>
+            </div>
+          ))}
+        </div>
+        <ol class="hero__dots" aria-label="Ngành hàng">
+          {categories.map((c, i) => (
+            <li><button type="button" data-dot={i} aria-label={c.name} aria-pressed={i === 0 ? 'true' : 'false'}><span>{c.name}</span></button></li>
+          ))}
+        </ol>
+      </div>
+    </div>
+
+    <div class="container container--wide hero__stats">
+      <Stats />
+    </div>
+  </section>
+
+  <!-- ĐỊNH VỊ / GIỚI THIỆU NGẮN -->
+  <section class="section section--stone">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:24px">
+          <p class="eyebrow reveal">Về Homichi</p>
+          <h2 class="t-heading-lg t-balance reveal" style="--d:.05s">Một nhà máy. Toàn bộ chuỗi giá trị — dưới cùng một mái nhà.</h2>
+          <p class="t-body t-muted reveal" style="--d:.1s">Từ phòng R&D, xưởng khuôn mẫu, dây chuyền SMT đến phòng thử nghiệm và kho thành phẩm, mọi công đoạn đều nằm trong khuôn viên 62.000 m² tại Củ Chi. Điều đó có nghĩa: tiến độ chủ động, chi phí minh bạch, chất lượng truy xuất được.</p>
+          <ul class="check-list reveal" style="--d:.14s">
+            <li>Thiết kế công nghiệp, cơ khí & điện tử nội bộ — 85 kỹ sư</li>
+            <li>Khuôn mẫu, ép nhựa, gia công kim loại tấm tại chỗ</li>
+            <li>Phòng lab an toàn điện, độ bền, EMC & buồng tiêu âm</li>
+          </ul>
+          <a href="/ve-homichi/" class="link-arrow reveal" style="--d:.18s">Câu chuyện Homichi</a>
+        </div>
+        <div class="about-mosaic">
+          <div class="about-mosaic__a reveal"><Frame art="factory" tone="dark" ratio="wide" pad="10% 18% 14%" caption="Nhà máy Củ Chi · 62.000 m²" /></div>
+          <div class="reveal" style="--d:.08s"><Frame art="lab" tone="frost" ratio="square" caption="Phòng lab R&D" /></div>
+          <div class="reveal" style="--d:.14s"><Frame art="blueprint" tone="canvas" ratio="square" caption="Thiết kế khuôn" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DỊCH VỤ -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Dịch vụ ODM/OEM" title="Ba cách để đưa sản phẩm mang thương hiệu của bạn ra thị trường." split text="Dù bạn bắt đầu từ một ý tưởng, một bản vẽ hay chỉ cần một mẫu sẵn có, Homichi có mô hình hợp tác phù hợp với ngân sách và thời gian của bạn.">
+        <a href="/dich-vu/" class="link-arrow">So sánh các mô hình</a>
+      </SectionHead>
+      <div class="grid grid-3">
+        {services.map((s, i) => (
+          <article class="card card--link svc reveal" style={`--d:${i * 0.07}s`}>
+            <div class="flex justify-between items-center">
+              <span class="pill">{s.code}</span>
+              <span class="t-mono t-muted">{s.time}</span>
+            </div>
+            <h3 class="t-subheading"><a href={`/dich-vu/${s.slug}/`} class="stretched">{s.name}</a></h3>
+            <p class="t-muted">{s.short}</p>
+            <dl class="svc__meta card__foot">
+              <div><dt class="t-label t-muted">Phù hợp</dt><dd>{s.bestFor}</dd></div>
+              <div><dt class="t-label t-muted">MOQ</dt><dd class="t-mono">{s.moq}</dd></div>
+            </dl>
+            <span class="svc__arrow" aria-hidden="true"><Icon name="arrowUpRight" size={18} /></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- NGÀNH HÀNG -->
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead eyebrow="Ngành hàng" title="Năm ngành hàng chủ lực, sẵn sàng tuỳ biến theo thương hiệu của bạn." split text="Mỗi ngành hàng có dây chuyền chuyên biệt, phòng thử nghiệm riêng và đội kỹ sư hiểu sâu sản phẩm.">
+        <a href="/san-pham/" class="btn btn--ghost btn--sm">Tất cả sản phẩm</a>
+      </SectionHead>
+      <div class="cat-scroller">
+        {categories.map((c, i) => <CategoryCard category={c} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- NHÀ MÁY / NĂNG LỰC -->
+  <section class="section">
+    <div class="container">
+      <div class="split split--reverse">
+        <div class="stack" style="--stack:24px">
+          <p class="eyebrow reveal">Năng lực sản xuất</p>
+          <h2 class="t-heading-lg t-balance reveal" style="--d:.05s">Công suất của một tập đoàn. Sự linh hoạt của một xưởng thủ công.</h2>
+          <p class="t-body t-muted reveal" style="--d:.1s">24 dây chuyền bán tự động có thể chuyển đổi mẫu trong 4 giờ, cho phép chạy đơn hàng từ 300 đến 300.000 sản phẩm với cùng một tiêu chuẩn chất lượng.</p>
+          <div class="cap-list reveal" style="--d:.14s">
+            {[
+              ['factory', 'Nhà máy & dây chuyền', '/ve-homichi/nang-luc/nha-may/'],
+              ['pen', 'R&D & thiết kế', '/ve-homichi/nang-luc/rd-thiet-ke/'],
+              ['shield', 'Kiểm soát chất lượng', '/ve-homichi/nang-luc/kiem-soat-chat-luong/'],
+              ['truck', 'Chuỗi cung ứng & logistics', '/ve-homichi/nang-luc/chuoi-cung-ung/'],
+            ].map(([icon, label, href]) => (
+              <a href={href} class="cap-list__item">
+                <Icon name={icon} size={20} />
+                <span>{label}</span>
+                <Icon name="arrow" size={16} class="cap-list__arrow" />
+              </a>
+            ))}
+          </div>
+        </div>
+        <div class="factory-visual reveal">
+          <Frame art="factory" tone="sage" ratio="tall" pad="10%" tag="Tham quan 360°" />
+          <a href="/ve-homichi/nang-luc/tham-quan-nha-may/" class="factory-visual__play" aria-label="Xem video tham quan nhà máy">
+            <Icon name="play" size={22} />
+          </a>
+          <div class="factory-visual__card">
+            <p class="t-mono t-muted">Tỉ lệ lỗi xuất xưởng</p>
+            <p class="factory-visual__num">&lt; 0,3<small>%</small></p>
+            <p class="t-caption t-muted">AQL 0,65 · kiểm 100% an toàn điện</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUY TRÌNH -->
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Quy trình hợp tác" title="Bảy bước, một đầu mối, tiến độ minh bạch theo tuần." split text="Mỗi dự án có một kỹ sư quản lý dự án riêng, cập nhật tiến độ và rủi ro hàng tuần qua báo cáo trực tuyến.">
+        <a href="/dich-vu/quy-trinh-hop-tac/" class="link-arrow">Chi tiết quy trình</a>
+      </SectionHead>
+      <ol class="process">
+        {processSteps.map((s, i) => (
+          <li class="process__step reveal" style={`--d:${i * 0.05}s`}>
+            <span class="process__num t-mono">{s.code}</span>
+            <span class="process__dot" aria-hidden="true"></span>
+            <h3 class="process__title">{s.title}</h3>
+            <p class="t-mono t-muted">{s.time}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CHỨNG NHẬN -->
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:24px">
+          <p class="eyebrow reveal">Chứng nhận & tiêu chuẩn</p>
+          <h2 class="t-heading-lg t-balance reveal" style="--d:.05s">Chất lượng được kiểm chứng bởi những tổ chức khắt khe nhất.</h2>
+          <p class="t-body t-muted reveal" style="--d:.1s">Hệ thống quản lý đạt chuẩn quốc tế, sản phẩm được chứng nhận cho thị trường Việt Nam, EU, Trung Đông và châu Á.</p>
+          <a href="/ve-homichi/nang-luc/chung-nhan/" class="link-arrow reveal" style="--d:.14s">Xem tất cả chứng nhận</a>
+        </div>
+        <ul class="cert-grid">
+          {certifications.slice(0, 6).map((c, i) => (
+            <li class="cert reveal" style={`--d:${i * 0.05}s`}>
+              <span class="cert__seal" aria-hidden="true"><Icon name="shield" size={18} /></span>
+              <p class="cert__code">{c.code}</p>
+              <p class="t-caption t-muted">{c.name}</p>
+              <p class="t-mono t-muted cert__org">{c.org}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ĐỐI TÁC + CASE STUDY -->
+  <section class="section section--stone">
+    <div class="container">
+      <Partners />
+      <div class="case-feature mt-64">
+        <a href={`/du-an-doi-tac/${caseStudies[0].slug}/`} class="case-feature__link reveal">
+          <Frame art={caseStudies[0].art} tone="dark" ratio="wide" tag={`Case study · ${caseStudies[0].model}`} />
+          <div class="case-feature__body">
+            <p class="t-mono t-muted">{caseStudies[0].client}</p>
+            <h3 class="t-heading-sm t-balance">{caseStudies[0].title}</h3>
+            <dl class="case-feature__results">
+              {caseStudies[0].results.map(([v, l]) => (
+                <div><dt class="case-feature__value">{v}</dt><dd class="t-caption t-muted">{l}</dd></div>
+              ))}
+            </dl>
+            <span class="link-arrow">Đọc case study</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIN TỨC -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Tin tức & sự kiện" title="Từ nhà máy Homichi." split>
+        <a href="/tin-tuc/" class="link-arrow">Tất cả tin tức</a>
+      </SectionHead>
+      <div class="grid grid-3">
+        {latest.map((p, i) => <NewsCard post={p} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<script>
+  // Hero: luân phiên minh hoạ ngành hàng
+  const root = document.querySelector<HTMLElement>('[data-hero-slider]');
+  if (root) {
+    const slides = root.querySelectorAll<HTMLElement>('[data-slide]');
+    const labels = root.querySelectorAll<HTMLElement>('[data-label]');
+    const dots = root.querySelectorAll<HTMLButtonElement>('[data-dot]');
+    let i = 0; let timer: number | undefined;
+    const go = (n: number) => {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => { s.classList.toggle('is-active', k === i); s.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+      labels.forEach((s, k) => s.classList.toggle('is-active', k === i));
+      dots.forEach((d, k) => d.setAttribute('aria-pressed', String(k === i)));
+    };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const play = () => { if (!reduce) timer = window.setInterval(() => go(i + 1), 4200); };
+    const stop = () => window.clearInterval(timer);
+    dots.forEach((d) => d.addEventListener('click', () => { stop(); go(Number(d.dataset.dot)); play(); }));
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', () => { stop(); play(); });
+    play();
+  }
+</script>
+
+<style>
+  .hero { padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(56px, 7vw, 96px); overflow: hidden; }
+  .hero__grid { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 1024px) { .hero__grid { grid-template-columns: 1.08fr 0.92fr; gap: 56px; } }
+  .hero__text { display: grid; gap: 28px; }
+  .hero__lead { max-width: 540px; }
+  .hero__visual { position: relative; display: grid; gap: 20px; }
+  .hero__stage { position: relative; aspect-ratio: 1 / 1; border-radius: var(--radius-large-cards); background: var(--color-warm-stone); overflow: hidden; display: grid; place-items: center; }
+  @media (min-width: 1024px) { .hero__stage { aspect-ratio: 5 / 5.4; } }
+  .hero__slide { position: absolute; inset: 12%; display: grid; place-items: center; opacity: 0; transform: scale(.96); transition: opacity .9s var(--ease), transform 1.2s var(--ease); }
+  .hero__slide.is-active { opacity: 1; transform: none; }
+  .hero__ring { position: absolute; width: 78%; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line-dark); pointer-events: none; }
+  .hero__ring::after { content: ''; position: absolute; inset: 9%; border-radius: 50%; border: 1px dashed rgba(28,58,19,.12); animation: spin 60s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .hero__ring::after { animation: none; } }
+  .hero__specimen { position: absolute; left: 20px; top: 20px; right: 20px; min-height: 80px; }
+  .hero__label { position: absolute; inset: 0 auto auto 0; display: grid; gap: 8px; justify-items: start; padding: 14px 16px; border-radius: var(--radius-cards); background: rgba(252,252,247,.72); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); opacity: 0; transform: translateY(8px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+  .hero__label.is-active { opacity: 1; transform: none; transition-delay: .2s; }
+  .hero__dots { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hero__dots button { padding: 8px 14px; border-radius: var(--radius-full); border: 1.5px solid var(--line-dark); font-size: var(--text-label); transition: all .25s var(--ease); }
+  .hero__dots button:hover { border-color: var(--color-forest-depths); }
+  .hero__dots button[aria-pressed='true'] { background: var(--color-forest-depths); border-color: var(--color-forest-depths); color: var(--color-snow-white); }
+  .hero__stats { margin-top: clamp(56px, 7vw, 96px); }
+
+  .about-mosaic { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .about-mosaic__a { grid-column: 1 / -1; }
+
+  .svc { padding: 28px; min-height: 380px; }
+  .svc__meta { display: grid; gap: 14px; padding-top: 20px; border-top: 1px solid var(--line-dark); }
+  .svc__meta dd { margin: 4px 0 0; font-size: var(--text-caption); }
+  .svc__arrow { position: absolute; right: 24px; bottom: 24px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--color-snow-white); transition: background-color .3s, transform .3s var(--ease); }
+  .svc:hover .svc__arrow { background: var(--color-lime-pulse); transform: rotate(45deg); }
+
+  .cat-scroller { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(260px, 1fr); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: rgba(252,252,247,.3) transparent; }
+  .cat-scroller > :global(*) { scroll-snap-align: start; }
+  @media (min-width: 1200px) { .cat-scroller { grid-auto-flow: row; grid-template-columns: repeat(5, 1fr); overflow: visible; } }
+  .section--dark :global(.ccard .t-muted) { color: rgba(252,252,247,.68); }
+
+  .cap-list { display: grid; border-top: 1px solid var(--line-dark); }
+  .cap-list__item { display: grid; grid-template-columns: 24px 1fr 16px; gap: 16px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line-dark); font-size: var(--text-body); transition: padding .3s var(--ease); }
+  .cap-list__item:hover { padding-left: 8px; }
+  .cap-list__item :global(.cap-list__arrow) { transition: transform .3s var(--ease); }
+  .cap-list__item:hover :global(.cap-list__arrow) { transform: translateX(4px); }
+
+  .factory-visual { position: relative; }
+  .factory-visual__play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 88px; height: 88px; border-radius: 50%; display: grid; place-items: center; background: var(--color-snow-white); color: var(--color-forest-depths); transition: transform .4s var(--ease), background-color .3s; }
+  .factory-visual__play:hover { transform: scale(1.08); background: var(--color-lime-pulse); }
+  .factory-visual__card { position: absolute; right: 20px; bottom: 20px; left: 20px; max-width: 280px; margin-left: auto; padding: 20px; border-radius: var(--radius-cards); background: rgba(252,252,247,.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); display: grid; gap: 6px; }
+  .factory-visual__num { font-size: 48px; font-weight: 300; letter-spacing: -0.04em; line-height: 1; }
+  .factory-visual__num small { font-size: 24px; }
+
+  .process { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); position: relative; }
+  .process::before { content: ''; position: absolute; left: 0; right: 0; top: 44px; height: 1px; background: var(--line-dark); }
+  .process__step { display: grid; gap: 10px; align-content: start; padding: 0 16px 24px 0; position: relative; }
+  .process__dot { width: 13px; height: 13px; border-radius: 50%; background: var(--color-warm-stone); border: 1.5px solid var(--color-forest-depths); margin: 10px 0 12px; position: relative; z-index: 1; transition: background-color .3s; }
+  .process__step:hover .process__dot { background: var(--color-lime-pulse); }
+  .process__num { color: var(--color-sage-moss); }
+  .process__title { font-size: 17px; font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; }
+  @media (max-width: 720px) {
+    .process { grid-template-columns: 1fr; }
+    .process::before { left: 6px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
+    .process__step { grid-template-columns: 13px 1fr; column-gap: 20px; padding-bottom: 28px; }
+    .process__dot { grid-row: 1 / span 3; grid-column: 1; margin: 4px 0 0; }
+    .process__num, .process__title, .process__step p { grid-column: 2; }
+  }
+
+  .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (min-width: 720px) { .cert-grid { grid-template-columns: repeat(3, 1fr); } }
+  .cert { display: grid; gap: 6px; align-content: start; padding: 24px 20px; border-radius: var(--radius-cards); border: 1.5px solid var(--line-dark); transition: border-color .3s; }
+  .cert:hover { border-color: var(--color-forest-depths); }
+  .cert__seal { width: 40px; height: 40px; border-radius: 50%; background: var(--color-lime-pulse); display: grid; place-items: center; margin-bottom: 12px; }
+  .cert__code { font-size: 20px; font-weight: 350; letter-spacing: -0.02em; }
+  .cert__org { margin-top: 8px; }
+
+  .case-feature__link { display: grid; gap: 32px; align-items: center; padding: 16px; border-radius: var(--radius-large-cards); background: var(--color-snow-white); transition: background-color .3s; }
+  @media (min-width: 960px) { .case-feature__link { grid-template-columns: 1.1fr 0.9fr; gap: 56px; padding: 16px 56px 16px 16px; } }
+  .case-feature__body { display: grid; gap: 20px; justify-items: start; padding: 8px 8px 24px; }
+  .case-feature__results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; padding-block: 20px; border-block: 1px solid var(--line-dark); }
+  .case-feature__value { font-size: clamp(24px, 2.6vw, 32px); font-weight: 300; letter-spacing: -0.03em; }
+  .case-feature__results dd { margin: 4px 0 0; }
+</style>

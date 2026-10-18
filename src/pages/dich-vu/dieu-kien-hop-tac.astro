@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import CTA from '../../components/CTA.astro';
+import { categories } from '../../data/products';
+---
+<Base title="MOQ, thời gian & điều kiện hợp tác" description="MOQ, lead time, điều khoản thanh toán, bảo hành và phí khuôn mẫu khi hợp tác ODM/OEM với Homichi.">
+  <PageHero eyebrow="Điều kiện hợp tác" title="Minh bạch ngay từ đầu: MOQ, thời gian, thanh toán, bảo hành." lead="Các giá trị dưới đây là khoảng tham chiếu. Điều kiện cụ thể được thống nhất trong báo giá và hợp đồng cho từng dự án." crumbs={[{ label: 'Dịch vụ ODM/OEM', href: '/dich-vu/' }, { label: 'Điều kiện hợp tác' }]} />
+
+  <section class="section section--tight">
+    <div class="container">
+      <SectionHead eyebrow="Theo ngành hàng" title="MOQ & thời gian sản xuất tham khảo." />
+      <div class="tbl reveal" role="region" aria-label="Bảng MOQ theo ngành hàng" tabindex="0">
+        <table>
+          <thead><tr><th>Ngành hàng</th><th>MOQ / mẫu</th><th>Lead time đơn đầu</th><th>Tái đặt hàng</th><th>Bảo hành</th></tr></thead>
+          <tbody>
+            {categories.map((c, i) => (
+              <tr>
+                <th scope="row"><a href={`/san-pham/${c.slug}/`}><span class="pill">{c.code}</span> {c.name}</a></th>
+                <td class="t-mono">{['500 – 1.000', '300 – 500', '500 – 1.000', '200 – 300', '500'][i]} sp</td>
+                <td class="t-mono">{['35 – 50', '45 – 60', '30 – 55', '35 – 50', '30 – 45'][i]} ngày</td>
+                <td class="t-mono">{['25 – 35', '35 – 45', '25 – 35', '25 – 35', '25 – 35'][i]} ngày</td>
+                <td class="t-mono">{['12 – 24', '24 – 36', '24 – 36', '24 – 36', '24 – 84'][i]} tháng</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <div class="terms">
+        {[
+          ['Thanh toán', ['Đặt cọc 30% khi xác nhận PO', '70% trước khi giao hàng hoặc L/C at sight', 'Khách hàng lâu năm: công nợ 30 – 60 ngày']],
+          ['Phí khuôn mẫu', ['Báo giá riêng theo thiết kế', 'Hoàn lại theo sản lượng tích luỹ (thường 50.000 – 100.000 sp)', 'Khuôn thuộc sở hữu khách hàng (OEM/ODM độc quyền)']],
+          ['Mẫu thử', ['Private label: miễn phí 1 – 2 mẫu', 'OEM/ODM: tính phí, khấu trừ vào đơn hàng đầu', 'Thời gian: 7 – 30 ngày tuỳ mô hình']],
+          ['Chất lượng & bảo hành', ['Tiêu chuẩn AQL theo thoả thuận', '1 – 2% linh kiện dự phòng miễn phí', 'Hỗ trợ kỹ thuật & đào tạo trạm bảo hành']],
+          ['Giao hàng', ['FOB Cát Lái, CIF, DDP nội địa', 'Đóng container 20’/40’/40’HC', 'Kiểm hàng bên thứ ba theo yêu cầu (SGS, BV, Intertek)']],
+          ['Bảo mật', ['NDA trước khi trao đổi kỹ thuật', 'Không sử dụng thiết kế độc quyền cho bên thứ ba', 'Quản lý truy cập hồ sơ theo dự án']],
+        ].map(([t, items], i) => (
+          <article class="card card--canvas reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <h2 class="t-subheading">{t}</h2>
+            <ul class="check-list">{(items as string[]).map((it) => <li class="t-caption">{it}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .tbl { overflow-x: auto; }
+  .tbl table { width: 100%; min-width: 720px; border-collapse: collapse; }
+  .tbl th, .tbl td { text-align: left; padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line-dark); font-size: var(--text-caption); }
+  .tbl thead th { font-weight: 500; color: var(--color-pewter); font-size: var(--text-label); text-transform: uppercase; letter-spacing: .06em; }
+  .tbl tbody th { font-weight: 400; font-size: var(--text-body-sm); }
+  .tbl tbody th a { display: inline-flex; gap: 12px; align-items: center; }
+  .tbl tbody tr:hover { background: var(--color-warm-stone); }
+  .terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+</style>

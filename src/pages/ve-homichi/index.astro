@@ -1,0 +1,122 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Frame from '../../components/Frame.astro';
+import Stats from '../../components/Stats.astro';
+import Icon from '../../components/Icon.astro';
+import Partners from '../../components/Partners.astro';
+import CTA from '../../components/CTA.astro';
+import { values, timeline } from '../../data/content';
+---
+<Base title="Giới thiệu Homichi" description="Câu chuyện, tầm nhìn, sứ mệnh và giá trị cốt lõi của Homichi — nhà sản xuất ODM/OEM thiết bị điện gia dụng tại Việt Nam.">
+  <PageHero
+    eyebrow="Giới thiệu Homichi"
+    title="Chúng tôi chế tạo những thiết bị mà hàng triệu gia đình dùng mỗi ngày — dưới tên những thương hiệu khác."
+    lead="Từ năm 2009, Homichi lặng lẽ đứng sau hơn 60 thương hiệu gia dụng tại 14 quốc gia. Chúng tôi tin một sản phẩm tốt được quyết định ở nhà máy, rất lâu trước khi nó xuất hiện trên kệ hàng."
+    crumbs={[{ label: 'Về Homichi' }]}
+  >
+    <a href="/ho-so-nang-luc/" class="btn btn--primary">Tải hồ sơ năng lực <Icon name="download" size={16} /></a>
+    <a href="/dat-lich-tham-quan/" class="btn btn--light">Đặt lịch tham quan nhà máy</a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="reveal"><Frame art="factory" tone="dark" ratio="wide" pad="8% 22% 10%" caption="Nhà máy Homichi · KCN Tân Phú Trung, Củ Chi" captionRight="Ảnh minh hoạ — thay bằng ảnh thực tế" /></div>
+      <div class="mt-64"><Stats /></div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <div class="vm">
+        <div class="vm__item reveal">
+          <p class="eyebrow">Tầm nhìn</p>
+          <p class="t-heading-sm t-balance">Trở thành nhà sản xuất ODM thiết bị gia dụng được tin cậy nhất Đông Nam Á vào năm 2030.</p>
+        </div>
+        <div class="vm__item reveal" style="--d:.08s">
+          <p class="eyebrow">Sứ mệnh</p>
+          <p class="t-heading-sm t-balance">Giúp các thương hiệu đưa sản phẩm chất lượng quốc tế ra thị trường nhanh hơn, với chi phí minh bạch và trách nhiệm với môi trường.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Giá trị cốt lõi" title="Bốn nguyên tắc định hình cách chúng tôi làm việc." />
+      <div class="grid grid-4">
+        {values.map((v, i) => (
+          <article class="card reveal" style={`--d:${i * 0.06}s`}>
+            <span class="card__num">{v.code}</span>
+            <h3 class="t-subheading">{v.title}</h3>
+            <p class="t-muted">{v.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:24px">
+          <p class="eyebrow reveal">Thư ngỏ từ CEO</p>
+          <blockquote class="t-heading-sm reveal quote">“Chúng tôi không xây nhà máy để cạnh tranh về giá. Chúng tôi xây nó để mỗi thương hiệu đối tác có thể tự hào đặt tên mình lên sản phẩm.”</blockquote>
+          <p class="t-mono t-muted reveal">Ông Nguyễn Minh Khôi — Nhà sáng lập & CEO</p>
+          <a href="/ve-homichi/doi-ngu-lanh-dao/" class="link-arrow reveal">Đội ngũ lãnh đạo</a>
+        </div>
+        <div class="reveal"><Frame art="people" tone="sage" ratio="default" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Hành trình" title="17 năm, từ xưởng 1.500 m² đến nhà máy 62.000 m²." split>
+        <a href="/ve-homichi/hanh-trinh-phat-trien/" class="link-arrow">Xem toàn bộ hành trình</a>
+      </SectionHead>
+      <ol class="mini-timeline">
+        {timeline.filter((_, i) => i % 2 === 1).map((t, i) => (
+          <li class="reveal" style={`--d:${i * 0.06}s`}>
+            <span class="mini-timeline__year">{t.year}</span>
+            <p class="t-caption">{t.title}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Khám phá thêm" title="Tìm hiểu Homichi sâu hơn." />
+      <div class="grid grid-3">
+        {[
+          ['Hệ sinh thái & thương hiệu thành viên', 'Các thương hiệu được phát triển trên nền tảng năng lực Homichi.', '/ve-homichi/he-sinh-thai/', 'layers'],
+          ['Văn hoá & con người', '1.200 con người, một tiêu chuẩn chung về sự tỉ mỉ.', '/ve-homichi/van-hoa-con-nguoi/', 'users'],
+          ['Trách nhiệm xã hội & ESG', 'Năng lượng sạch, vật liệu tái chế, môi trường làm việc an toàn.', '/ve-homichi/esg/', 'leaf'],
+        ].map(([t, d, h, icon], i) => (
+          <article class="card card--link reveal" style={`--d:${i * 0.06}s`}>
+            <Icon name={icon} size={24} />
+            <h3 class="t-subheading"><a href={h} class="stretched">{t}</a></h3>
+            <p class="t-muted">{d}</p>
+            <span class="card__foot link-arrow">Xem thêm</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight section--stone"><div class="container"><Partners /></div></section>
+  <CTA />
+</Base>
+
+<style>
+  .vm { display: grid; gap: 48px; }
+  @media (min-width: 900px) { .vm { grid-template-columns: 1fr 1fr; gap: 80px; } }
+  .vm__item { display: grid; gap: 20px; align-content: start; padding-top: 24px; border-top: 1px solid var(--line-dark); }
+  .quote { font-weight: 300; }
+  .mini-timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .mini-timeline li { padding-top: 20px; border-top: 1.5px solid var(--color-forest-depths); display: grid; gap: 8px; }
+  .mini-timeline__year { font-size: 48px; font-weight: 300; letter-spacing: -0.04em; line-height: 1; }
+</style>

@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Art from '../components/Art.astro';
+import { site } from '../data/site';
+// Trang cảm ơn — dùng làm mục tiêu chuyển đổi cho Ads/GA4 (lọc theo ?type=rfq|contact|profile|visit).
+---
+<Base title="Cảm ơn bạn" description="Homichi đã nhận được thông tin của bạn." noindex>
+  <section class="thanks">
+    <div class="container">
+      <div class="thanks__inner">
+        <span class="thanks__check" aria-hidden="true"><Icon name="check" size={32} /></span>
+        <p class="eyebrow">Đã nhận thông tin</p>
+        <h1 class="t-display t-balance" data-thanks-title>Cảm ơn bạn. Chúng tôi sẽ liên hệ sớm.</h1>
+        <p class="t-body t-muted" data-thanks-text>Một chuyên viên của Homichi sẽ phản hồi qua email trong thời gian sớm nhất. Nếu cần gấp, vui lòng gọi {site.hotline}.</p>
+        <div class="btn-row">
+          <a href="/ve-homichi/nang-luc/" class="btn btn--primary">Xem năng lực sản xuất <Icon name="arrow" size={16} /></a>
+          <a href="/" class="btn btn--light">Về trang chủ</a>
+        </div>
+      </div>
+    </div>
+    <div class="thanks__art" aria-hidden="true"><Art name="circuit" /></div>
+  </section>
+</Base>
+<script>
+  const type = new URLSearchParams(location.search).get('type');
+  const copy: Record<string, [string, string]> = {
+    rfq: ['Yêu cầu báo giá đã được gửi.', 'Kỹ sư dự án sẽ phản hồi phương án kỹ thuật và báo giá sơ bộ trong vòng 48 giờ làm việc. Mã yêu cầu đã được gửi tới email của bạn.'],
+    profile: ['Hồ sơ năng lực đang được tải xuống.', 'Nếu tệp không tự tải, hãy kiểm tra email — chúng tôi đã gửi kèm đường dẫn tải.'],
+    visit: ['Đã nhận yêu cầu đặt lịch.', 'Chúng tôi sẽ xác nhận lịch tham quan qua email trong vòng 24 giờ.'],
+    contact: ['Cảm ơn bạn đã liên hệ.', 'Đội ngũ kinh doanh sẽ phản hồi trong vòng 4 giờ làm việc.'],
+    interest: ['Đăng ký thành công.', 'Chúng tôi sẽ thông báo khi ngành hàng mới sẵn sàng.'],
+  };
+  if (type && copy[type]) {
+    const [t, d] = copy[type];
+    const h = document.querySelector('[data-thanks-title]'); const p = document.querySelector('[data-thanks-text]');
+    if (h) h.textContent = t; if (p) p.textContent = d;
+  }
+  // Điểm gắn sự kiện chuyển đổi (GA4 / Ads) khi người dùng đồng ý cookie
+  (window as any).dataLayer?.push({ event: 'generate_lead', form_type: type || 'unknown' });
+</script>
+<style>
+  .thanks { position: relative; overflow: hidden; padding-block: clamp(80px, 12vw, 160px); min-height: 70vh; }
+  .thanks__inner { position: relative; z-index: 1; display: grid; gap: 24px; justify-items: start; max-width: 760px; }
+  .thanks__check { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--color-lime-pulse); }
+  .thanks__art { position: absolute; right: -10%; bottom: -10%; width: min(800px, 80vw); opacity: .12; }
+</style>

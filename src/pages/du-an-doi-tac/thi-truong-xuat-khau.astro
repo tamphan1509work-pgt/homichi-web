@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Art from '../../components/Art.astro';
+import CTA from '../../components/CTA.astro';
+import { markets } from '../../data/content';
+const countries = ['Việt Nam', 'Campuchia', 'Lào', 'Thái Lan', 'Malaysia', 'Philippines', 'Nhật Bản', 'Hàn Quốc', 'UAE', 'Ả Rập Xê-út', 'Đức', 'Ba Lan', 'Úc', 'New Zealand'];
+---
+<Base title="Thị trường xuất khẩu" description="Các quốc gia và khu vực Homichi đã cung cấp sản phẩm ODM/OEM.">
+  <PageHero eyebrow="Thị trường xuất khẩu" title="Từ Củ Chi đến 14 quốc gia trên 4 châu lục." lead="Kinh nghiệm đáp ứng tiêu chuẩn kỹ thuật, nhãn mác và chứng từ cho từng thị trường." crumbs={[{ label: 'Dự án & Đối tác', href: '/du-an-doi-tac/' }, { label: 'Thị trường xuất khẩu' }]}>
+    <div slot="aside" class="globe"><Art name="globe" /></div>
+  </PageHero>
+  <section class="section section--tight">
+    <div class="container">
+      <div class="mx">
+        {markets.map((m, i) => (
+          <article class="card reveal" style={`--d:${i * 0.05}s`}>
+            <p class="mx__share">{m.share}<small>%</small></p>
+            <h2 class="t-subheading">{m.region}</h2>
+            <p class="t-caption t-muted">{m.note}</p>
+          </article>
+        ))}
+      </div>
+      <ul class="countries mt-48">
+        {countries.map((c) => <li class="pill">{c}</li>)}
+      </ul>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .globe { aspect-ratio: 4 / 3; border-radius: var(--radius-large-cards); background: var(--color-warm-stone); padding: 8%; display: grid; place-items: center; }
+  .mx { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 16px; }
+  .mx__share { font-size: 56px; font-weight: 300; letter-spacing: -0.05em; line-height: 1; }
+  .mx__share small { font-size: 24px; }
+  .countries { display: flex; flex-wrap: wrap; gap: 8px; }
+</style>

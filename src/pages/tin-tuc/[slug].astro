@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import Frame from '../../components/Frame.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { posts, categoryName, formatDate } from '../../data/content';
+
+export function getStaticPaths() {
+  return posts.map((p) => ({ params: { slug: p.slug } }));
+}
+const p = posts.find((x) => x.slug === Astro.params.slug)!;
+const related = posts.filter((x) => x.slug !== p.slug).sort((a, b) => (a.category === p.category ? -1 : 1) - (b.category === p.category ? -1 : 1)).slice(0, 3);
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: p.title, datePublished: p.date, description: p.excerpt, author: { '@type': 'Organization', name: 'Homichi' }, mainEntityOfPage: url };
+const isKnowledge = p.category === 'kien-thuc-odm-oem';
+const isFair = p.category === 'hoi-cho-trien-lam';
+---
+<Base title={p.title} description={p.excerpt} ogType="article" jsonLd={ld}>
+  <article class="post">
+    <div class="container container--narrow">
+      <Breadcrumb items={[{ label: 'Tin tức', href: '/tin-tuc/' }, { label: categoryName(p.category), href: `/tin-tuc/chuyen-muc/${p.category}/` }, { label: 'Bài viết' }]} />
+      <header class="post__head">
+        <p class="t-mono t-muted">{categoryName(p.category)} · <time datetime={p.date}>{formatDate(p.date)}</time> · {p.read} đọc</p>
+        <h1 class="t-display t-balance">{p.title}</h1>
+        <p class="t-body t-muted">{p.excerpt}</p>
+      </header>
+    </div>
+    <div class="container"><Frame art={p.art} tone={p.tone} ratio="wide" pad="10% 24%" /></div>
+    <div class="container container--narrow">
+      <div class="prose post__body" set:html={p.body} />
+      <footer class="post__foot">
+        <span class="t-mono t-muted">Chia sẻ</span>
+        <a class="share" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Chia sẻ LinkedIn"><Icon name="linkedin" size={16} /></a>
+        <a class="share" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener" aria-label="Chia sẻ Facebook"><Icon name="facebook" size={16} /></a>
+        <button class="share" type="button" data-copy={url} aria-label="Sao chép liên kết"><Icon name="file" size={16} /></button>
+      </footer>
+    </div>
+  </article>
+  <section class="section section--stone">
+    <div class="container">
+      <p class="eyebrow">Bài viết liên quan</p>
+      <div class="grid grid-3 mt-32">{related.map((r, i) => <NewsCard post={r} index={i} />)}</div>
+    </div>
+  </section>
+  {isFair
+    ? <CTA title="Gặp chúng tôi tại triển lãm." text="Đặt lịch hẹn trước để gặp trực tiếp đội ngũ kỹ sư dự án và xem mẫu sản phẩm mới." primary={{ label: 'Đặt lịch gặp', href: '/dat-lich-tham-quan/?type=trien-lam' }} />
+    : isKnowledge ? <CTA title="Sẵn sàng bắt đầu dự án ODM/OEM?" /> : <CTA />}
+</Base>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(b.dataset.copy || location.href); b.setAttribute('aria-label', 'Đã sao chép'); b.classList.add('is-done'); } catch { /* ignore */ }
+  }));
+</script>
+<style>
+  .post { padding-top: 32px; }
+  .post__head { display: grid; gap: 20px; margin-block: 48px; }
+  .post__body { margin-top: 56px; }
+  .post__foot { display: flex; align-items: center; gap: 8px; margin-block: 56px var(--section-pad); padding-top: 24px; border-top: 1px solid var(--line-dark); }
+  .post__foot .t-mono { margin-right: 8px; }
+  .share { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--line-dark); transition: background-color .25s, border-color .25s; }
+  .share:hover, .share.is-done { background: var(--color-lime-pulse); border-color: var(--color-lime-pulse); }
+</style>

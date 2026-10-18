@@ -1,0 +1,63 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import Stats from '../../../components/Stats.astro';
+import Frame from '../../../components/Frame.astro';
+import CTA from '../../../components/CTA.astro';
+const stages = [
+  ['IQC', 'Kiểm tra đầu vào', 'Lấy mẫu linh kiện theo AQL II, kiểm vật liệu bằng XRF (RoHS), đánh giá nhà cung cấp hằng quý.'],
+  ['IPQC', 'Kiểm soát trong quá trình', 'Kiểm tra mẫu đầu ca, SPC cho kích thước quan trọng, poka-yoke tại trạm lắp ráp.'],
+  ['FQC', 'Kiểm tra 100% cuối dây chuyền', 'Hi-pot, rò điện, nối đất, chạy thử chức năng, kiểm ngoại quan dưới đèn chuẩn D65.'],
+  ['OQC', 'Kiểm tra xuất xưởng', 'Lấy mẫu theo AQL 0,65/1,5/4,0, thử rơi ISTA 2A, kiểm đóng gói & nhãn mác.'],
+  ['ORT', 'Thử nghiệm độ tin cậy', 'Lấy mẫu định kỳ để chạy tuổi thọ, nhiệt ẩm, sốc nhiệt — dự báo tỉ lệ lỗi thị trường.'],
+];
+---
+<Base title="Kiểm soát chất lượng (QC/QA)" description="Hệ thống kiểm soát chất lượng IQC – IPQC – FQC – OQC của Homichi, phòng thử nghiệm và tỉ lệ lỗi xuất xưởng.">
+  <PageHero eyebrow="Kiểm soát chất lượng" title="Năm lớp kiểm soát. Một mục tiêu: không có lỗi đến tay người dùng." lead="Hệ thống quản lý chất lượng ISO 9001:2015 với 120 nhân sự QC/QA và phòng thử nghiệm nội bộ — kết quả kiểm tra của từng sản phẩm được lưu trữ và truy xuất bằng mã QR." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'Kiểm soát chất lượng' }]} art="qc" tone="stone" />
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 0.3, suffix: '%', label: 'tỉ lệ lỗi xuất xưởng mục tiêu (< 0,3%)' },
+        { value: 100, suffix: '%', label: 'sản phẩm được kiểm an toàn điện' },
+        { value: 120, label: 'nhân sự QC/QA' },
+        { value: 36, label: 'hạng mục thử nghiệm tại lab nội bộ' },
+      ]} />
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Quy trình chất lượng" title="Từ linh kiện đầu vào đến container xuất khẩu." />
+      <ol class="qc">
+        {stages.map(([code, t, d], i) => (
+          <li class="qc__row reveal" style={`--d:${i * 0.05}s`}>
+            <span class="pill">{code}</span>
+            <h3 class="t-subheading">{t}</h3>
+            <p class="t-muted">{d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Phòng thử nghiệm</p>
+          <h2 class="t-heading-lg t-balance">Thử nghiệm như phòng lab độc lập — ngay tại nhà máy.</h2>
+          <dl class="spec-list">
+            {[['An toàn điện', 'IEC 60335 — Hi-pot, rò điện, nhiệt độ tăng'], ['Độ bền', 'Tuổi thọ công tắc, motor, bản lề 10.000+ chu kỳ'], ['Môi trường', 'Nhiệt ẩm 40 °C / 93% RH, sốc nhiệt'], ['Cơ học', 'Thử rơi, rung, va đập IK'], ['Hiệu suất', 'Buồng enthalpy, buồng tiêu âm, đo lưu lượng'], ['EMC tiền kiểm', 'Phát xạ dẫn & bức xạ']].map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+          </dl>
+        </div>
+        <Frame art="lab" tone="sage" ratio="tall" />
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .qc { border-top: 1px solid var(--line-dark); }
+  .qc__row { display: grid; gap: 12px; padding: 28px 0; border-bottom: 1px solid var(--line-dark); align-items: baseline; }
+  @media (min-width: 900px) { .qc__row { grid-template-columns: 120px 1fr 1.4fr; gap: 32px; } }
+  .qc__row .pill { justify-self: start; }
+</style>

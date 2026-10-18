@@ -1,0 +1,55 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Art from '../../../components/Art.astro';
+import CTA from '../../../components/CTA.astro';
+import { certifications } from '../../../data/content';
+---
+<Base title="Chứng nhận & tiêu chuẩn" description="Chứng nhận ISO 9001, ISO 14001, ISO 45001, CE, CB, RoHS, BSCI của Homichi — chỉ hiển thị chứng nhận còn hiệu lực.">
+  <PageHero eyebrow="Chứng nhận & tiêu chuẩn" title="Được đánh giá độc lập. Được công nhận quốc tế." lead="Danh sách chỉ bao gồm các chứng nhận còn hiệu lực. Bản sao chứng nhận được cung cấp theo yêu cầu cho mục đích đánh giá nhà cung cấp." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'Chứng nhận' }]} />
+  <section class="section section--tight">
+    <div class="container">
+      <ul class="certs">
+        {certifications.map((c, i) => (
+          <li class="certs__item reveal" style={`--d:${(i % 4) * 0.05}s`}>
+            <div class="certs__doc"><Art name="cert" /></div>
+            <div class="certs__body">
+              <p class="t-subheading">{c.code}</p>
+              <p class="t-caption t-muted">{c.name}</p>
+              <dl class="certs__meta">
+                <div><dt class="t-label t-muted">Tổ chức cấp</dt><dd class="t-mono">{c.org}</dd></div>
+                <div><dt class="t-label t-muted">Hiệu lực</dt><dd class="t-mono">{c.valid}</dd></div>
+              </dl>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Chứng nhận cho thị trường xuất khẩu</p>
+          <h2 class="t-heading-lg t-balance">Chúng tôi lo hồ sơ chứng nhận, bạn tập trung vào thị trường.</h2>
+          <p class="t-body t-muted">Homichi có kinh nghiệm hoàn thiện hồ sơ cho các thị trường dưới đây, phối hợp cùng TÜV Rheinland, Intertek, SGS và Quatest 3.</p>
+        </div>
+        <ul class="markets">
+          {[['EU', 'CE · ERP · RoHS · REACH'], ['Quốc tế', 'CB Scheme (IECEE)'], ['Việt Nam', 'QCVN 4 · QCVN 9 · nhãn năng lượng'], ['Ả Rập Xê-út', 'SASO · SABER'], ['Hàn Quốc', 'KC'], ['Úc', 'SAA · RCM']].map(([m, c]) => <li><span>{m}</span><span class="t-mono t-muted">{c}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .certs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .certs__item { display: grid; border-radius: var(--radius-cards); border: 1.5px solid var(--line-dark); overflow: hidden; transition: border-color .3s; }
+  .certs__item:hover { border-color: var(--color-forest-depths); }
+  .certs__doc { background: var(--color-warm-stone); padding: 12% 18%; }
+  .certs__body { padding: 20px; display: grid; gap: 6px; }
+  .certs__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-dark); }
+  .certs__meta dd { margin: 4px 0 0; }
+  .markets { border-top: 1px solid var(--line-dark); }
+  .markets li { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 18px 0; border-bottom: 1px solid var(--line-dark); font-size: var(--text-body); }
+</style>

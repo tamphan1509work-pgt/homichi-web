@@ -1,0 +1,32 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import Stats from '../../../components/Stats.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+---
+<Base title="Chuỗi cung ứng & logistics" description="Nguồn linh kiện, kho bãi và năng lực xuất khẩu của Homichi.">
+  <PageHero eyebrow="Chuỗi cung ứng & logistics" title="Chuỗi cung ứng chủ động — kể cả khi thị trường biến động." lead="Mạng lưới 320 nhà cung cấp đã được đánh giá, nội địa hoá 68% linh kiện và kho bãi cách cảng Cát Lái 45 km." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực', href: '/ve-homichi/nang-luc/' }, { label: 'Chuỗi cung ứng' }]} art="supply" tone="eucalyptus" />
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 320, label: 'nhà cung cấp được đánh giá' },
+        { value: 68, suffix: '%', label: 'linh kiện nội địa hoá' },
+        { value: 8000, suffix: 'm²', label: 'kho thành phẩm & vật tư' },
+        { value: 45, suffix: 'km', label: 'đến cảng Cát Lái' },
+      ]} />
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Logistics" title="Giao hàng linh hoạt theo Incoterms bạn chọn." />
+      <div class="grid grid-4">
+        {[['truck', 'EXW / FCA', 'Nhận hàng tại nhà máy hoặc kho chỉ định.'], ['box', 'FOB Cát Lái', 'Phổ biến nhất cho đơn xuất khẩu.'], ['globe', 'CIF / CFR', 'Homichi thu xếp cước biển & bảo hiểm.'], ['factory', 'DDP nội địa', 'Giao tới kho trung tâm của khách hàng.']].map(([icon, t, d], i) => (
+          <article class="card card--canvas reveal" style={`--d:${i * 0.05}s`}><Icon name={icon} size={24} /><h3 class="t-subheading">{t}</h3><p class="t-muted t-caption">{d}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>

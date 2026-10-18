@@ -1,0 +1,151 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Frame from '../../components/Frame.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { services, caseStudies } from '../../data/content';
+import { categories } from '../../data/products';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const detail = {
+  odm: {
+    title: 'Bạn có ý tưởng. Chúng tôi lo phần còn lại.',
+    lead: 'ODM là mô hình Homichi đảm nhận toàn bộ: nghiên cứu, thiết kế công nghiệp, kỹ thuật, khuôn mẫu, chứng nhận và sản xuất hàng loạt — bạn sở hữu thương hiệu và có thể mua độc quyền thiết kế.',
+    art: 'blueprint', tone: 'frost',
+    includes: [
+      ['pen', 'Nghiên cứu & concept', 'Phân tích thị trường mục tiêu, đối thủ, giá mục tiêu; đề xuất 2 – 3 concept thiết kế.'],
+      ['layers', 'Thiết kế & kỹ thuật', 'Thiết kế công nghiệp, CMF, cơ khí, điện tử, firmware và IoT.'],
+      ['box', 'Khuôn mẫu & mẫu thử', 'Làm khuôn nội bộ, mẫu T1/T2, Golden sample để bạn duyệt.'],
+      ['shield', 'Chứng nhận', 'Hồ sơ & thử nghiệm CE, CB, QCVN… cho thị trường mục tiêu.'],
+      ['factory', 'Sản xuất hàng loạt', 'Pilot run, sản xuất và kiểm soát chất lượng theo AQL thống nhất.'],
+      ['truck', 'Đóng gói & giao hàng', 'Bao bì theo nhận diện, HDSD đa ngôn ngữ, giao FOB/CIF/DDP.'],
+    ],
+    youProvide: ['Ý tưởng / brief sản phẩm', 'Thị trường & giá mục tiêu', 'Bộ nhận diện thương hiệu'],
+  },
+  oem: {
+    title: 'Thiết kế của bạn. Độ chính xác của chúng tôi.',
+    lead: 'OEM là mô hình Homichi sản xuất chính xác theo bản vẽ, thông số kỹ thuật và tiêu chuẩn do bạn cung cấp — toàn bộ quyền sở hữu thiết kế thuộc về bạn.',
+    art: 'factory', tone: 'dark',
+    includes: [
+      ['file', 'Rà soát hồ sơ kỹ thuật', 'Đánh giá bản vẽ 2D/3D, BOM, tiêu chuẩn — đề xuất tối ưu DFM để giảm giá thành.'],
+      ['box', 'Khuôn & đồ gá', 'Chế tạo khuôn theo thiết kế hoặc nhận chuyển giao khuôn từ nhà máy cũ.'],
+      ['chip', 'Mua linh kiện', 'Mua theo AVL chỉ định hoặc đề xuất nguồn thay thế tương đương.'],
+      ['shield', 'Kiểm soát chất lượng', 'Kế hoạch kiểm soát (Control plan), PPAP/FAI theo yêu cầu.'],
+      ['factory', 'Sản xuất hàng loạt', 'Dây chuyền chuyên biệt, báo cáo sản lượng & chất lượng hằng ngày.'],
+      ['truck', 'Giao hàng', 'Kiểm hàng trước giao (PSI), giao theo lịch hoặc theo đơn gọi hàng.'],
+    ],
+    youProvide: ['Bản vẽ 2D/3D, BOM', 'Tiêu chuẩn kỹ thuật & kiểm tra', 'Mẫu chuẩn (nếu có)'],
+  },
+  'private-label': {
+    title: 'Ra thị trường trong 8 tuần — với thương hiệu của chính bạn.',
+    lead: 'Chọn mẫu từ catalogue hơn 40 sản phẩm đã hoàn thiện và có sẵn chứng nhận. Chúng tôi tuỳ biến màu sắc, logo, bao bì, hướng dẫn sử dụng theo nhận diện của bạn.',
+    art: 'fan', tone: 'sage',
+    includes: [
+      ['layers', 'Chọn mẫu', '40+ mẫu thuộc 5 ngành hàng, đã có chứng nhận hợp quy.'],
+      ['pen', 'Tuỳ biến nhận diện', 'Màu thân theo Pantone, logo in/khắc/nổi, mặt hiển thị.'],
+      ['box', 'Bao bì & tài liệu', 'Thiết kế hộp, HDSD, tem bảo hành theo thương hiệu.'],
+      ['shield', 'Hồ sơ pháp lý', 'Hỗ trợ công bố hợp quy, nhãn năng lượng mang tên thương hiệu của bạn.'],
+    ],
+    youProvide: ['Logo & bộ nhận diện', 'Mẫu bạn chọn', 'Số lượng & thời điểm cần hàng'],
+  },
+} as const;
+
+const { slug } = Astro.params;
+const s = services.find((x) => x.slug === slug)!;
+const d = detail[slug as keyof typeof detail];
+const others = services.filter((x) => x.slug !== slug);
+const cs = caseStudies.find((c) => c.model.toLowerCase().replace(' ', '-') === slug) ?? caseStudies[0];
+const rfqService = s.code === 'PL' ? 'Private label' : s.code;
+---
+<Base title={s.name} description={s.short}>
+  <PageHero eyebrow={`Dịch vụ · ${s.code}`} title={d.title} lead={d.lead} crumbs={[{ label: 'Dịch vụ ODM/OEM', href: '/dich-vu/' }, { label: s.name.split(' — ')[0] }]} art={d.art} tone={d.tone}>
+    <a href={`/bao-gia/?service=${encodeURIComponent(rfqService)}`} class="btn btn--primary">Yêu cầu báo giá {s.code} <Icon name="arrow" size={16} /></a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <dl class="facts">
+        {[['Thời gian', s.time], ['MOQ', s.moq], ['Sở hữu thiết kế', s.ownership], ['Phù hợp', s.bestFor]].map(([k, v], i) => (
+          <div class="reveal" style={`--d:${i * 0.05}s`}><dt class="t-label t-muted">{k}</dt><dd>{v}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Phạm vi dịch vụ" title={`Homichi đảm nhận gì trong mô hình ${s.code}?`} />
+      <div class="grid grid-3">
+        {d.includes.map(([icon, t, text], i) => (
+          <article class="card card--canvas reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <div class="flex justify-between items-center"><Icon name={icon} size={24} /><span class="card__num">0{i + 1}</span></div>
+            <h3 class="t-subheading">{t}</h3>
+            <p class="t-muted t-caption">{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Bạn cần chuẩn bị</p>
+          <h2 class="t-heading-lg t-balance">Chỉ cần vài thứ để bắt đầu.</h2>
+          <ul class="check-list">{d.youProvide.map((y) => <li>{y}</li>)}</ul>
+          <div class="btn-row mt-16">
+            <a href={`/bao-gia/?service=${encodeURIComponent(rfqService)}`} class="btn btn--primary">Gửi yêu cầu</a>
+            <a href="/dich-vu/dieu-kien-hop-tac/" class="btn btn--light">Điều kiện hợp tác</a>
+          </div>
+        </div>
+        <div class="stack" style="--stack:12px">
+          <p class="t-mono t-muted">Ngành hàng áp dụng</p>
+          <ul class="cats">
+            {categories.map((c) => <li><a href={`/san-pham/${c.slug}/`}><span class="pill">{c.code}</span> {c.name} <Icon name="arrow" size={16} /></a></li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--stone">
+    <div class="container">
+      <a href={`/du-an-doi-tac/${cs.slug}/`} class="case reveal">
+        <Frame art={cs.art} tone={cs.tone} ratio="wide" tag={`Case study · ${cs.model}`} />
+        <div class="stack" style="--stack:16px">
+          <p class="t-mono t-muted">{cs.client}</p>
+          <h2 class="t-heading-sm t-balance">{cs.title}</h2>
+          <span class="link-arrow">Đọc case study</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow="Mô hình khác" title="Có thể bạn quan tâm." />
+      <div class="grid grid-2">
+        {others.map((o) => (
+          <a href={`/dich-vu/${o.slug}/`} class="card card--link reveal"><span class="pill" style="align-self:flex-start">{o.code}</span><h3 class="t-subheading">{o.name}</h3><p class="t-muted t-caption">{o.short}</p><span class="card__foot link-arrow">Tìm hiểu</span></a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTA primary={{ label: `Yêu cầu báo giá ${s.code}`, href: `/bao-gia/?service=${encodeURIComponent(rfqService)}` }} />
+</Base>
+<style>
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); border-top: 1px solid var(--line-dark); }
+  .facts > div { padding: 24px 24px 0 0; display: grid; gap: 10px; }
+  .facts dd { margin: 0; font-size: 20px; font-weight: 350; letter-spacing: -0.02em; line-height: 1.3; }
+  .cats { border-top: 1px solid var(--line-dark); }
+  .cats a { display: grid; grid-template-columns: 56px 1fr 16px; gap: 12px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line-dark); font-size: var(--text-body); transition: padding .3s var(--ease); }
+  .cats a:hover { padding-left: 8px; }
+  .case { display: grid; gap: 32px; align-items: center; padding: 16px; border-radius: var(--radius-large-cards); background: var(--color-snow-white); }
+  @media (min-width: 960px) { .case { grid-template-columns: 1.1fr .9fr; gap: 56px; padding-right: 56px; } }
+</style>

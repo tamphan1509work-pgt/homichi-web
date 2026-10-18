@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from './Breadcrumb.astro';
+interface Props { title: string; description: string; updated: string; toc: { id: string; label: string }[] }
+const { title, description, updated, toc } = Astro.props;
+---
+<Base title={title} description={description}>
+  <section class="legal">
+    <div class="container">
+      <Breadcrumb items={[{ label: title }]} />
+      <div class="legal__grid">
+        <aside class="legal__toc">
+          <p class="t-mono t-muted">Mục lục</p>
+          <ol>{toc.map((t) => <li><a href={`#${t.id}`}>{t.label}</a></li>)}</ol>
+        </aside>
+        <div>
+          <p class="eyebrow">Chính sách</p>
+          <h1 class="t-display" style="margin-top:20px">{title}</h1>
+          <p class="t-mono t-muted" style="margin-top:16px">Cập nhật lần cuối: {updated}</p>
+          <div class="prose legal__body"><slot /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .legal { padding-block: 32px var(--section-pad); }
+  .legal__grid { display: grid; gap: 48px; margin-top: 48px; }
+  @media (min-width: 1024px) { .legal__grid { grid-template-columns: 260px 1fr; gap: 96px; } .legal__toc { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; } }
+  .legal__toc ol { display: grid; gap: 4px; margin-top: 16px; border-left: 1px solid var(--line-dark); }
+  .legal__toc a { display: block; padding: 6px 0 6px 16px; font-size: var(--text-caption); color: var(--color-pewter); margin-left: -1px; border-left: 1.5px solid transparent; }
+  .legal__toc a:hover { color: var(--color-forest-depths); border-left-color: var(--color-forest-depths); }
+  .legal__body { max-width: 720px; margin-top: 48px; }
+  .legal__body :global(h2) { scroll-margin-top: calc(var(--header-h) + 24px); }
+</style>

@@ -1,0 +1,72 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SectionHead from '../../../components/SectionHead.astro';
+import Frame from '../../../components/Frame.astro';
+import Stats from '../../../components/Stats.astro';
+import Icon from '../../../components/Icon.astro';
+import CTA from '../../../components/CTA.astro';
+import { categories } from '../../../data/products';
+
+const pillars = [
+  { href: '/ve-homichi/nang-luc/nha-may/', title: 'Nhà máy & dây chuyền', text: '62.000 m², 24 dây chuyền, 42 máy ép nhựa, xưởng kim loại tấm.', art: 'factory', tone: 'dark' },
+  { href: '/ve-homichi/nang-luc/rd-thiet-ke/', title: 'R&D & thiết kế', text: '85 kỹ sư, phòng lab, thiết kế khuôn và 18 bằng sáng chế.', art: 'blueprint', tone: 'frost' },
+  { href: '/ve-homichi/nang-luc/kiem-soat-chat-luong/', title: 'Kiểm soát chất lượng', text: 'IQC – IPQC – OQC, kiểm 100% an toàn điện, tỉ lệ lỗi < 0,3%.', art: 'qc', tone: 'stone' },
+  { href: '/ve-homichi/nang-luc/chung-nhan/', title: 'Chứng nhận & tiêu chuẩn', text: 'ISO 9001/14001/45001, CE, CB, RoHS, BSCI.', art: 'cert', tone: 'sage' },
+  { href: '/ve-homichi/nang-luc/chuoi-cung-ung/', title: 'Chuỗi cung ứng & logistics', text: '320 nhà cung cấp được đánh giá, kho 8.000 m², cách cảng Cát Lái 45 km.', art: 'supply', tone: 'eucalyptus' },
+  { href: '/ve-homichi/nang-luc/tham-quan-nha-may/', title: 'Tham quan nhà máy 360°', text: 'Khám phá nhà máy trực tuyến hoặc đặt lịch tham quan trực tiếp.', art: 'camera360', tone: 'olive' },
+] as const;
+---
+<Base title="Năng lực sản xuất" description="Năng lực sản xuất ODM/OEM của Homichi: nhà máy 62.000 m², R&D, kiểm soát chất lượng, chứng nhận quốc tế và chuỗi cung ứng.">
+  <PageHero eyebrow="Năng lực sản xuất" title="Năng lực được đo bằng con số — và được chứng minh tại nhà máy." lead="Mọi công đoạn từ thiết kế, khuôn mẫu, linh kiện điện tử đến lắp ráp và thử nghiệm đều được thực hiện tại một địa điểm, dưới một hệ thống quản lý chất lượng." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Năng lực' }]}>
+    <a href="/ho-so-nang-luc/" class="btn btn--primary">Tải hồ sơ năng lực <Icon name="download" size={16} /></a>
+    <a href="/dat-lich-tham-quan/" class="btn btn--light">Đặt lịch tham quan</a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container"><Stats /></div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {pillars.map((p, i) => (
+          <article class="card card--link pillar reveal" style={`--d:${(i % 3) * 0.06}s`}>
+            <Frame art={p.art} tone={p.tone} ratio="default" />
+            <div class="pillar__body">
+              <h2 class="t-subheading"><a href={p.href} class="stretched">{p.title}</a></h2>
+              <p class="t-muted t-caption">{p.text}</p>
+              <span class="link-arrow">Chi tiết</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <SectionHead eyebrow="Công suất theo ngành hàng" title="Công suất thiết kế mỗi năm." split text="Số liệu năm 2026. Công suất thực tế có thể mở rộng thêm 30% với ca làm việc thứ ba." />
+      <div class="cap-table">
+        {categories.map((c, i) => (
+          <a href={`/san-pham/${c.slug}/`} class="cap-row reveal" style={`--d:${i * 0.05}s`}>
+            <span class="pill">{c.code}</span>
+            <span class="t-subheading">{c.name}</span>
+            <span class="t-caption t-muted hide-mobile">{c.lines}</span>
+            <span class="t-mono cap-row__num">{c.capacity}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .pillar { padding: 12px 12px 24px; }
+  .pillar__body { display: grid; gap: 10px; justify-items: start; padding: 8px 12px 0; }
+  .cap-table { border-top: 1px solid var(--line-light); }
+  .cap-row { display: grid; grid-template-columns: 64px 1fr auto; gap: 24px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--line-light); transition: padding .3s var(--ease); }
+  @media (min-width: 960px) { .cap-row { grid-template-columns: 80px 1.1fr 1.2fr 200px; } }
+  .cap-row:hover { padding-left: 12px; }
+  .cap-row__num { text-align: right; color: var(--color-lime-pulse); }
+</style>

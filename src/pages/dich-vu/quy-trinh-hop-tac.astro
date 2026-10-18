@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+import { processSteps } from '../../data/content';
+const deliverables = ['Biên bản tiếp nhận yêu cầu · NDA', 'Phương án kỹ thuật · BOM sơ bộ · báo giá', 'Bản vẽ 3D · render · khuôn mẫu', 'Mẫu T1/T2 · Golden sample', 'Báo cáo thử nghiệm · chứng nhận', 'Báo cáo Pilot run · sản xuất hằng ngày', 'Báo cáo PSI · chứng từ xuất khẩu'];
+---
+<Base title="Quy trình hợp tác" description="Quy trình hợp tác ODM/OEM 7 bước cùng Homichi: tư vấn, thiết kế, mẫu thử, kiểm định, sản xuất, giao hàng — kèm thời gian dự kiến.">
+  <PageHero eyebrow="Quy trình hợp tác" title="Bảy bước rõ ràng, một kỹ sư dự án đồng hành." lead="Thời gian dưới đây là dự kiến cho dự án ODM điển hình. Dự án OEM và Private label sẽ bỏ qua hoặc rút ngắn một số bước." crumbs={[{ label: 'Dịch vụ ODM/OEM', href: '/dich-vu/' }, { label: 'Quy trình hợp tác' }]}>
+    <a href="/bao-gia/" class="btn btn--primary">Bắt đầu bước 01 <Icon name="arrow" size={16} /></a>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="gantt reveal" aria-hidden="true">
+        {[[0, 3], [3, 5], [8, 30], [26, 14], [34, 22], [52, 30], [80, 20]].map(([start, w], i) => (
+          <div class="gantt__row"><span class="t-mono">{processSteps[i].code}</span><span class="gantt__track"><span class="gantt__bar" style={`--s:${start}%; --w:${w}%`}></span></span></div>
+        ))}
+        <div class="gantt__axis t-mono t-muted"><span>Tuần 0</span><span>~ Tháng 3</span><span>~ Tháng 5 – 7</span></div>
+      </div>
+      <ol class="proc">
+        {processSteps.map((s, i) => (
+          <li class="proc__item reveal">
+            <span class="proc__num">{s.code}</span>
+            <div class="proc__main">
+              <h2 class="t-heading-sm">{s.title}</h2>
+              <p class="t-body t-muted">{s.text}</p>
+            </div>
+            <dl class="proc__meta">
+              <div><dt class="t-label t-muted">Thời gian</dt><dd class="t-mono">{s.time}</dd></div>
+              <div><dt class="t-label t-muted">Bàn giao</dt><dd class="t-caption">{deliverables[i]}</dd></div>
+            </dl>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .gantt { display: grid; gap: 8px; padding: 32px; border-radius: var(--radius-large-cards); background: var(--color-warm-stone); margin-bottom: 64px; }
+  .gantt__row { display: grid; grid-template-columns: 32px 1fr; gap: 16px; align-items: center; }
+  .gantt__track { position: relative; height: 12px; }
+  .gantt__bar { position: absolute; left: var(--s); width: var(--w); top: 0; bottom: 0; border-radius: var(--radius-full); background: var(--color-forest-depths); transform-origin: left; transform: scaleX(0); transition: transform 1.2s var(--ease); }
+  .gantt.is-in .gantt__bar { transform: none; }
+  .gantt__row:nth-child(6) .gantt__bar { background: var(--color-sage-moss); }
+  .gantt__axis { display: flex; justify-content: space-between; margin-left: 48px; padding-top: 12px; border-top: 1px solid var(--line-dark); }
+  @media (prefers-reduced-motion: reduce) { .gantt__bar { transform: none; } }
+  .proc { border-top: 1px solid var(--line-dark); }
+  .proc__item { display: grid; gap: 20px; padding: 40px 0; border-bottom: 1px solid var(--line-dark); }
+  @media (min-width: 960px) { .proc__item { grid-template-columns: 120px 1fr 320px; gap: 48px; } }
+  .proc__num { font-size: 56px; font-weight: 300; letter-spacing: -0.05em; line-height: 1; color: var(--color-sage-moss); }
+  .proc__main { display: grid; gap: 12px; max-width: 580px; }
+  .proc__meta { display: grid; gap: 16px; align-content: start; }
+  .proc__meta dd { margin: 4px 0 0; }
+</style>

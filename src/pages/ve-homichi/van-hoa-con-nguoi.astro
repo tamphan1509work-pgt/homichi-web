@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import Frame from '../../components/Frame.astro';
+import Stats from '../../components/Stats.astro';
+import CTA from '../../components/CTA.astro';
+---
+<Base title="Văn hoá & con người" description="Văn hoá làm việc, con người và cơ hội nghề nghiệp tại Homichi.">
+  <PageHero eyebrow="Văn hoá & con người" title="Sự tỉ mỉ không phải quy trình. Đó là thói quen của 1.200 con người." lead="Tại Homichi, mỗi kỹ sư, mỗi công nhân đều có quyền dừng dây chuyền khi phát hiện lỗi. Chúng tôi tin chất lượng bắt đầu từ sự tôn trọng con người." crumbs={[{ label: 'Về Homichi', href: '/ve-homichi/' }, { label: 'Văn hoá & con người' }]} art="people" tone="sage" />
+  <section class="section section--tight">
+    <div class="container">
+      <Stats items={[
+        { value: 1200, label: 'nhân sự toàn thời gian' },
+        { value: 85, label: 'kỹ sư R&D & chất lượng' },
+        { value: 42, suffix: 'h', label: 'đào tạo trung bình mỗi người/năm' },
+        { value: 0, label: 'tai nạn lao động nghiêm trọng 5 năm liên tiếp' },
+      ]} />
+    </div>
+  </section>
+  <section class="section section--stone">
+    <div class="container">
+      <SectionHead eyebrow="Cách chúng tôi làm việc" title="Ba thói quen tạo nên người Homichi." />
+      <div class="grid grid-3">
+        {[
+          ['Kaizen mỗi ngày', 'Hơn 3.000 sáng kiến cải tiến được ghi nhận mỗi năm; sáng kiến tốt được thưởng và mang tên người đề xuất.', 'qc'],
+          ['Học từ hiện trường', 'Kỹ sư R&D dành tối thiểu 1 ngày mỗi tuần trên dây chuyền để hiểu sản phẩm được làm ra như thế nào.', 'factory'],
+          ['An toàn trước tiên', 'Mọi cuộc họp bắt đầu bằng 1 phút an toàn. Đánh giá ISO 45001 bởi TÜV Rheinland.', 'cert'],
+        ].map(([t, d, a], i) => (
+          <article class="card card--canvas reveal" style={`--d:${i * 0.06}s`}>
+            <Frame art={a as any} tone="stone" ratio="default" />
+            <h3 class="t-subheading">{t}</h3>
+            <p class="t-muted">{d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="careers">
+        <div class="stack" style="--stack:20px">
+          <p class="eyebrow">Tuyển dụng</p>
+          <h2 class="t-heading-lg t-balance">Gia nhập đội ngũ kiến tạo thiết bị cho hàng triệu gia đình.</h2>
+          <p class="t-body t-muted">Chúng tôi đang tìm kiếm kỹ sư cơ khí, điện tử, QA và chuyên viên kinh doanh quốc tế.</p>
+        </div>
+        <ul class="jobs">
+          {[['Kỹ sư thiết kế cơ khí (Creo/SolidWorks)', 'R&D · Củ Chi'], ['Kỹ sư phần cứng — Bo mạch Inverter', 'R&D · Củ Chi'], ['Chuyên viên QA nhà cung cấp', 'Chất lượng · Củ Chi'], ['Sales Manager — Thị trường Nhật Bản', 'Kinh doanh · Quận 1']].map(([t, m]) => (
+            <li><a href="mailto:tuyendung@homichi.vn" class="jobs__item"><span>{t}</span><span class="t-mono t-muted">{m}</span></a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+  <CTA />
+</Base>
+<style>
+  .careers { display: grid; gap: 48px; }
+  @media (min-width: 960px) { .careers { grid-template-columns: 0.9fr 1.1fr; gap: 80px; } }
+  .jobs { border-top: 1px solid var(--line-dark); }
+  .jobs__item { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 22px 0; border-bottom: 1px solid var(--line-dark); font-size: var(--text-body); transition: padding .3s var(--ease); }
+  .jobs__item:hover { padding-left: 8px; }
+</style>
