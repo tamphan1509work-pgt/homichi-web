@@ -63,7 +63,7 @@ public/files/    # PDF hồ sơ năng lực & catalogue (bản placeholder)
 ## Cần Homichi cung cấp / xác nhận trước khi go-live
 
 1. **Số liệu & thông tin công ty** trong `src/data/*.ts` hiện là dữ liệu mẫu (con số năng lực, địa chỉ, hotline, MST, chứng nhận, khách hàng, case study, tin tức).
-2. **Ảnh/video thật** của nhà máy & sản phẩm — các khung minh hoạ line-art (`<Frame art="…">`) là placeholder có chủ đích, thay bằng `<img>` khi có tư liệu.
+2. **Ảnh/video thật** của nhà máy & sản phẩm — ảnh trong `public/images/` là ảnh render 3D tạm (tạo bằng `tools/scene.html` + `tools/run.mjs`, three.js). Thay file cùng tên bằng ảnh chụp thật; ảnh sản phẩm nên là PNG/WebP nền trong suốt.
 3. **Endpoint nhận lead**: điền `formEndpoint` trong `src/data/site.ts` (CRM, Formspree, Google Apps Script…). Khi để trống, form chạy ở chế độ demo (chuyển thẳng tới trang cảm ơn, không gửi dữ liệu).
 4. **PDF hồ sơ năng lực & catalogue** chính thức thay vào `public/files/`.
 5. **Trang Hệ sinh thái**: chốt danh sách thương hiệu thành viên được công khai (theo khảo sát: không đưa Chillami).

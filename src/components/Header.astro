@@ -4,8 +4,8 @@ import { categories } from '../data/products';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 
-interface Props { lang?: 'vi' | 'en'; altHref?: string }
-const { lang = 'vi', altHref } = Astro.props;
+interface Props { lang?: 'vi' | 'en'; altHref?: string; overlay?: boolean }
+const { lang = 'vi', altHref, overlay = false } = Astro.props;
 const path = Astro.url.pathname;
 
 const en: Record<string, string> = {
@@ -40,27 +40,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 const viHref = lang === 'en' ? '/' : path;
 const enHref = altHref ?? '/en/';
 ---
-<div class="utility" role="region" aria-label={lang === 'en' ? 'Utility bar' : 'Thanh tiện ích'}>
-  <div class="container container--wide utility__inner">
-    <p class="utility__msg">
-      <span class="badge">{lang === 'en' ? 'Now' : 'Mới'}</span>
-      <span class="hide-mobile">{lang === 'en' ? 'Meet Homichi at Canton Fair 140 · Booth 15.2 J18' : 'Gặp Homichi tại Canton Fair 140 · Gian hàng 15.2 J18'}</span>
-      <a class="utility__link" href="/tin-tuc/homichi-tai-canton-fair-140/">{lang === 'en' ? 'Book a meeting' : 'Đặt lịch gặp'} →</a>
-    </p>
-    <ul class="utility__tools">
-      <li class="hide-mobile"><a href={site.hotlineHref}><Icon name="phone" size={14} /> {site.hotline}</a></li>
-      <li class="hide-mobile"><a href="/lien-he/">{lang === 'en' ? 'Contact' : 'Liên hệ'}</a></li>
-      <li><a href="/tim-kiem/" aria-label={lang === 'en' ? 'Search' : 'Tìm kiếm'}><Icon name="search" size={14} /></a></li>
-      <li class="lang" aria-label="Ngôn ngữ / Language">
-        <a href={viHref} lang="vi" aria-current={lang === 'vi' ? 'true' : undefined}>VI</a>
-        <span aria-hidden="true">/</span>
-        <a href={enHref} lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<header class="header" data-header>
+<header class:list={['header', { 'header--overlay': overlay }]} data-header>
   <div class="container container--wide header__inner">
     <a href={lang === 'en' ? '/en/' : '/'} class="header__logo" aria-label="Homichi — Trang chủ"><Logo /></a>
 
@@ -113,7 +93,12 @@ const enHref = altHref ?? '/en/';
     </nav>
 
     <div class="header__actions">
-      <a href="/ho-so-nang-luc/" class="btn btn--light btn--sm hide-mobile header__profile">{lang === 'en' ? 'Company profile' : 'Hồ sơ năng lực'}</a>
+      <a href="/tim-kiem/" class="header__icon" aria-label={lang === 'en' ? 'Search' : 'Tìm kiếm'}><Icon name="search" size={16} /></a>
+      <span class="lang header__lang" aria-label="Ngôn ngữ / Language">
+        <a href={viHref} lang="vi" aria-current={lang === 'vi' ? 'true' : undefined}>VI</a>
+        <a href={enHref} lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+      </span>
+      <a href="/ho-so-nang-luc/" class="header__text-link header__profile">{lang === 'en' ? 'Company profile' : 'Hồ sơ năng lực'}</a>
       <a href="/bao-gia/" class="btn btn--primary btn--sm">{lang === 'en' ? 'Request a quote' : 'Yêu cầu báo giá'}</a>
       <button class="burger hide-desktop" type="button" aria-expanded="false" aria-controls="drawer" data-burger>
         <span class="visually-hidden">Menu</span>
@@ -151,29 +136,26 @@ const enHref = altHref ?? '/en/';
 </div>
 
 <style>
-  .utility { background: var(--color-snow-white); border-bottom: 1px solid var(--line-dark); font-size: var(--text-label); font-weight: 500; }
-  .utility__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
-  .utility__msg { display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.04em; min-width: 0; }
-  .utility__msg .badge { text-transform: none; letter-spacing: 0; }
-  .utility__link { border-bottom: 1px solid currentColor; white-space: nowrap; }
-  .utility__tools { display: flex; align-items: center; gap: 20px; }
-  .utility__tools a { display: inline-flex; align-items: center; gap: 6px; transition: opacity .2s; }
-  .utility__tools a:hover { opacity: .65; }
-  .lang { display: inline-flex; gap: 6px; color: var(--color-ash); }
-  .lang a { color: var(--color-pewter); }
-  .lang a[aria-current] { color: var(--color-forest-depths); }
-
-  .header { position: sticky; top: 0; z-index: 50; background: var(--color-snow-white); border-bottom: 1px solid transparent; transition: border-color .3s var(--ease); }
-  .header.is-scrolled { border-bottom-color: var(--line-dark); }
-  .header__inner { display: flex; align-items: center; gap: 32px; height: var(--header-h); }
+  .header { position: sticky; top: 0; z-index: 50; background: var(--color-snow-white); transition: background-color .35s var(--ease), box-shadow .35s; }
+  .header.is-scrolled { background: rgba(252, 252, 247, 0.86); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+  .header--overlay { background: transparent; margin-bottom: calc(var(--header-h) * -1); }
+  .header__inner { display: flex; align-items: center; gap: 28px; height: var(--header-h); }
   .header__logo { flex: none; }
-  .header__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-
+  .header__logo :global(.logo__word) { font-size: 22px; }
+  .header__actions { display: flex; align-items: center; gap: 18px; margin-left: auto; font-size: 13px; }
+  .header__icon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; transition: background-color .2s; }
+  .header__icon:hover { background: rgba(28,58,19,.07); }
+  .header__text-link { transition: opacity .2s; }
+  .header__text-link:hover { opacity: .6; }
+  .lang { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-full); border: 1px solid var(--line-dark); }
+  .lang a { padding: 3px 8px; border-radius: var(--radius-full); font-size: 11px; font-weight: 500; color: var(--color-pewter); }
+  .lang a[aria-current] { background: var(--color-forest-depths); color: var(--color-snow-white); }
+  @media (max-width: 560px) { .header__lang, .header__icon { display: none; } }
   .nav { display: none; }
   @media (min-width: 1180px) { .nav { display: block; } }
   .nav__list { display: flex; gap: 2px; }
-  .nav__link { display: inline-flex; align-items: center; gap: 6px; height: var(--header-h); padding: 0 12px; font-size: 15px; position: relative; }
-  .nav__link::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 22px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
+  .nav__link { display: inline-flex; align-items: center; gap: 5px; height: var(--header-h); padding: 0 10px; font-size: 13.5px; position: relative; }
+  .nav__link::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 20px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
   .nav__item:hover .nav__link::after, .nav__link:focus-visible::after, .nav__link[aria-current]::after { transform: scaleX(1); }
   .nav__chev { transition: transform .3s var(--ease); opacity: .6; }
   .nav__item:hover .nav__chev, .nav__item:focus-within .nav__chev { transform: rotate(180deg); }
@@ -192,7 +174,7 @@ const enHref = altHref ?? '/en/';
   .mega__groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; }
   .mega__title { margin-bottom: 12px; }
   .mega__link { display: grid; gap: 2px; padding: 8px 0; transition: transform .25s var(--ease); }
-  .mega__link span { font-size: 16px; }
+  .mega__link span { font-size: 15px; }
   .mega__link small { font-size: var(--text-label); color: var(--color-pewter); }
   .mega__link:hover { transform: translateX(4px); }
   .mega__link:hover span { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
@@ -200,7 +182,7 @@ const enHref = altHref ?? '/en/';
   .mega__feature:hover { background: #e6e6df; }
   .mega__feature-text { color: var(--color-pewter); }
 
-  .burger { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--line-dark); display: grid; place-items: center; }
+  .burger { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--line-dark); display: grid; place-items: center; }
   .burger__lines, .burger__lines::before { display: block; width: 16px; height: 1.5px; background: currentColor; position: relative; transition: transform .3s var(--ease); }
   .burger__lines::before { content: ''; position: absolute; top: 5px; }
   .burger__lines { transform: translateY(-2.5px); }
@@ -210,7 +192,7 @@ const enHref = altHref ?? '/en/';
   @media (max-width: 1179px) { .header__profile { display: none; } }
   @media (max-width: 400px) { .header__actions .btn--primary { padding-inline: 14px; font-size: 13px; } }
 
-  .drawer { position: fixed; inset: calc(var(--header-h) + var(--drawer-offset, 40px)) 0 0 0; z-index: 49; background: var(--color-snow-white); overflow-y: auto; }
+  .drawer { position: fixed; inset: var(--header-h) 0 0 0; z-index: 49; background: var(--color-snow-white); overflow-y: auto; }
   .drawer__inner { padding: 8px var(--page-gutter) 40px; display: grid; gap: 32px; }
   .drawer__list > li { border-bottom: 1px solid var(--line-dark); }
   .drawer__top { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; font-size: 22px; font-weight: 300; letter-spacing: -0.02em; cursor: pointer; list-style: none; }

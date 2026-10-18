@@ -13,8 +13,9 @@ interface Props {
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   ogType?: 'website' | 'article';
+  overlayHeader?: boolean;
 }
-const { title, description = site.description, lang = 'vi', altHref, noindex = false, jsonLd, ogType = 'website' } = Astro.props;
+const { title, description = site.description, lang = 'vi', altHref, noindex = false, jsonLd, ogType = 'website', overlayHeader = false } = Astro.props;
 const fullTitle = title.includes('Homichi') ? title : `${title} · Homichi`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
@@ -59,7 +60,7 @@ const ld = [org, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])]
   </head>
   <body>
     <a href="#main" class="skip-link">{lang === 'en' ? 'Skip to content' : 'Bỏ qua tới nội dung'}</a>
-    <Header lang={lang} altHref={altHref} />
+    <Header lang={lang} altHref={altHref} overlay={overlayHeader} />
     <main id="main">
       <slot />
     </main>

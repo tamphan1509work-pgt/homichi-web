@@ -3,7 +3,7 @@ import { href } from './url';
 
 /* ---------------------------------------------------------- Header */
 const header = document.querySelector<HTMLElement>('[data-header]');
-const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 24);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
 
@@ -27,9 +27,6 @@ const drawer = document.querySelector<HTMLElement>('[data-drawer]');
 const setDrawer = (open: boolean) => {
   if (!burger || !drawer) return;
   burger.setAttribute('aria-expanded', String(open));
-  const utility = document.querySelector<HTMLElement>('.utility');
-  const offset = Math.max(0, (utility?.getBoundingClientRect().bottom ?? 0));
-  drawer.style.setProperty('--drawer-offset', `${offset}px`);
   drawer.hidden = !open;
   document.body.style.overflow = open ? 'hidden' : '';
 };

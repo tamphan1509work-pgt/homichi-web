@@ -36,7 +36,7 @@
   --text-heading: 36px;
   --text-heading-lg: 40px;
   --text-display: 48px;
-  --text-hero: clamp(42px, 6.4vw, 84px);
+  --text-hero: clamp(34px, 3.6vw, 54px);
 
   /* Spacing */
   --spacing-8: 8px;
@@ -54,8 +54,9 @@
   /* Layout */
   --page-max-width: 1200px;
   --page-gutter: 24px;
-  --section-pad: clamp(64px, 9vw, 128px);
-  --header-h: 72px;
+  --section-pad: clamp(64px, 7vw, 112px);
+  --header-h: 64px;
+  --sheet-r: clamp(20px, 2.4vw, 36px);
 
   /* Radius */
   --radius-inputs: 8px;
@@ -75,7 +76,7 @@ body {
   background: var(--color-snow-white);
   color: var(--color-forest-depths);
   font-family: var(--font-sans);
-  font-size: var(--text-body-sm);
+  font-size: 15px;
   line-height: 1.5;
   font-weight: 400;
   font-feature-settings: 'ss05' on, 'cv11' on;
@@ -107,16 +108,16 @@ ul, ol { padding: 0; list-style: none; }
 
 /* --------------------------------------------------------------- Type */
 .t-hero {
-  font-size: var(--text-hero); font-weight: 300; line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-size: var(--text-hero); font-weight: 350; line-height: 1.1;
+  letter-spacing: -0.02em;
 }
-.t-display { font-size: clamp(36px, 4.4vw, var(--text-display)); font-weight: 350; line-height: 1.1; letter-spacing: -0.015em; }
-.t-heading-lg { font-size: clamp(30px, 3.6vw, var(--text-heading-lg)); font-weight: 350; line-height: 1.1; letter-spacing: -0.01em; }
-.t-heading { font-size: clamp(28px, 3vw, var(--text-heading)); font-weight: 300; line-height: 1.12; letter-spacing: -0.015em; }
-.t-heading-sm { font-size: clamp(24px, 2.6vw, var(--text-heading-sm)); font-weight: 300; line-height: 1.25; letter-spacing: -0.015em; }
-.t-subheading { font-size: var(--text-subheading); font-weight: 350; line-height: 1.2; letter-spacing: -0.02em; }
-.t-body { font-size: var(--text-body); line-height: 1.5; letter-spacing: -0.01em; }
-.t-caption { font-size: var(--text-caption); line-height: 1.45; }
+.t-display { font-size: clamp(30px, 3.2vw, 44px); font-weight: 350; line-height: 1.12; letter-spacing: -0.015em; }
+.t-heading-lg { font-size: clamp(26px, 2.5vw, 36px); font-weight: 350; line-height: 1.15; letter-spacing: -0.012em; }
+.t-heading { font-size: clamp(24px, 2.2vw, 32px); font-weight: 350; line-height: 1.15; letter-spacing: -0.012em; }
+.t-heading-sm { font-size: clamp(20px, 1.8vw, 26px); font-weight: 350; line-height: 1.25; letter-spacing: -0.012em; }
+.t-subheading { font-size: 19px; font-weight: 400; line-height: 1.25; letter-spacing: -0.015em; }
+.t-body { font-size: 15px; line-height: 1.55; letter-spacing: -0.005em; }
+.t-caption { font-size: 13px; line-height: 1.45; }
 .t-label { font-size: var(--text-label); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
 .t-mono { font-family: var(--font-mono); font-size: var(--text-label); letter-spacing: 0.015em; font-weight: 400; }
 .t-muted { color: var(--color-pewter); }
@@ -143,6 +144,15 @@ ul, ol { padding: 0; list-style: none; }
 .section--tight { padding-block: clamp(48px, 6vw, 80px); }
 .section--stone { background: var(--color-warm-stone); }
 .section--dark { background: var(--color-forest-depths); color: var(--color-snow-white); }
+
+/* Sheets: section màu trượt chồng lên section trước với góc bo lớn (như clip tham chiếu) */
+.section, .sheet { position: relative; }
+.section--dark, .section--stone, .sheet,
+.section--dark + .section:not(.section--dark):not(.section--stone) {
+  border-radius: var(--sheet-r) var(--sheet-r) 0 0; margin-top: calc(var(--sheet-r) * -1);
+}
+.section--dark + .section:not(.section--dark):not(.section--stone) { background: var(--color-snow-white); }
+main > :first-child { margin-top: 0 !important; border-radius: 0 !important; }
 .section:not(.section--stone):not(.section--dark) + .section:not(.section--stone):not(.section--dark) { padding-top: 0; }
 .section--stone + .section--stone { padding-top: 0; }
 
@@ -172,9 +182,9 @@ ul, ol { padding: 0; list-style: none; }
 .btn {
   --btn-bg: var(--color-forest-depths); --btn-fg: var(--color-snow-white); --btn-bd: var(--color-forest-depths);
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  min-height: 52px; padding: 16px 24px; border-radius: var(--radius-full);
+  min-height: 44px; padding: 12px 20px; border-radius: var(--radius-full);
   background: var(--btn-bg); color: var(--btn-fg); border: 1.5px solid var(--btn-bd);
-  font-size: var(--text-body-sm); font-weight: 400; line-height: 1; white-space: nowrap;
+  font-size: 14px; font-weight: 400; line-height: 1; white-space: nowrap;
   transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
 }
 .btn svg { width: 16px; height: 16px; transition: transform .3s var(--ease); }
@@ -186,7 +196,7 @@ ul, ol { padding: 0; list-style: none; }
 .btn--ghost:hover { --btn-bg: var(--color-snow-white); --btn-fg: var(--color-forest-depths); }
 .btn--inverse { --btn-bg: var(--color-snow-white); --btn-fg: var(--color-forest-depths); --btn-bd: var(--color-snow-white); }
 .btn--inverse:hover { --btn-bg: var(--color-lime-pulse); --btn-bd: var(--color-lime-pulse); }
-.btn--sm { min-height: 40px; padding: 10px 18px; font-size: var(--text-caption); }
+.btn--sm { min-height: 34px; padding: 8px 14px; font-size: 13px; }
 .btn--block { width: 100%; }
 .btn[disabled] { --btn-bg: var(--color-ash); --btn-bd: var(--color-ash); --btn-fg: var(--color-snow-white); cursor: not-allowed; }
 
@@ -194,8 +204,8 @@ ul, ol { padding: 0; list-style: none; }
 
 .link-arrow {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 0; font-size: var(--text-body-sm);
-  border-bottom: 1.5px solid currentColor;
+  padding: 4px 0; font-size: 14px;
+  border-bottom: 1px solid currentColor;
   transition: gap .3s var(--ease), opacity .3s var(--ease);
 }
 .link-arrow::after { content: '→'; transition: transform .3s var(--ease); }
@@ -269,7 +279,7 @@ ul, ol { padding: 0; list-style: none; }
   .stat { border-bottom: 0; padding: 32px 24px 0 0; }
   .stat + .stat { padding-left: 24px; border-left: 1px solid var(--line-dark); }
 }
-.stat__value { font-size: clamp(40px, 5vw, 64px); font-weight: 300; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat__value { font-size: clamp(34px, 3.6vw, 52px); font-weight: 300; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
 .stat__value small { font-size: 0.45em; letter-spacing: -0.01em; margin-left: 4px; }
 .stat__label { margin-top: 12px; font-size: var(--text-caption); color: var(--color-pewter); max-width: 220px; }
 .section--dark .stats, .section--dark .stat, .section--dark .stat + .stat { border-color: var(--line-light); }
